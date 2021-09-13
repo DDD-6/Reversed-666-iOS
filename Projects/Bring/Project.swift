@@ -24,9 +24,9 @@ let project = Project.excutable(
     name: "Bring",
     platform: .iOS,
     dependencies: [
-        .sdk(name: "Foundation.framework", status: .required),
-        .sdk(name: "UIKit.framework", status: .required),
-        .sdk(name: "SwiftUI.framework", status: .required),
-        .sdk(name: "Combine.framework", status: .required)
+//        .sdk(name: "Foundation.framework", status: .required),
+//        .sdk(name: "UIKit.framework", status: .required),
+//        .sdk(name: "SwiftUI.framework", status: .required),
+//        .sdk(name: "Combine.framework", status: .required)
     ]
 )

@@ -14,8 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewController.view.backgroundColor = .white
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
-        Reversed666IOSKit.hello()
-        Reversed666IOSUI.hello()
 
         return true
     }
