@@ -1,0 +1,2 @@
+all: 
+	tuist generate
