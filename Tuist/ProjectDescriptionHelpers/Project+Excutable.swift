@@ -6,46 +6,49 @@ import ProjectDescription
 /// See https://docs.tuist.io/guides/helpers/
 
 extension Project {
-
-  public static func excutable(
-    name: String,
-    platform: Platform,
-    dependencies: [TargetDependency]
-  ) -> Project {
-
-    return Project(
-      name: name,
-      organizationName: "com.666",
-      targets: [
-        Target(
-          name: name,
-          platform: platform,
-          product: .app,
-          bundleId: "com.666.\(name)",
-          infoPlist: .extendingDefault(
-            with: [
-              "CFBundleShortVersionString": "1.0",
-              "CFBundleVersion": "1",
-              "UIMainStoryboardFile": "",
-              "UILaunchStoryboardName": "LaunchScreen"
+    
+    public static func excutable(
+        name: String,
+        organizationName: String,
+        platform: Platform,
+        dependencies: [TargetDependency]
+    ) -> Project {
+        
+        return Project(
+            name: name,
+            organizationName: organizationName,
+            targets: [
+                Target(
+                    name: name,
+                    platform: platform,
+                    product: .app,
+                    bundleId: "\(organizationName).\(name)",
+                    deploymentTarget: .iOS(targetVersion: "14.1", devices: .iphone),
+                    infoPlist: .extendingDefault(
+                        with: [
+                            "CFBundleShortVersionString": "1.0.0",  // App Version
+                            "CFBundleVersion": "1", // Build version
+                            "UIMainStoryboardFile": "",
+                            "UILaunchStoryboardName": "LaunchScreen"
+                        ]
+                    ),
+                    sources: ["Sources/**"],
+                    resources: ["Resources/**"],
+                    dependencies: dependencies
+                ),
+                Target(
+                    name: "\(name)Tests",
+                    platform: platform,
+                    product: .unitTests,
+                    bundleId: "\(organizationName).\(name)Tests",
+                    deploymentTarget: .iOS(targetVersion: "14.1", devices: .iphone),
+                    infoPlist: .default,
+                    sources: ["Tests/**"],
+                    dependencies: [
+                        .target(name: "\(name)")
+                    ]
+                )
             ]
-          ),
-          sources: ["Sources/**"],
-          resources: ["Resources/**"],
-          dependencies: dependencies
-        ),
-        Target(
-          name: "\(name)Tests",
-          platform: platform,
-          product: .unitTests,
-          bundleId: "com.666.\(name)Tests",
-          infoPlist: .default,
-          sources: ["Tests/**"],
-          dependencies: [
-            .target(name: "\(name)")
-          ]
         )
-      ]
-    )
-  }
+    }
 }

@@ -4,7 +4,8 @@ import ProjectDescriptionHelpers
 let workspace = Workspace(
   name: "Bring",
   projects: [
-    "Projects/Bring"
+    "Projects/Bring",
+    "Projects/Repository"
   ],
   fileHeaderTemplate: nil,
   additionalFiles: []

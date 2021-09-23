@@ -1,16 +1,17 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
+// MARK: - Project
+
 let projectName = "Bring"
+let organizationName = "com.666"
+let bundleID = "\(organizationName).\(projectName)"
 
 let project = Project.excutable(
     name: projectName,
+    organizationName: organizationName,
     platform: .iOS,
     dependencies: [
-        //.cocoapods(path: "../../"),
-        //.project(target: "DodiRepository", path: "../DodiRepository"),
-        //.project(target: "DodiCore", path: "../DodiCore"),
-//        .sdk(name: "SwiftUI.framework", status: .required),
-//        .sdk(name: "Combine.framework", status: .required)
+        .project(target: "Repository", path: "../Repository")
     ]
 )
