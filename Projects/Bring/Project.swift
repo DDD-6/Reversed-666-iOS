@@ -19,14 +19,19 @@ import ProjectDescriptionHelpers
 
 // MARK: - Project
 
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
+let projectName = "Bring"
+let organizationName = "com.666"
+let bundleID = "\(organizationName).\(projectName)"
+
 let project = Project.excutable(
-    name: "Bring",
+    name: projectName,
+    organizationName: organizationName,
     platform: .iOS,
     dependencies: [
-//        .sdk(name: "Foundation.framework", status: .required),
-//        .sdk(name: "UIKit.framework", status: .required),
-//        .sdk(name: "SwiftUI.framework", status: .required),
-//        .sdk(name: "Combine.framework", status: .required)
+        .sdk(name: "Foundation.framework", status: .required),
+        .sdk(name: "UIKit.framework", status: .required),
+        .sdk(name: "SwiftUI.framework", status: .required),
+        .sdk(name: "Combine.framework", status: .required),
+        .project(target: "Repository", path: "../Repository")
     ]
 )
