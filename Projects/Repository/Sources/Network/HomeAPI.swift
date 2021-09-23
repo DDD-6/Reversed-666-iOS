@@ -10,46 +10,66 @@ import Foundation
 import Moya
 import Alamofire
 
-extension TargetType {
-    public var baseURL: URL {
-        return URL(string: "#")!
-    }
-}
-
+/// 샘플 코드 입니다.  
 public enum HomeAPI {
     case searchUser(query: String)
 }
 
-extension HomeAPI: TargetType {
+extension HomeAPI: BaseTargetType {
     public var path: String {
-        var resultPath = "/api/\(version)/"
+        var resultPath = baseURL.absoluteString
         switch self {
             case .searchUser:
-                resultPath += "searchUser"
+                resultPath += "/searchUser"
         }
         return resultPath
     }
-    
+
     public var method: Moya.Method {
         switch self {
             case .searchUser:
                 return .get
         }
     }
-    
-    public var task: Task {
-        .requestPlain
-    }
-    
-    public var headers: [String : String]? {
-        return ["Content-Type": "application/json"]
-    }
-    
+
     public var validationType: ValidationType {
         return .successCodes
     }
     
-    var version: String {
-        "v1"
+    var parameters: [String: Any]? {
+        let defaultParameters: [String: Any] = [:]
+        var parameters: [String: Any] = defaultParameters
+        
+        switch self {
+            case .searchUser(let user):
+                parameters["sampleParamName"] = user
+                return parameters
+        }
+    }
+    
+    public var task: Task {
+        guard let parameters = parameters else {
+            return .requestPlain
+        }
+        var body: [String: Any] = [:]
+        
+        switch self {
+            case .searchUser(let param):
+                body["sampleBodyParamName"] = param
+                return .requestParameters(parameters: parameters,
+                                          encoding: parameterEncoding)
+//                return .requestCompositeParameters(bodyParameters: body,
+//                                                   bodyEncoding: parameterEncoding,
+//                                                   urlParameters: parameters)
+        }
+    }
+    
+    var parameterEncoding: ParameterEncoding {
+        switch self {
+            case .searchUser:
+                return JSONEncoding.default
+//            case .queryStringAPI:
+//                return URLEncoding.queryString
+        }
     }
 }
