@@ -29,6 +29,8 @@ struct LikeBrandItem: View {
 
 struct LikeBrandItem_Previews: PreviewProvider {
     static var previews: some View {
-        LikeBrandItem(modelData: ModelData().brandDatas[0])
+        let viewModel = MainViewModel()
+        let mock: BrandModel = viewModel.brand!
+        LikeBrandItem(modelData: mock)
     }
 }

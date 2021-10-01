@@ -9,14 +9,26 @@
 import Foundation
 import Combine
 
-final class ModelData: ObservableObject {
-    @Published var brandDatas = BrandModel.mockDatas
-    @Published var brandData = BrandModel.default
-    
-    var categories: [String: [BrandModel]] {
-        Dictionary(
-            grouping: brandDatas,
-            by: { $0.category.rawValue }
-        )
-    }
-}
+//final class ModelData {
+//    var brandDatas = BrandModel.mockDatas
+//    var brandData = BrandModel.default
+//    
+//    var categories: [String: [BrandModel]] {
+//        Dictionary(
+//            grouping: brandDatas,
+//            by: { $0.category.rawValue }
+//        )
+//    }
+//}
+
+//final class ModelData: ObservableObject {
+//    @Published var brandDatas = BrandModel.mockDatas
+//    @Published var brandData = BrandModel.default
+//
+//    var categories: [String: [BrandModel]] {
+//        Dictionary(
+//            grouping: brandDatas,
+//            by: { $0.category.rawValue }
+//        )
+//    }
+//}

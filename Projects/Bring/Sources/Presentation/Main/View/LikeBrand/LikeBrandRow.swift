@@ -37,12 +37,12 @@ struct LikeBrandRow: View {
 }
 
 struct LikeBrandRow_Previews: PreviewProvider {
-    static var branditems = ModelData().brandDatas
-    
     static var previews: some View {
+        let viewModel = MainViewModel()
+        let mock: BrandModel = viewModel.brand!
         LikeBrandRow(
-            categoryName: branditems[0].category.rawValue,
-            items: Array(branditems.prefix(4))
+            categoryName: mock.category!.rawValue,
+            items: [mock]
         )
     }
 }

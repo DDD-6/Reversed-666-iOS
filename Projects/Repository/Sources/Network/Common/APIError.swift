@@ -14,11 +14,11 @@ protocol ErrorType: Error {
 }
 
 // code 값은 임시 값입니다.
-enum BringError: ErrorType {
-    case jsonError
-    case unauthorized
-    case unconnected
-    case unknown
+public enum BringError: ErrorType {
+    case jsonError(msg: String)
+    case unauthorized(msg: String)
+    case unconnected(msg: String)
+    case unknown(msg: String)
     
     var code: Int {
         switch self {
