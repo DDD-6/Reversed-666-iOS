@@ -10,8 +10,8 @@ import SwiftUI
 
 struct LikeBrandRow: View {
     
-    var categoryName: String
-    var items: [BrandModel]
+    @State var categoryName: String
+    @State var brands: [BrandModel]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -23,10 +23,10 @@ struct LikeBrandRow: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
                     // self.items가 identifiable이 되있지 않으면 ForEach에서 init을 해주어야 한다.
-                    ForEach(self.items) { item in
+                    ForEach(brands) { brand in
                         NavigationLink(
                             destination: Text("not implemented")) {
-                            LikeBrandItem(modelData: item)
+                            LikeBrandItem(brand: brand)
                         }
                     }
                 }
@@ -39,10 +39,11 @@ struct LikeBrandRow: View {
 struct LikeBrandRow_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-        let mock: BrandModel = viewModel.brand!
-        LikeBrandRow(
-            categoryName: mock.category!.rawValue,
-            items: [mock]
+//        viewModel.fetchBrandDataAll(isMocked: true)
+        
+        return LikeBrandRow(
+            categoryName: viewModel.mainBrand?.category?.rawValue ?? "Category",
+            brands: viewModel.brandList ?? [BrandModel]()
         )
     }
 }

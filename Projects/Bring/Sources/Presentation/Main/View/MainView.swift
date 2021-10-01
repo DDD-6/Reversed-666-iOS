@@ -17,17 +17,18 @@ struct MainView: View {
     
     
     var body: some View {
+        viewModel.fetchBrandData(isMocked: true)
+        viewModel.fetchBrandDataAll(isMocked: true)
+        let mainBrand = $viewModel.mainBrand.wrappedValue ?? BrandModel()
+        let brandList = $viewModel.brandList.wrappedValue ?? [BrandModel]()
         
-        NavigationView {
+        return NavigationView {
             List {
-                if let data = $viewModel.brand.wrappedValue {
-                    MainBigCardView(modelData: data)
-                        .background(Color.gray)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    LikeBrandRow(categoryName: "현재 인기 브랜드 or 좋아요한 브랜드", items: [data])
-                }
-                
-                
+                MainBigCardView(brand: mainBrand)
+                    .background(Color.gray)
+                    .frame(maxWidth: .infinity,
+                           alignment: .center)
+                LikeBrandRow(categoryName: "현재 인기 브랜드 or 좋아요한 브랜드", brands: brandList)
             }
 //            .searchable(text: $searchText)
             .listStyle(InsetListStyle())

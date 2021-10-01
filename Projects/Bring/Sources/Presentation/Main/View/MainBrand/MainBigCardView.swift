@@ -10,26 +10,22 @@ import SwiftUI
 import Repository
 
 struct MainBigCardTitleView: View {
-    
-    @State var title: String
-    @State var subtitle: String
+    var brand: BrandModel?
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title).font(.title2)
-            Text(subtitle)
+            Text(brand?.title ?? "").font(.title2)
+            Text(brand?.subTitle ?? "")
         }
     }
 }
 
 struct MainBigCardView: View {
-    @State var modelData: BrandModel
+    @State var brand: BrandModel?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-//            MainBigCardTitleView(
-//                title: $modelData.title,
-//                subtitle: $modelData.subTitle)
+            MainBigCardTitleView(brand: brand)
             Image("cityGuide")
         }
         .padding()
@@ -39,17 +35,17 @@ struct MainBigCardView: View {
 struct MainBigCardTitleView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-        let mock: BrandModel = viewModel.mockBrandDatas()!
+        viewModel.fetchBrandDataAll(isMocked: true)
         
-        MainBigCardTitleView(title: mock.title,
-                             subtitle: mock.subTitle)
+        return MainBigCardTitleView(brand: viewModel.mainBrand)
     }
 }
 
 struct MainBigCardView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-        let mock: BrandModel = viewModel.brand!
-        MainBigCardView(modelData: mock)
+//        viewModel.fetchBrandData(isMocked: true)
+        
+        return MainBigCardView(brand: viewModel.mainBrand)
     }
 }

@@ -90,7 +90,15 @@ extension MainAPI: BaseTargetType {
                 return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
             case .fetchBrands:
                 return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
-//                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData)
+        }
+    }
+    
+    public func getSamples<D: Decodable>() -> [D]? {
+        switch self {
+            case .fetchBrands:
+                return try? JSONDecoder().decode([BrandModelDTO].self, from: sampleData) as? [D]
+            default:
+                return nil
         }
     }
     

@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct LikeBrandItem: View {
-    var modelData: BrandModel
+    var brand: BrandModel?
 
     var body: some View {
         VStack(alignment: .center) {
-            modelData.image
+            brand?.image
                 .renderingMode(.original)
                 .resizable()
                 .frame(width: 155, height: 155)
                 .cornerRadius(5)
-            Text(modelData.title)
+            Text(brand?.title ?? "")
                 .foregroundColor(.primary)
                 .font(.caption)
         }
@@ -30,7 +30,7 @@ struct LikeBrandItem: View {
 struct LikeBrandItem_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-        let mock: BrandModel = viewModel.brand!
-        LikeBrandItem(modelData: mock)
+//        viewModel.fetchBrandData(isMocked: true)
+        return LikeBrandItem(brand: viewModel.mainBrand)
     }
 }

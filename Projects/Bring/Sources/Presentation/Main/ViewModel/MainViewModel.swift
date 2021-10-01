@@ -13,7 +13,8 @@ import CombineMoya
 import Repository
 
 class MainViewModel: ObservableObject {
-    @Published var brand: BrandModel?
+    @Published var mainBrand: BrandModel?
+    @Published var brandList: [BrandModel]?
     
     var mainProvider: MainAPIProvider
     var cancellables: Set<AnyCancellable>
@@ -23,21 +24,31 @@ class MainViewModel: ObservableObject {
         cancellables = Set<AnyCancellable>()
     }
     
-    func fetchBrandDatas(name: String = "") {
+    func fetchBrandData(name: String = "", isMocked: Bool = false) {
         mainProvider
-            .fetchBrandDatas(name: name)
+            .fetchBrand(name: name, isMocked: isMocked)
             .map { BrandModel.from(dtoModel: $0) }
             .sink { result in
                 print("RESULT: \(result)")
-            } receiveValue: { response in
-                print("response: \(response)")
+            } receiveValue: { [weak self] value in
+                self?.mainBrand = value
             }
             .store(in: &cancellables)
     }
     
-    func mockBrandDatas(name: String = "") -> BrandModel? {
-        return mainProvider
-            .mockBrandDatas(name: name)
-            .map { BrandModel.from(dtoModel: $0) }
+    func fetchBrandDataAll(isMocked: Bool = false) {
+        mainProvider
+            .fetchBrands(isMocked: isMocked)
+            .map { brandDtoList in
+                brandDtoList.map {
+                    BrandModel.from(dtoModel: $0)
+                }
+            }
+            .sink { result in
+                print("RESULT: \(result)")
+            } receiveValue: { [weak self] values in
+                self?.brandList = values
+            }
+            .store(in: &cancellables)
     }
 }
