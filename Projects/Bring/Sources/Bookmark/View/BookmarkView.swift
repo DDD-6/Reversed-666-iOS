@@ -8,9 +8,52 @@
 
 import SwiftUI
 
+@frozen
+enum EditState {
+    case edit
+    case normal
+}
+
 struct BookmarkView: View {
+    
+    @State private var state: BrandStateSegment = .product
+    @State private var editState: EditState = .normal
+    
     var body: some View {
-        Text("Bookmark page")
+        
+        NavigationView {
+
+            List {
+                Picker("bring",
+                       selection: $state) {
+                    Text("상품")
+                    Text("브랜드")
+                }
+                .pickerStyle(.segmented)
+                
+                
+            }
+            .navigationTitle("동길님의 블로그")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {
+                Button {
+                    print("huhu")
+                } label: {
+                    Text("hhu")
+                }
+
+            })
+            
+            
+        }
+        
+        Picker("너의 이름은?",
+               selection: $state) {
+            Text("상품")
+            Text("브랜드")
+        }
+               .pickerStyle(.segmented)
+               .padding()
     }
 }
 
