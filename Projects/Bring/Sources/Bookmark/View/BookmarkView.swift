@@ -15,7 +15,7 @@ enum EditState {
 }
 
 struct BookmarkView: View {
-    
+    @EnvironmentObject private var modelData: ModelData
     @State private var state: BrandStateSegment = .product
     @State private var editState: EditState = .normal
     
@@ -30,8 +30,14 @@ struct BookmarkView: View {
                     Text("브랜드")
                 }
                 .pickerStyle(.segmented)
+                .padding()
                 
-                
+                ForEach(modelData.brandDatas) { datas in
+                    ProductFolderView(folderData: datas)
+                        .aspectRatio(3/2, contentMode: .fill)
+                        
+                }
+
             }
             .navigationTitle("동길님의 블로그")
             .navigationBarTitleDisplayMode(.inline)
@@ -46,19 +52,13 @@ struct BookmarkView: View {
             
             
         }
-        
-        Picker("너의 이름은?",
-               selection: $state) {
-            Text("상품")
-            Text("브랜드")
-        }
-               .pickerStyle(.segmented)
-               .padding()
+               
     }
 }
 
 struct BookmarkView_Previews: PreviewProvider {
     static var previews: some View {
         BookmarkView()
+            .environmentObject(ModelData())
     }
 }

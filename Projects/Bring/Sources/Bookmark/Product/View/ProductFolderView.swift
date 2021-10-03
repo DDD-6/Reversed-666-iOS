@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProductFolderView: View {
     
-    @EnvironmentObject var modelData: ModelData
+    var folderData: BrandModel
     
     enum Constant {
         static let spacing: CGFloat = 2.0
@@ -22,15 +22,15 @@ struct ProductFolderView: View {
             
             GeometryReader { geometry in
                 HStack(spacing: Constant.spacing) {
-                    modelData.brandData.image
+                    folderData.image
                         .resizable()
                         .frame(width: geometry.size.width / 2, height: geometry.size.height)
                     
                     VStack(spacing: Constant.spacing) {
-                        modelData.brandData.image
+                        folderData.image
                             .resizable()
                             .frame(width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        modelData.brandData.image
+                        folderData.image
                             .resizable()
                             .frame(width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
@@ -40,9 +40,9 @@ struct ProductFolderView: View {
             Spacer(minLength: 5)
             
             VStack(spacing: Constant.spacing) {
-                Text("길동이 선물")
+                Text(folderData.title)
                     .font(.title3)
-                Text("10개의 상품")
+                Text(folderData.subTitle)
             }.padding([.leading, .bottom], 10)
             
         }
@@ -60,8 +60,6 @@ struct ProductFolderView: View {
 
 struct ProductFolderView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductFolderView()
-            .environmentObject(ModelData())
-        
+        ProductFolderView(folderData: ModelData().brandData)
     }
 }

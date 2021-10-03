@@ -23,7 +23,7 @@ extension Project {
                     platform: platform,
                     product: .app,
                     bundleId: "\(organizationName).\(name)",
-                    deploymentTarget: .iOS(targetVersion: "14.1", devices: .iphone),
+                    deploymentTarget: .iOS(targetVersion: "15.0", devices: .iphone),
                     infoPlist: .extendingDefault(
                         with: [
                             "CFBundleShortVersionString": "1.0.0",  // App Version
@@ -41,7 +41,7 @@ extension Project {
                     platform: platform,
                     product: .unitTests,
                     bundleId: "\(organizationName).\(name)Tests",
-                    deploymentTarget: .iOS(targetVersion: "14.1", devices: .iphone),
+                    deploymentTarget: .iOS(targetVersion: "15.0", devices: .iphone),
                     infoPlist: .default,
                     sources: ["Tests/**"],
                     dependencies: [
