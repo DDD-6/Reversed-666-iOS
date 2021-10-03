@@ -35,7 +35,6 @@ struct BookmarkView: View {
                 ForEach(modelData.brandDatas) { datas in
                     ProductFolderView(folderData: datas)
                         .aspectRatio(3/2, contentMode: .fill)
-                        
                 }
 
             }
