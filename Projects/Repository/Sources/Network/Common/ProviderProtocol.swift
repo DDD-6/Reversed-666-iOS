@@ -11,9 +11,8 @@ import Combine
 import Alamofire
 import Foundation
 
-// 각 provider 클래스에 채택할 protocol인데 아직 사용 안함. 21.09.29
 public protocol ProviderProtocol: AnyObject {
-    associatedtype TargetAPI: TargetType
+    associatedtype TargetAPI: BaseTargetType
     
     var provider: MoyaProvider<TargetAPI> { get }
     var isStub: Bool { get }
@@ -27,7 +26,7 @@ public protocol ProviderProtocol: AnyObject {
 
 public extension ProviderProtocol {
     
-    static func consProvider(
+    static func makeProvider(
         _ isStub: Bool = false,
         _ sampleStatusCode: Int = 0,
         _ customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil) -> MoyaProvider<TargetAPI> {
@@ -58,11 +57,14 @@ public extension ProviderProtocol {
 }
 
 @available(iOS 13.0, *)
-extension ProviderProtocol {
-    
+public extension ProviderProtocol {
     func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: TargetAPI) -> AnyPublisher<D, MoyaError> {
         return provider
             .requestPublisher(target)
             .map(type, atKeyPath: keyPath)
+    }
+    
+    func requestMock<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: TargetAPI) -> AnyPublisher<D, MoyaError> {
+        return decode(target.sampleData)
     }
 }

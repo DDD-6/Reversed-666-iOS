@@ -10,7 +10,7 @@ import Foundation
 import Moya
 import CombineMoya
 
-protocol BaseTargetType: TargetType { }
+public protocol BaseTargetType: TargetType { }
 
 extension BaseTargetType {
     public var baseURL: URL {

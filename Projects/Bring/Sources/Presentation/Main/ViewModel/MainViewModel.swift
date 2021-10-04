@@ -19,14 +19,14 @@ class MainViewModel: ObservableObject {
     var mainProvider: MainAPIProvider
     var cancellables: Set<AnyCancellable>
     
-    init() {
-        mainProvider = MainAPIProvider()
+    init(isStub: Bool = false) {
+        mainProvider = MainAPIProvider(isStub: isStub)
         cancellables = Set<AnyCancellable>()
     }
     
-    func fetchBrandData(name: String = "", isMocked: Bool = false) {
+    func fetchBrandData(name: String = "") {
         mainProvider
-            .fetchBrand(name: name, isMocked: isMocked)
+            .fetchBrand(name: name)
             .map { BrandModel.from(dtoModel: $0) }
             .sink { _ in }
                 receiveValue: { [weak self] value in
@@ -37,7 +37,7 @@ class MainViewModel: ObservableObject {
     
     func fetchBrandDataAll(isMocked: Bool = false) {
         mainProvider
-            .fetchBrands(isMocked: isMocked)
+            .fetchAllBrands()
             .map { brandDtoList in
                 brandDtoList.map {
                     BrandModel.from(dtoModel: $0)

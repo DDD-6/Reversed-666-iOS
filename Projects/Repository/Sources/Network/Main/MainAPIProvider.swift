@@ -28,6 +28,10 @@ public class MainAPIProvider: NSObject {
         self.sampleStatusCode = sampleStatusCode
         self.customEndpointClosure = customEndpointClosure
         
+        self.provider = MainAPIProvider.makeProvider(isStub,
+                                     sampleStatusCode,
+                                     customEndpointClosure)
+        
         super.init()
     }
 }
@@ -35,58 +39,41 @@ public class MainAPIProvider: NSObject {
 /// Brand 가져오는 API
 @available(iOS 13.0, *)
 extension MainAPIProvider: ProviderProtocol {
-    public func fetchBrand(name: String = "", isMocked: Bool) -> AnyPublisher<BrandModelDTO, MoyaError> {
-        if isMocked {
+    public func fetchBrand(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
+        if isStub {
             return mockBrandData(name: name)
         }
         return fetchBrandData(name: name)
     }
     
     private func fetchBrandData(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
-        return provider
-            .requestPublisher(.fetchBrands(name: name))
-            .map(BrandModelDTO.self)
+        return request(type: BrandModelDTO.self,
+                       target: .fetchBrands(name: name))
     }
     
     private func mockBrandData(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
-        let data: BrandModelDTO? = MainAPI.fetchBrands(name: name).getSample()
-        
-        return Just(data)
-            .compactMap { $0 }
-            .tryMap { $0 }
-            .mapError { error -> MoyaError in
-                return MoyaError.encodableMapping(error)
-            }
-            .eraseToAnyPublisher()
+        return requestMock(type: BrandModelDTO.self,
+                           target: .fetchBrands(name: name))
     }
 }
 
 /// 모든 Brand 가져오는 API
 @available(iOS 13.0, *)
 extension MainAPIProvider {
-    public func fetchBrands(isMocked: Bool) -> AnyPublisher<[BrandModelDTO], MoyaError> {
-        if isMocked {
+    public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
+        if isStub {
             return mockBrandDatas()
         }
         return fetchBrandDatas()
     }
     
     private func fetchBrandDatas() -> AnyPublisher<[BrandModelDTO], MoyaError> {
-        return provider
-            .requestPublisher(.fetchBrands(name: ""))
-            .map([BrandModelDTO].self)
+        return request(type: [BrandModelDTO].self,
+                       target: .fetchBrands(name: ""))
     }
     
-    private func mockBrandDatas() -> AnyPublisher<[BrandModelDTO], MoyaError> {
-        let data: [BrandModelDTO]? = MainAPI.fetchBrands(name: "").getSamples()
-        
-        return Just(data!)
-            .compactMap { $0 }
-//            .publisher
-            .tryMap { $0 }
-            .mapError { error -> MoyaError in
-                return MoyaError.encodableMapping(error)
-            }
-            .eraseToAnyPublisher()
+    private func mockBrandDatas() -> AnyPublisher<[BrandModelDTO], MoyaError> {        
+        return requestMock(type: [BrandModelDTO].self,
+                            target: .fetchBrands(name: ""))
     }
 }

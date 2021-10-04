@@ -17,11 +17,12 @@ public func decode<T: Decodable>(_ data: Data) -> AnyPublisher<T, MoyaError> {
     
     return Just(data)
         .decode(type: T.self, decoder: decoder)
-        .mapError { error in
-            let code = 499
-            let response = Response(statusCode: code,
-                                    data: data)
-            return MoyaError.jsonMapping(response)
+        .mapError { error -> MoyaError in
+            return MoyaError.encodableMapping(error)
+//            let code = 499
+//            let response = Response(statusCode: code,
+//                                    data: data)
+//            return MoyaError.jsonMapping(response)
         }
         .eraseToAnyPublisher()
 }

@@ -22,19 +22,23 @@ extension MainAPI: BaseTargetType {
     public var path: String {
         var resultPath = baseURL.absoluteString
         switch self {
-            case .searchUser:
-                resultPath += "/searchUser"
+//            case .searchUser:
+//                resultPath += "/searchUser"
             case let .fetchBrands(name):
                 resultPath += "/brands/\(name)"
+            default:
+                break
         }
         return resultPath
     }
 
     public var method: Moya.Method {
         switch self {
-            case .searchUser:
-                return .get
+//            case .searchUser:
+//                return .get
             case .fetchBrands:
+                return .get
+            default:
                 return .get
         }
     }
@@ -48,25 +52,25 @@ extension MainAPI: BaseTargetType {
         var parameters: [String: Any] = defaultParameters
         
         switch self {
-            case .searchUser(let user):
-                parameters["sampleParamName"] = user
-                return parameters
+//            case .searchUser(let user):
+//                parameters["sampleParamName"] = user
+//                return parameters
             default:
                 return nil
         }
     }
     
     public var task: Task {
-        guard let parameters = parameters else {
-            return .requestPlain
-        }
-        var body: [String: Any] = [:]
+//        guard let parameters = parameters else {
+//            return .requestPlain
+//        }
+//        var body: [String: Any] = [:]
         
         switch self {
-            case .searchUser(let param):
-                body["sampleBodyParamName"] = param
-                return .requestParameters(parameters: parameters,
-                                          encoding: parameterEncoding)
+//            case .searchUser(let param):
+//                body["sampleBodyParamName"] = param
+//                return .requestParameters(parameters: parameters,
+//                                          encoding: parameterEncoding)
             default:
                 return .requestPlain
 //                return .requestCompositeParameters(bodyParameters: body,
@@ -86,10 +90,12 @@ extension MainAPI: BaseTargetType {
     
     public func getSample<D: Decodable>() -> D? {
         switch self {
-            case .searchUser:
-                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
+//            case .searchUser:
+//                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
             case .fetchBrands:
                 return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
+            default:
+                return nil
         }
     }
     

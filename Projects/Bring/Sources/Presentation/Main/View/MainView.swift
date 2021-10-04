@@ -13,7 +13,7 @@ struct MainView: View {
 //    @EnvironmentObject var modelData: ModelData
     @State var searchText: String = ""
     
-    @ObservedObject var viewModel = MainViewModel()
+    @ObservedObject var viewModel = MainViewModel(isStub: true)
     
     var body: some View {
         let mainBrand = viewModel.mainBrand ?? BrandModel()
@@ -32,15 +32,15 @@ struct MainView: View {
             .navigationTitle("Title")
             .toolbar {
                 Button {
-                    viewModel.fetchBrandData(isMocked: true)
-                    viewModel.fetchBrandDataAll(isMocked: true)
+                    viewModel.fetchBrandData()
+                    viewModel.fetchBrandDataAll()
                 } label: {
                     Image("Search")
                 }
             }
             .onAppear {
-                viewModel.fetchBrandData(isMocked: true)
-                viewModel.fetchBrandDataAll(isMocked: true)
+                viewModel.fetchBrandData()
+                viewModel.fetchBrandDataAll()
             }
         }
         
