@@ -28,9 +28,8 @@ class MainViewModel: ObservableObject {
         mainProvider
             .fetchBrand(name: name, isMocked: isMocked)
             .map { BrandModel.from(dtoModel: $0) }
-            .sink { result in
-                print("RESULT: \(result)")
-            } receiveValue: { [weak self] value in
+            .sink { _ in }
+                receiveValue: { [weak self] value in
                 self?.mainBrand = value
             }
             .store(in: &cancellables)
@@ -44,9 +43,8 @@ class MainViewModel: ObservableObject {
                     BrandModel.from(dtoModel: $0)
                 }
             }
-            .sink { result in
-                print("RESULT: \(result)")
-            } receiveValue: { [weak self] values in
+            .sink { _ in }
+                receiveValue: { [weak self] values in
                 self?.brandList = values
             }
             .store(in: &cancellables)

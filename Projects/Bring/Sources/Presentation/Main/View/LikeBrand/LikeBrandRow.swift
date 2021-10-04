@@ -10,12 +10,11 @@ import SwiftUI
 
 struct LikeBrandRow: View {
     
-    @State var categoryName: String
-    @State var brands: [BrandModel]
+    var brands: [BrandModel]
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(self.categoryName)
+            Text("현재 인기 브랜드 or 좋아요한 브랜드")
                 .font(.headline)
                 .padding(.leading, 15)
                 .padding(.top, 5)
@@ -39,11 +38,9 @@ struct LikeBrandRow: View {
 struct LikeBrandRow_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-//        viewModel.fetchBrandDataAll(isMocked: true)
+        viewModel.fetchBrandDataAll(isMocked: true)
         
-        return LikeBrandRow(
-            categoryName: viewModel.mainBrand?.category?.rawValue ?? "Category",
-            brands: viewModel.brandList ?? [BrandModel]()
+        return LikeBrandRow(brands: viewModel.brandList ?? [BrandModel]()
         )
     }
 }

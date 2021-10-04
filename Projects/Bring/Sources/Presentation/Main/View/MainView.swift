@@ -15,12 +15,9 @@ struct MainView: View {
     
     @ObservedObject var viewModel = MainViewModel()
     
-    
     var body: some View {
-        viewModel.fetchBrandData(isMocked: true)
-        viewModel.fetchBrandDataAll(isMocked: true)
-        let mainBrand = $viewModel.mainBrand.wrappedValue ?? BrandModel()
-        let brandList = $viewModel.brandList.wrappedValue ?? [BrandModel]()
+        let mainBrand = viewModel.mainBrand ?? BrandModel()
+        let brandList = viewModel.brandList ?? [BrandModel]()
         
         return NavigationView {
             List {
@@ -28,19 +25,22 @@ struct MainView: View {
                     .background(Color.gray)
                     .frame(maxWidth: .infinity,
                            alignment: .center)
-                LikeBrandRow(categoryName: "현재 인기 브랜드 or 좋아요한 브랜드", brands: brandList)
+                LikeBrandRow(brands: brandList)
             }
 //            .searchable(text: $searchText)
             .listStyle(InsetListStyle())
             .navigationTitle("Title")
             .toolbar {
-                
                 Button {
-//                    viewModel.changeModel()
-                    print("##")
+                    viewModel.fetchBrandData(isMocked: true)
+                    viewModel.fetchBrandDataAll(isMocked: true)
                 } label: {
                     Image("Search")
                 }
+            }
+            .onAppear {
+                viewModel.fetchBrandData(isMocked: true)
+                viewModel.fetchBrandDataAll(isMocked: true)
             }
         }
         

@@ -13,26 +13,30 @@ import Foundation
 
 // 각 provider 클래스에 채택할 protocol인데 아직 사용 안함. 21.09.29
 public protocol ProviderProtocol: AnyObject {
-    associatedtype T: TargetType
+    associatedtype TargetAPI: TargetType
     
-    var provider: MoyaProvider<T> { get }
+    var provider: MoyaProvider<TargetAPI> { get }
+    var isStub: Bool { get }
+    var sampleStatusCode: Int { get }
+    var customEndpointClosure: ((TargetAPI) -> Endpoint)? { get }
+    
     init(isStub: Bool,
          sampleStatusCode: Int,
-         customEndpointClosure: ((T) -> Endpoint)?)
+         customEndpointClosure: ((TargetAPI) -> Endpoint)?)
 }
 
 public extension ProviderProtocol {
     
     static func consProvider(
         _ isStub: Bool = false,
-        _ sampleStatusCode: Int = 200,
-        _ customEndpointClosure: ((T) -> Endpoint)? = nil) -> MoyaProvider<T> {
+        _ sampleStatusCode: Int = 0,
+        _ customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil) -> MoyaProvider<TargetAPI> {
         
         if isStub == false {
-            return MoyaProvider<T>(session: Session.default)
+            return MoyaProvider<TargetAPI>(session: Session.default)
         } else {
             // 테스트 시에 호출되는 stub 클로져
-            let endPointClosure = { (target: T) -> Endpoint in
+            let endPointClosure = { (target: TargetAPI) -> Endpoint in
                 let sampleResponseClosure: () -> EndpointSampleResponse = {
                     EndpointSampleResponse.networkResponse(sampleStatusCode, target.sampleData)
                 }
@@ -45,7 +49,7 @@ public extension ProviderProtocol {
                     httpHeaderFields: target.headers
                 )
             }
-            return MoyaProvider<T>(
+            return MoyaProvider<TargetAPI>(
                 endpointClosure: customEndpointClosure ?? endPointClosure,
                 stubClosure: MoyaProvider.immediatelyStub
             )
@@ -56,8 +60,9 @@ public extension ProviderProtocol {
 @available(iOS 13.0, *)
 extension ProviderProtocol {
     
-    func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: T) -> AnyPublisher<D, MoyaError> {
-        return provider.requestPublisher(target)
+    func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: TargetAPI) -> AnyPublisher<D, MoyaError> {
+        return provider
+            .requestPublisher(target)
             .map(type, atKeyPath: keyPath)
     }
 }

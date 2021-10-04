@@ -21,10 +21,27 @@ struct ContentView: View {
         
         TabView(selection: $selection,
                 content:  {
-            MainView().tabItem { Label("Main", systemImage: "homepod") }.tag(Tab.main)
-            BookmarkView().tabItem { Label("Bookmark", systemImage: "location.viewfinder") }.tag(Tab.bookmark)
-            MypageView().tabItem { Label("MyPage", systemImage: "arrow.up.message") }.tag(Tab.my)
-        })
+                    MainView()
+                        .tabItem {
+                            Label("Main",
+                                  systemImage: "homepod")
+                        }
+                        .tag(Tab.main)
+                    
+                    BookmarkView()
+                        .tabItem {
+                            Label("Bookmark",
+                                  systemImage: "location.viewfinder")
+                        }
+                        .tag(Tab.bookmark)
+                    
+                    MypageView()
+                        .tabItem {
+                            Label("MyPage",
+                                  systemImage: "arrow.up.message")
+                        }
+                        .tag(Tab.my)
+                })
     }
     
 }
@@ -32,7 +49,24 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-//            .environmentObject(ModelData())
+//        let selectedTab: ContentView.Tab = .main
+//
+//        switch selectedTab {
+//            case .main:
+//                let viewModel = MainViewModel()
+//                return ContentView()
+//                    .environmentObject(viewModel)
+//            case .bookmark:
+//                // TODO: viewModel 바꿔주기
+//                let viewModel = MainViewModel()
+//                return ContentView()
+//                    .environmentObject(viewModel)
+//            case .my:
+//                // TODO: viewModel 바꿔주기
+//                let viewModel = MainViewModel()
+//                return ContentView()
+//                    .environmentObject(viewModel)
+//        }
     }
 }
 

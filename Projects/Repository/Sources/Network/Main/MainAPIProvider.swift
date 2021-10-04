@@ -13,11 +13,20 @@ import CombineMoya
 
 @available(iOS 13.0, *)
 public class MainAPIProvider: NSObject {
+    public typealias TargetAPI = MainAPI
     
-    let provider: MoyaProvider<MainAPI>
+    public var provider: MoyaProvider<TargetAPI>
+    public var isStub: Bool = false
+    public var sampleStatusCode = 0
+    public var customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil
     
-    public override init() {
-        provider = MoyaProvider<MainAPI>()
+    required public init(isStub: Bool = false,
+         sampleStatusCode: Int = 0,
+         customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil) {
+        self.provider = MoyaProvider<TargetAPI>()
+        self.isStub = isStub
+        self.sampleStatusCode = sampleStatusCode
+        self.customEndpointClosure = customEndpointClosure
         
         super.init()
     }
@@ -25,7 +34,7 @@ public class MainAPIProvider: NSObject {
 
 /// Brand 가져오는 API
 @available(iOS 13.0, *)
-extension MainAPIProvider {
+extension MainAPIProvider: ProviderProtocol {
     public func fetchBrand(name: String = "", isMocked: Bool) -> AnyPublisher<BrandModelDTO, MoyaError> {
         if isMocked {
             return mockBrandData(name: name)

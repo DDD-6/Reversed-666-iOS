@@ -30,7 +30,8 @@ struct LikeBrandItem: View {
 struct LikeBrandItem_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-//        viewModel.fetchBrandData(isMocked: true)
+        viewModel.fetchBrandData(isMocked: true)
+        
         return LikeBrandItem(brand: viewModel.mainBrand)
     }
 }

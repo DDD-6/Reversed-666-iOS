@@ -21,7 +21,7 @@ struct MainBigCardTitleView: View {
 }
 
 struct MainBigCardView: View {
-    @State var brand: BrandModel?
+    var brand: BrandModel?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -44,7 +44,7 @@ struct MainBigCardTitleView_Previews: PreviewProvider {
 struct MainBigCardView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel()
-//        viewModel.fetchBrandData(isMocked: true)
+        viewModel.fetchBrandData(isMocked: true)
         
         return MainBigCardView(brand: viewModel.mainBrand)
     }
