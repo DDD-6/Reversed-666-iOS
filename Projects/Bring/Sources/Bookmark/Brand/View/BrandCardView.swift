@@ -10,32 +10,31 @@ import SwiftUI
 
 struct BrandCardView: View {
     
-    @EnvironmentObject private var model: ModelData
-    @State private var searchString: String = ""
+    var brandData: BrandModel
+    enum Constant {
+        enum Layout {
+            static let imageRadius: CGFloat = 10
+            static let paddingSize: CGFloat = 5
+        }
+        static let skyblue = Color(red: 0.4627, green: 0.8392, blue: 1.0)
+    }
     
     var body: some View {
-        NavigationView {
-            List {
-                HStack {
-                    Spacer()
-                    Text("최신순")
-                }
-                Text("BookMark")
-                Text("BookMark")
-                Text("BookMark")
+        
+            VStack {
+                brandData.image
+                    .cornerRadius(Constant.Layout.imageRadius)
+                Text(brandData.title)
             }
-            .searchable(text: $searchString, placement: .sidebar) {
-                ForEach(model.brandDatas) { suggestion in
-                    Text(suggestion.title).searchCompletion(suggestion.title)
-                }
-            }
-        }
+            .padding(Constant.Layout.paddingSize)
+            .background(Constant.skyblue)
+            .cornerRadius(Constant.Layout.imageRadius)
+        
     }
 }
 
 struct BrandCardView_Previews: PreviewProvider {
     static var previews: some View {
-        BrandCardView()
-            .environmentObject(ModelData())
+        BrandCardView(brandData: ModelData().brandData)
     }
 }

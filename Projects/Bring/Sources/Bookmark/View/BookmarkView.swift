@@ -22,8 +22,7 @@ struct BookmarkView: View {
     var body: some View {
         
         NavigationView {
-
-            List {
+            VStack {
                 Picker("bring",
                        selection: $state) {
                     Text("상품")
@@ -32,26 +31,28 @@ struct BookmarkView: View {
                 .pickerStyle(.segmented)
                 .padding()
                 
-                ForEach(modelData.brandDatas) { datas in
-                    ProductFolderView(folderData: datas)
-                        .aspectRatio(3/2, contentMode: .fill)
+                List {
+                    ForEach(modelData.brandDatas) { datas in
+                        ProductFolderView(folderData: datas)
+                            .aspectRatio(3/2, contentMode: .fill)
+                    }
                 }
-
+                .navigationTitle("동길님의 블로그")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(content: {
+                    Button {
+                        print("huhu")
+                    } label: {
+                        Text("hhu")
+                    }
+                    
+                })
+                
+                
             }
-            .navigationTitle("동길님의 블로그")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {
-                Button {
-                    print("huhu")
-                } label: {
-                    Text("hhu")
-                }
-
-            })
-            
-            
         }
-               
+        
+        
     }
 }
 
