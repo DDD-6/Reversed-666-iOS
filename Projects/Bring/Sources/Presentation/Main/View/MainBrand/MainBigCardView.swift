@@ -34,8 +34,8 @@ struct MainBigCardView: View {
 
 struct MainBigCardTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel()
-        viewModel.fetchBrandDataAll(isMocked: true)
+        let viewModel = MainViewModel(isStub: true)
+        viewModel.fetchBrandDataAll()
         
         return MainBigCardTitleView(brand: viewModel.mainBrand)
     }
