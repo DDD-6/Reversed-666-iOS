@@ -15,20 +15,14 @@ enum BrandStateSegment {
 }
 
 struct BookmarkSegmentView: View {
-    @State private var state: BrandStateSegment = .product
+    @Binding var segmentState: BrandStateSegment
     
     var body: some View {
         Picker("bring",
-               selection: $state) {
+               selection: $segmentState) {
             Text("상품")
             Text("브랜드")
         }
         .pickerStyle(.segmented)
-    }
-}
-
-struct BookmarkSegment_Previews: PreviewProvider {
-    static var previews: some View {
-        BookmarkSegmentView()
     }
 }

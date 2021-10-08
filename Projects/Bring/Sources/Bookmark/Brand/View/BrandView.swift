@@ -22,6 +22,8 @@ struct BrandView: View {
                 
                 content
             }
+            .navigationTitle("testing")
+            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchString, placement: .sidebar) {
                 ForEach(model.brandDatas) { suggestion in
                     Text(suggestion.title).searchCompletion(suggestion.title)
@@ -40,6 +42,7 @@ struct BrandView: View {
             
             LazyVGrid(columns: [GridItem(.flexible(minimum: 80, maximum: 130), spacing: 16, alignment: .top)], alignment: .center, spacing: 16) {
                 ForEach(model.brandDatas) { data in
+                    
                     let ingredient = data.image
                     let presenting = true
                     

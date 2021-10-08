@@ -23,12 +23,7 @@ struct BookmarkView: View {
         
         NavigationView {
             VStack {
-                Picker("bring",
-                       selection: $state) {
-                    Text("상품")
-                    Text("브랜드")
-                }
-                .pickerStyle(.segmented)
+                BookmarkSegmentView(segmentState: $state)
                 .padding()
                 
                 List {
@@ -47,11 +42,9 @@ struct BookmarkView: View {
                     }
                     
                 })
-                
-                
+                        
             }
         }
-        
         
     }
 }
