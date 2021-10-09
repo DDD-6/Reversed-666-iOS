@@ -13,7 +13,16 @@ struct ProductFolderView: View {
     var folderData: BrandModel
     
     enum Constant {
-        static let spacing: CGFloat = 2.0
+        static let lineSpacing: CGFloat = 2.0
+        static let radius: CGFloat = 20
+        static let spacing: CGFloat = 5.0
+        enum Title {
+            static let padding: CGFloat = 10
+        }
+        enum Shadow {
+            static let radius: CGFloat = 5
+            static let size: CGFloat = 10
+        }
     }
     
     var body: some View {
@@ -21,12 +30,12 @@ struct ProductFolderView: View {
         VStack(alignment: .leading) {
             
             GeometryReader { geometry in
-                HStack(spacing: Constant.spacing) {
+                HStack(spacing: Constant.lineSpacing) {
                     folderData.image
                         .resizable()
                         .frame(width: geometry.size.width / 2, height: geometry.size.height)
                     
-                    VStack(spacing: Constant.spacing) {
+                    VStack(spacing: Constant.lineSpacing) {
                         folderData.image
                             .resizable()
                             .frame(width: geometry.size.width / 2, height: geometry.size.height / 2)
@@ -37,19 +46,19 @@ struct ProductFolderView: View {
                 }
             }
             
-            Spacer(minLength: 5)
+            Spacer(minLength: Constant.spacing)
             
-            VStack(spacing: Constant.spacing) {
+            VStack(alignment: .leading ,spacing: Constant.spacing) {
                 Text(folderData.title)
                     .font(.title3)
                 Text(folderData.subTitle)
-            }.padding([.leading, .bottom], 10)
+            }.padding([.leading, .bottom], Constant.Title.padding)
             
         }
         .clipped()
         .background(.white)
-        .cornerRadius(20)
-        .shadow(color: .gray, radius: 5, x: 10, y: 10)
+        .cornerRadius(Constant.radius)
+        .shadow(color: .gray, radius: Constant.Shadow.radius, x: Constant.Shadow.size, y: Constant.Shadow.size)
     }
     
     // 임시로 계산한 메인 사진 크기.. 서브 사진은 각각 2로 나눠줌
