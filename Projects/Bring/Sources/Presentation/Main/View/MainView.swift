@@ -25,6 +25,8 @@ struct MainView: View {
                     .background(Color.gray)
                     .frame(maxWidth: .infinity,
                            alignment: .center)
+                    .cornerRadius(16)
+                    .clipped()
                 LikeBrandRow(brands: brandList)
             }
 //            .searchable(text: $searchText)

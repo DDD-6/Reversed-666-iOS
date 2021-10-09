@@ -52,8 +52,10 @@ extension MainAPIProvider: ProviderProtocol {
     }
     
     private func mockBrandData(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
-        return requestMock(type: BrandModelDTO.self,
+        return requestMock(type: [BrandModelDTO].self,
                            target: .fetchBrands(name: name))
+            .compactMap { $0.first }
+            .eraseToAnyPublisher()
     }
 }
 

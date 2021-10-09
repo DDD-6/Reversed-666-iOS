@@ -14,9 +14,21 @@ struct MainBigCardTitleView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(brand?.title ?? "").font(.title2)
+            Text(brand?.title ?? "")
+                .font(.subheadline)
+                .padding(EdgeInsets(top: .zero,
+                                    leading: .zero,
+                                    bottom: .size1,
+                                    trailing: .zero))
             Text(brand?.subTitle ?? "")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Spacer()
         }
+        .padding(EdgeInsets(top: .size2,
+                            leading: .size2,
+                            bottom: .zero,
+                            trailing: .zero))
     }
 }
 
@@ -24,10 +36,10 @@ struct MainBigCardView: View {
     var brand: BrandModel?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            MainBigCardTitleView(brand: brand)
+        ZStack(alignment: Alignment.topLeading, content: {
             Image("cityGuide")
-        }
+            MainBigCardTitleView(brand: brand)
+        })
         .padding()
     }
 }
@@ -35,7 +47,7 @@ struct MainBigCardView: View {
 struct MainBigCardTitleView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel(isStub: true)
-        viewModel.fetchBrandDataAll()
+        viewModel.fetchBrandData()
         
         return MainBigCardTitleView(brand: viewModel.mainBrand)
     }

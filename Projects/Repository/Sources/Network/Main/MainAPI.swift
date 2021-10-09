@@ -113,25 +113,25 @@ extension MainAPI: BaseTargetType {
         let mockDatas = [
             BrandModelDTO(
                 id: 1,
-                title: "Title1",
-                subTitle: "Subtitle1",
-                brandLink: "www.naver.com",
+                title: "의류",
+                subTitle: "Nike",
+                brandLink: "https://www.nike.com",
                 imageName: "cityGuide",
                 category: .shoes
             ),
             BrandModelDTO(
                 id: 2,
-                title: "Title2",
-                subTitle: "Subtitle2",
-                brandLink: "www.google.com",
+                title: "전자기기",
+                subTitle: "Apple",
+                brandLink: "https://www.apple.com",
                 imageName: "montreal",
                 category: .accesary
             ),
             BrandModelDTO(
                 id: 3,
-                title: "Title3",
-                subTitle: "Subtitle3",
-                brandLink: "www.yahoo.com",
+                title: "가구",
+                subTitle: "이케아",
+                brandLink: "https://www.ikea.com",
                 imageName: "toronto",
                 category: .clothes
             )
