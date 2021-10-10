@@ -42,7 +42,7 @@ class MainViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func fetchBrandDataAll(isMocked: Bool = false) {
+    func fetchBrandDataAll() {
         mainRepository
             .fetchAllBrands()
             .map { brandDtoList in
