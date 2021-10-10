@@ -17,7 +17,7 @@ extension Project {
             platform: .iOS,
             product: .staticFramework,
             bundleId: bundleID,
-            deploymentTarget: .iOS(targetVersion: "10.0",
+            deploymentTarget: .iOS(targetVersion: "14.0",
                                    devices: .iphone),
             infoPlist: .default,
             sources: ["../\(name)/Sources/**"],
