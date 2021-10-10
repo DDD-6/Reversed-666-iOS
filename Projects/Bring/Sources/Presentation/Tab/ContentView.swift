@@ -49,24 +49,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-//        let selectedTab: ContentView.Tab = .main
-//
-//        switch selectedTab {
-//            case .main:
-//                let viewModel = MainViewModel()
-//                return ContentView()
-//                    .environmentObject(viewModel)
-//            case .bookmark:
-//                // TODO: viewModel 바꿔주기
-//                let viewModel = MainViewModel()
-//                return ContentView()
-//                    .environmentObject(viewModel)
-//            case .my:
-//                // TODO: viewModel 바꿔주기
-//                let viewModel = MainViewModel()
-//                return ContentView()
-//                    .environmentObject(viewModel)
-//        }
     }
 }
 

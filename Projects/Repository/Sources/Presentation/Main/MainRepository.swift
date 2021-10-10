@@ -1,5 +1,5 @@
 //
-//  MainAPIProvider.swift
+//  MainRepository.swift
 //  Repository
 //
 //  Created by devming on 2021/09/30.
@@ -12,7 +12,7 @@ import Moya
 import CombineMoya
 
 @available(iOS 13.0, *)
-public class MainAPIProvider: NSObject {
+public class MainRepository: NSObject, MainRepositoryProtocol {
     public typealias TargetAPI = MainAPI
     
     public var provider: MoyaProvider<TargetAPI>
@@ -21,14 +21,13 @@ public class MainAPIProvider: NSObject {
     public var customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil
     
     required public init(isStub: Bool = false,
-         sampleStatusCode: Int = 0,
-         customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil) {
+                         sampleStatusCode: Int = 0,
+                         customEndpointClosure: ((TargetAPI) -> Endpoint)? = nil) {
         self.provider = MoyaProvider<TargetAPI>()
         self.isStub = isStub
         self.sampleStatusCode = sampleStatusCode
-        self.customEndpointClosure = customEndpointClosure
         
-        self.provider = MainAPIProvider.makeProvider(isStub,
+        self.provider = MainRepository.makeProvider(isStub,
                                      sampleStatusCode,
                                      customEndpointClosure)
         
@@ -38,7 +37,7 @@ public class MainAPIProvider: NSObject {
 
 /// Brand 가져오는 API
 @available(iOS 13.0, *)
-extension MainAPIProvider: ProviderProtocol {
+extension MainRepository: ProviderProtocol {
     public func fetchBrand(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
         if isStub {
             return mockBrandData(name: name)
@@ -61,7 +60,7 @@ extension MainAPIProvider: ProviderProtocol {
 
 /// 모든 Brand 가져오는 API
 @available(iOS 13.0, *)
-extension MainAPIProvider {
+extension MainRepository {
     public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         if isStub {
             return mockBrandDatas()

@@ -16,16 +16,23 @@ class MainViewModel: ObservableObject {
     @Published var mainBrand: BrandModel?
     @Published var brandList: [BrandModel]?
     
-    var mainProvider: MainAPIProvider
+    var mainRepository: MainRepositoryProtocol
     var cancellables: Set<AnyCancellable>
     
-    init(isStub: Bool = false) {
-        mainProvider = MainAPIProvider(isStub: isStub)
+    /// # Params
+    /// - isStub: 테스트용 MockData를 사용하려면 true, 실서버 이용하면 false
+    /// - repository: 구현된 Repository외에 별도의 Repository(다른 네트워크를 이용하는 경우?)를 이용하는 경우를 위해 의존성 분리
+    init(isStub: Bool = false, repository: MainRepositoryProtocol? = nil) {
+        if let repository = repository {
+            mainRepository = repository
+        } else {
+            mainRepository = MainRepository(isStub: isStub)
+        }
         cancellables = Set<AnyCancellable>()
     }
     
     func fetchBrandData(name: String = "") {
-        mainProvider
+        mainRepository
             .fetchBrand(name: name)
             .map { BrandModel.from(dtoModel: $0) }
             .sink { _ in }
@@ -36,7 +43,7 @@ class MainViewModel: ObservableObject {
     }
     
     func fetchBrandDataAll(isMocked: Bool = false) {
-        mainProvider
+        mainRepository
             .fetchAllBrands()
             .map { brandDtoList in
                 brandDtoList.map {
