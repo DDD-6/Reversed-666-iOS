@@ -18,7 +18,7 @@ enum ProductCategory: String, CaseIterable {
     
 }
 
-struct BrandModel: DomainModel, Hashable, Identifiable {
+struct Brand: DomainModel, Hashable, Identifiable {
     typealias DTOType = BrandModelDTO
     
     init() { }
@@ -47,7 +47,7 @@ struct BrandModel: DomainModel, Hashable, Identifiable {
             }
         }
         
-        var brand = BrandModel()
+        var brand = Brand()
         brand.id = dtoModel.id ?? -1
         brand.title = dtoModel.title ?? ""
         brand.subTitle = dtoModel.subTitle ?? ""

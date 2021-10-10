@@ -16,8 +16,8 @@ struct MainView: View {
     @ObservedObject var viewModel = MainViewModel(isStub: true)
     
     var body: some View {
-        let mainBrand = viewModel.mainBrand ?? BrandModel()
-        let brandList = viewModel.brandList ?? [BrandModel]()
+        let mainBrand = viewModel.mainBrand ?? Brand()
+        let brandList = viewModel.brandList ?? [Brand]()
         
         return NavigationView {
             List {

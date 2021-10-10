@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LikeBrandRow: View {
     
-    var brands: [BrandModel]
+    var brands: [Brand]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -40,7 +40,7 @@ struct LikeBrandRow_Previews: PreviewProvider {
         let viewModel = MainViewModel()
         viewModel.fetchBrandDataAll()
         
-        return LikeBrandRow(brands: viewModel.brandList ?? [BrandModel]()
+        return LikeBrandRow(brands: viewModel.brandList ?? [Brand]()
         )
     }
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct LikeBrandItem: View {
-    var brand: BrandModel?
+    var brand: Brand?
 
     var body: some View {
         VStack(alignment: .center) {

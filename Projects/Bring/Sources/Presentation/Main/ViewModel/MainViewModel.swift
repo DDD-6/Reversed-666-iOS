@@ -13,8 +13,8 @@ import CombineMoya
 import Repository
 
 class MainViewModel: ObservableObject {
-    @Published var mainBrand: BrandModel?
-    @Published var brandList: [BrandModel]?
+    @Published var mainBrand: Brand?
+    @Published var brandList: [Brand]?
     
     var mainRepository: MainRepositoryProtocol
     var cancellables: Set<AnyCancellable>
@@ -34,7 +34,7 @@ class MainViewModel: ObservableObject {
     func fetchBrandData(name: String = "") {
         mainRepository
             .fetchBrand(name: name)
-            .map { BrandModel.from(dtoModel: $0) }
+            .map { Brand.from(dtoModel: $0) }
             .sink { _ in }
                 receiveValue: { [weak self] value in
                 self?.mainBrand = value
@@ -47,7 +47,7 @@ class MainViewModel: ObservableObject {
             .fetchAllBrands()
             .map { brandDtoList in
                 brandDtoList.map {
-                    BrandModel.from(dtoModel: $0)
+                    Brand.from(dtoModel: $0)
                 }
             }
             .sink { _ in }

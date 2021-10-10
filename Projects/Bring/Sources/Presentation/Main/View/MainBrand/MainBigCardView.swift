@@ -10,7 +10,7 @@ import SwiftUI
 import Repository
 
 struct MainBigCardTitleView: View {
-    var brand: BrandModel?
+    var brand: Brand?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,7 +33,7 @@ struct MainBigCardTitleView: View {
 }
 
 struct MainBigCardView: View {
-    var brand: BrandModel?
+    var brand: Brand?
     
     var body: some View {
         ZStack(alignment: Alignment.topLeading, content: {
