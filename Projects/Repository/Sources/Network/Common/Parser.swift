@@ -10,7 +10,6 @@ import Foundation
 import Moya
 import Combine
 
-@available(iOS 13.0, *)
 public func decode<T: Decodable>(_ data: Data) -> AnyPublisher<T, MoyaError> {
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .secondsSince1970

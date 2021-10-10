@@ -10,7 +10,6 @@ import Foundation
 import Moya
 import Combine
 
-@available(iOS 13.0, *)
 public protocol MainRepositoryProtocol {
     func fetchBrand(name: String) -> AnyPublisher<BrandModelDTO, MoyaError>
     func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>

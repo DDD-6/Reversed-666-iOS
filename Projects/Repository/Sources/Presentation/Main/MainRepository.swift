@@ -11,7 +11,6 @@ import Combine
 import Moya
 import CombineMoya
 
-@available(iOS 13.0, *)
 public class MainRepository: NSObject, MainRepositoryProtocol {
     public typealias TargetAPI = MainAPI
     
@@ -36,7 +35,6 @@ public class MainRepository: NSObject, MainRepositoryProtocol {
 }
 
 /// Brand 가져오는 API
-@available(iOS 13.0, *)
 extension MainRepository: ProviderProtocol {
     public func fetchBrand(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
         if isStub {
@@ -59,7 +57,6 @@ extension MainRepository: ProviderProtocol {
 }
 
 /// 모든 Brand 가져오는 API
-@available(iOS 13.0, *)
 extension MainRepository {
     public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         if isStub {

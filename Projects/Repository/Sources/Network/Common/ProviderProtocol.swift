@@ -56,7 +56,6 @@ public extension ProviderProtocol {
     }
 }
 
-@available(iOS 13.0, *)
 public extension ProviderProtocol {
     func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: TargetAPI) -> AnyPublisher<D, MoyaError> {
         return provider
