@@ -24,14 +24,14 @@ struct Brand: DomainModel, Hashable, Identifiable {
     init() { }
     
     var id: Int = 0
-    var title: String = ""
+    var name: String = ""
     var subTitle: String = ""
     var brandLink: String = ""
     
-    private var imageName: String = ""
-    var image: Image {
-        Image(imageName)
-    }
+    var imageName: String = ""
+//    var image: Image {
+//        Image(imageName)
+//    }
     
     var category: ProductCategory? = nil
     
@@ -49,7 +49,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
         
         var brand = Brand()
         brand.id = dtoModel.id ?? -1
-        brand.title = dtoModel.title ?? ""
+        brand.name = dtoModel.title ?? ""
         brand.subTitle = dtoModel.subTitle ?? ""
         brand.brandLink = dtoModel.brandLink ?? ""
         brand.imageName = dtoModel.imageName ?? ""
