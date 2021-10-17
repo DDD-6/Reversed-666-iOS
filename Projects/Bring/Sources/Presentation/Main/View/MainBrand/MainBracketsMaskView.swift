@@ -13,12 +13,15 @@ struct MainBracketsMaskView: View {
     var brands: [Brand]?
     
     var body: some View {
+        let width = UIScreen.main.bounds.width
+        let height = width * 0.9
         ForEach(brands!) { brand in
             MainBrandCardView(brand: brand)
-                .frame(width: UIScreen.main.bounds.width - 32,
-                       height: 500,
+                .frame(width: width,
+                       height: height,
                        alignment: .center)
         }
+        .padding(EdgeInsets(top: 0, leading: -.size5, bottom: 0, trailing: .size5))
     }
 }
 

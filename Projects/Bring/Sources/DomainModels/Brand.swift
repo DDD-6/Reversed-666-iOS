@@ -29,6 +29,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
     var brandLink: String = ""
     
     var imageName: String = ""
+    var logoImage: String = ""
 //    var image: Image {
 //        Image(imageName)
 //    }
@@ -53,6 +54,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
         brand.subTitle = dtoModel.subTitle ?? ""
         brand.brandLink = dtoModel.brandLink ?? ""
         brand.imageName = dtoModel.imageName ?? ""
+        brand.logoImage = dtoModel.logoImage ?? ""
         if let category = dtoModel.category {
             brand.category = convert(from: category)
         }

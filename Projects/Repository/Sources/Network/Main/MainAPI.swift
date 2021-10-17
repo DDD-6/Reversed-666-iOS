@@ -117,6 +117,7 @@ extension MainAPI: BaseTargetType {
                 subTitle: "Nike",
                 brandLink: "https://www.nike.com",
                 imageName: "cityGuide",
+                logoImage: "toronto",
                 category: .shoes
             ),
             BrandModelDTO(
@@ -125,6 +126,7 @@ extension MainAPI: BaseTargetType {
                 subTitle: "Apple",
                 brandLink: "https://www.apple.com",
                 imageName: "cityGuide",
+                logoImage: "toronto",
                 category: .accesary
             ),
             BrandModelDTO(
@@ -133,6 +135,7 @@ extension MainAPI: BaseTargetType {
                 subTitle: "이케아",
                 brandLink: "https://www.ikea.com",
                 imageName: "cityGuide",
+                logoImage: "toronto",
                 category: .clothes
             )
         ]

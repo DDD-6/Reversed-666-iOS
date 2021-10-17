@@ -20,12 +20,11 @@ struct MainView: View {
         return NavigationView {
             List {
                 MainBracketsMaskView(brands: brandList)
-                    .background(Color.gray)
-                    .cornerRadius(16)
+                    .cornerRadius(.size2)
                     .clipped()
                 LikeBrandRow(brands: brandList)
             }
-            .searchable(text: $searchText)
+//            .searchable(text: $searchText)
             .listStyle(InsetListStyle())
             .navigationTitle("Title")
             .toolbar {
