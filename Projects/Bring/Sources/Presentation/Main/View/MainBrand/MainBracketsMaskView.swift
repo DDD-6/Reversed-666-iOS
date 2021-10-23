@@ -18,10 +18,9 @@ struct MainBracketsMaskView: View {
         ForEach(brands!) { brand in
             MainBrandCardView(brand: brand)
                 .frame(width: width,
-                       height: height,
+                       height: height + .size4 + 75,
                        alignment: .center)
         }
-        .padding(EdgeInsets(top: 0, leading: -.size5, bottom: 0, trailing: .size5))
     }
 }
 

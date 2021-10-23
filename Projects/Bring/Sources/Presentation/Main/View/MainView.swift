@@ -20,7 +20,6 @@ struct MainView: View {
         return NavigationView {
             List {
                 MainBracketsMaskView(brands: brandList)
-                    .cornerRadius(.size2)
                     .clipped()
                 LikeBrandRow(brands: brandList)
             }
