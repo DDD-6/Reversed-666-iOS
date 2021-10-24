@@ -16,6 +16,7 @@ public struct BrandModelDTO: Codable {
     public var subTitle: String?
     public var brandLink: String?
     public var imageName: String?
+    public var logoImage: String?
     public var category: Category?
     
     public enum Category: String, CaseIterable, Codable {

@@ -13,12 +13,12 @@ struct LikeBrandItem: View {
 
     var body: some View {
         VStack(alignment: .center) {
-            brand?.image
+            Image(brand?.imageName ?? "")
                 .renderingMode(.original)
                 .resizable()
                 .frame(width: 155, height: 155)
                 .cornerRadius(5)
-            Text(brand?.title ?? "")
+            Text(brand?.name ?? "")
                 .foregroundColor(.primary)
                 .font(.caption)
         }

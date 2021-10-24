@@ -9,23 +9,17 @@
 import SwiftUI
 
 struct MainView: View {
-    
-//    @EnvironmentObject var modelData: ModelData
     @State var searchText: String = ""
     
     @ObservedObject var viewModel = MainViewModel(isStub: true)
     
     var body: some View {
-        let mainBrand = viewModel.mainBrand ?? Brand()
+//        let mainBrand = viewModel.mainBrand ?? Brand()
         let brandList = viewModel.brandList ?? [Brand]()
         
         return NavigationView {
             List {
-                MainBigCardView(brand: mainBrand)
-                    .background(Color.gray)
-                    .frame(maxWidth: .infinity,
-                           alignment: .center)
-                    .cornerRadius(16)
+                MainBracketsMaskView(brands: brandList)
                     .clipped()
                 LikeBrandRow(brands: brandList)
             }
@@ -52,6 +46,5 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-//        MainView().environmentObject(ModelData())
     }
 }
