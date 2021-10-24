@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ProductFolderView: View {
+struct ProductFolderCardView: View {
     
     var folderData: BrandModel
     
@@ -67,8 +67,8 @@ struct ProductFolderView: View {
     }
 }
 
-struct ProductFolderView_Previews: PreviewProvider {
+struct ProductFolderCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductFolderView(folderData: ModelData().brandData)
+        ProductFolderCardView(folderData: ModelData().brandData)
     }
 }

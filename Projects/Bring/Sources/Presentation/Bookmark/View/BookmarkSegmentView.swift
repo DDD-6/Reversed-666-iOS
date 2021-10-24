@@ -20,8 +20,8 @@ struct BookmarkSegmentView: View {
     var body: some View {
         Picker("bring",
                selection: $segmentState) {
-            Text("상품")
-            Text("브랜드")
+            Text("상품").tag(BrandStateSegment.product)
+            Text("브랜드").tag(BrandStateSegment.brand)
         }
         .pickerStyle(.segmented)
     }
