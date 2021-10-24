@@ -50,7 +50,7 @@ struct BrandModel: Hashable, Identifiable {
             title: "Title2",
             subTitle: "Subtitle2",
             brandLink: "www.google.com",
-            imageName: "montreal",
+            imageName: "cityGuide",
             category: .accesary
         ),
         BrandModel(
@@ -58,8 +58,24 @@ struct BrandModel: Hashable, Identifiable {
             title: "Title3",
             subTitle: "Subtitle3",
             brandLink: "www.yahoo.com",
-            imageName: "toronto",
+            imageName: "cityGuide",
             category: .clothes
+        ),
+        BrandModel(
+            id: 4,
+            title: "Title4",
+            subTitle: "Subtitle4",
+            brandLink: "www.yahoo.com",
+            imageName: "cityGuide",
+            category: .accesary
+        ),
+        BrandModel(
+            id: 5,
+            title: "Title5",
+            subTitle: "Subtitle5",
+            brandLink: "www.yahoo.com",
+            imageName: "cityGuide",
+            category: .shoes
         )
     ]
 }

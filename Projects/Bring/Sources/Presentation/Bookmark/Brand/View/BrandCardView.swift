@@ -14,22 +14,25 @@ struct BrandCardView: View {
     enum Constant {
         enum Layout {
             static let imageRadius: CGFloat = 10
-            static let paddingSize: CGFloat = 5
+            static let paddingSize: CGFloat = 14
         }
-        static let skyblue = Color(red: 0.4627, green: 0.8392, blue: 1.0)
+        static let skyblue = Color(red: 0.4627, green: 0.8392, blue: 1.0) // 나중에 색깔 변환
     }
     
     var body: some View {
         
+        GeometryReader { geo in
             VStack {
-                brandData.image
-                    .cornerRadius(Constant.Layout.imageRadius)
-                Text(brandData.title)
+                CircleImage(image: brandData.image.resizable())
+                    .padding(Constant.Layout.paddingSize)
+                
+                RectangleCapsule(text: brandData.title)
+                    .frame(width: geo.size.width, height: 32)
+                //Text(brandData.title).background(Rectangle().stroke())
             }
-            .padding(Constant.Layout.paddingSize)
             .background(Constant.skyblue)
-            .cornerRadius(Constant.Layout.imageRadius)
-        
+            .border(.black, width: 1.0)
+        }
     }
 }
 
