@@ -13,10 +13,11 @@ struct MainBrandTitleView: View {
         HStack(alignment: .center) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
+//                    print("font: \()")
                     Text("ADIDAS")
-                        .font(.title)
+                        .font(BringFontStyle.brandL.font)
                     Text("아붂부스")
-                        .font(.body)
+                        .font(BringFontStyle.textL.font)
                 }
                 Spacer()
             }

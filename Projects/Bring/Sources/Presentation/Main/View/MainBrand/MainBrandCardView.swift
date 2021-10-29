@@ -48,8 +48,12 @@ struct MainBrandCardView: View {
                            height: height - CGFloat.size5,
                            alignment: .center)
                 }
+                
+                Spacer()
+                
                 MainBrandTitleView()
-                    .frame(width: width * 0.9)
+                    .frame(width: width * 0.9,
+                           height: width * 0.2)
             }
         }
         .frame(alignment: .center)
