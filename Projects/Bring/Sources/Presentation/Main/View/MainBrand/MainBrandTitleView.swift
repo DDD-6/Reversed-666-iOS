@@ -15,7 +15,7 @@ struct MainBrandTitleView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("ADIDAS")
                         .font(.title)
-                    Text("아디다스")
+                    Text("아붂부스")
                         .font(.body)
                 }
                 Spacer()
@@ -23,22 +23,27 @@ struct MainBrandTitleView: View {
             VStack {
                 HStack(alignment: .top) {
                     Button {
-                        print("#")
+                        print("~")
                     } label: {
                         Image("icHeartLine")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
                             .clipped()
+                            .padding(10)
                     }
-                    Button {
-                        print("#")
-                    } label: {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 30, height: 30, alignment: .center)
+                            .background(RoundedRectangle(cornerRadius: 0)
+                                            .fill(Color.blue))
+                            .padding(11)
                         Image("icArrowRight")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
-                            .clipped()
+                            .padding(10)
+                            .background(.white)
                     }
                 }
                 Spacer()
