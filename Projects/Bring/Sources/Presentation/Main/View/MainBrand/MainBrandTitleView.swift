@@ -13,32 +13,38 @@ struct MainBrandTitleView: View {
         HStack(alignment: .center) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
+//                    print("font: \()")
                     Text("ADIDAS")
-                        .font(.title)
-                    Text("아디다스")
-                        .font(.body)
+                        .font(BringFontStyle.brandL.font)
+                    Text("아붂부스")
+                        .font(BringFontStyle.textL.font)
                 }
                 Spacer()
             }
             VStack {
                 HStack(alignment: .top) {
                     Button {
-                        print("#")
+                        print("~")
                     } label: {
                         Image("icHeartLine")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
                             .clipped()
+                            .padding(10)
                     }
-                    Button {
-                        print("#")
-                    } label: {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 30, height: 30, alignment: .center)
+                            .background(RoundedRectangle(cornerRadius: 0)
+                                            .fill(Color.blue))
+                            .padding(11)
                         Image("icArrowRight")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
-                            .clipped()
+                            .padding(10)
+                            .background(.white)
                     }
                 }
                 Spacer()

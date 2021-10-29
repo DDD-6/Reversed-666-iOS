@@ -16,11 +16,20 @@ struct MainBracketsMaskView: View {
         let width = UIScreen.main.bounds.width
         let height = width * 0.9
         ForEach(brands!) { brand in
-            MainBrandCardView(brand: brand)
-                .frame(width: width,
-                       height: height + .size4 + 75,
-                       alignment: .center)
+
+            NavigationLink {
+                MypageView()
+            } label: {
+                Button { } label: {
+                    MainBrandCardView(brand: brand)
+                        .frame(width: width,
+                               height: height + .size5 * 8,
+                               alignment: .center)
+                }
+            }
         }
+        .listRowSeparator(.hidden)
+        
     }
 }
 
