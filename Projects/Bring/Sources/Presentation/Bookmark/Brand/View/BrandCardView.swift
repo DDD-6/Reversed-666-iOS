@@ -16,7 +16,7 @@ struct BrandCardView: View {
             static let imageRadius: CGFloat = 10
             static let paddingSize: CGFloat = 14
         }
-        static let skyblue = Color(red: 0.4627, green: 0.8392, blue: 1.0) // 나중에 색깔 변환
+        static let gray = Color("gray01") // 나중에 색깔 변환
     }
     
     var body: some View {
@@ -25,13 +25,12 @@ struct BrandCardView: View {
             VStack {
                 CircleImage(image: brandData.image.resizable())
                     .padding(Constant.Layout.paddingSize)
-                
-                RectangleCapsule(text: brandData.title)
-                    .frame(width: geo.size.width, height: 32)
-                //Text(brandData.title).background(Rectangle().stroke())
+                Text(brandData.title)
+                    .font(BringFontStyle.textL.font)
+                    .padding(.bottom, 13)
             }
-            .background(Constant.skyblue)
-            .border(.black, width: 1.0)
+            .background(Constant.gray)
+            .border(.black, width: 0.5)
         }
     }
 }

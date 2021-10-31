@@ -14,7 +14,7 @@ struct RectangleCapsule: View {
     var body: some View {
         Rectangle()
             .border(.black, width: 1.0)
-            .foregroundColor(Color.orange.opacity(0.0))
+            .foregroundColor(Color("brandColor").opacity(0.0))
             .overlay(
                 Text(text)
             )
