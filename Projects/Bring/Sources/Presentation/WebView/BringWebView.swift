@@ -9,7 +9,7 @@
 import SwiftUI
 import WebKit
 
-struct BringWebView: View, Toastable {
+struct BringWebView: View {
     
     @State var url: String
     @State private var webView: WebView
