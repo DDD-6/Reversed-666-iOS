@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 // TODO: 사용법이 너무 불안전해서 더 좋은 방법을 찾아내도록 해야함 ㅠㅠ
 struct ToastView: View {

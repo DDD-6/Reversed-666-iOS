@@ -18,32 +18,41 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
-        TabView(selection: $selection,
-                content:  {
-                    MainView()
-                        .tabItem {
-                            Label("Main",
-                                  systemImage: "homepod")
-                        }
-                        .tag(Tab.main)
-                    
-                    BookmarkView()
-                        .tabItem {
-                            Label("Bookmark",
-                                  systemImage: "location.viewfinder")
-                        }
-                        .tag(Tab.bookmark)
-                    
-                    MypageView()
-                        .tabItem {
-                            Label("MyPage",
-                                  systemImage: "arrow.up.message")
-                        }
-                        .tag(Tab.my)
-                })
+        NavigationView {
+            TabView(selection: $selection,
+                    content:  {
+                MainView()
+                    .tabItem {
+                        Label("Main",
+                              systemImage: "homepod")
+                    }
+                    .tag(Tab.main)
+                
+                BookmarkView()
+                    .tabItem {
+                        Label("Bookmark",
+                              systemImage: "location.viewfinder")
+                    }
+                    .tag(Tab.bookmark)
+                
+                MypageView()
+                    .tabItem {
+                        Label("MyPage",
+                              systemImage: "arrow.up.message")
+                    }
+                    .tag(Tab.my)
+            }).toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Image("icMainTitleLogo")
+                        
+                        Spacer()
+                    }
+                }
+            }
+            
+        }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -16,9 +16,8 @@ struct MainBracketsMaskView: View {
         let width = UIScreen.main.bounds.width
         let height = width * 0.9
         ForEach(brands!) { brand in
-
             NavigationLink {
-                MypageView()
+                MainDetailView(url: brand.brandLink)
             } label: {
                 Button { } label: {
                     MainBrandCardView(brand: brand)
