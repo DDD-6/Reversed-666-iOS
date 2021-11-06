@@ -9,15 +9,14 @@
 import SwiftUI
 
 // TODO: 여기서 사용한 Toast는 사용방법 안내를 위한 임시코드라서 지워야함
-struct MainView: View, Toastable {
+struct MainView: View {
     
     @ObservedObject var viewModel = MainViewModel(isStub: true)
-    @State var isShownToast: Bool = false
     
     var body: some View {
+        // 토스트 생성
+        let toastView = ToastView()
         let brandList = viewModel.brandList ?? [Brand]()
-        let toastView = ToastView(isShownToast: $isShownToast,
-                                  message: "테스트입니당")
         
         return NavigationView {
             ZStack {
@@ -25,7 +24,6 @@ struct MainView: View, Toastable {
                     MainBracketsMaskView(brands: brandList)
                         .clipped()
                     PopularBrandRow(brands: brandList)
-                    
                     
 //                    MainViewDistributor(brands: brandList)
                 }
@@ -37,7 +35,10 @@ struct MainView: View, Toastable {
                             
                             Spacer()
                             Button {
-                                toastView.showToast()
+                                
+                                toastView.showToast(message: "TEST", rightBtn: "버튼ㅋ") {
+                                    print("qjxms snfma")
+                                }
                             } label: {
                                 Image("Search")
                             }
@@ -51,7 +52,7 @@ struct MainView: View, Toastable {
                 }
                 .navigationBarTitleDisplayMode(.inline)
 
-                // TODO: 이렇게 배치하는게 아니라 메소드 하나만으로 배치하는 방법이 없을까?
+                // 토스트 배치
                 toastView
             }
         }

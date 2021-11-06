@@ -18,40 +18,29 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
-            TabView(selection: $selection,
-                    content:  {
-                MainView()
-                    .tabItem {
-                        Label("Main",
-                              systemImage: "homepod")
-                    }
-                    .tag(Tab.main)
-                
-                BookmarkView()
-                    .tabItem {
-                        Label("Bookmark",
-                              systemImage: "location.viewfinder")
-                    }
-                    .tag(Tab.bookmark)
-                
-                MypageView()
-                    .tabItem {
-                        Label("MyPage",
-                              systemImage: "arrow.up.message")
-                    }
-                    .tag(Tab.my)
-            }).toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack {
-                        Image("icMainTitleLogo")
-                        
-                        Spacer()
-                    }
+        TabView(selection: $selection,
+                content:  {
+            MainView()
+                .tabItem {
+                    Label("Main",
+                          systemImage: "homepod")
                 }
-            }
+                .tag(Tab.main)
             
-        }
+            BookmarkView()
+                .tabItem {
+                    Label("Bookmark",
+                          systemImage: "location.viewfinder")
+                }
+                .tag(Tab.bookmark)
+            
+            MypageView()
+                .tabItem {
+                    Label("MyPage",
+                          systemImage: "arrow.up.message")
+                }
+                .tag(Tab.my)
+        })
     }
 }
 

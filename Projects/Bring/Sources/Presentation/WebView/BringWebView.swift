@@ -67,7 +67,7 @@ struct BringWebView: View {
                                     bottom: .size2,
                                     trailing: .size8))
             }
-            toastView
+//            toastView
         }
     }
 }
