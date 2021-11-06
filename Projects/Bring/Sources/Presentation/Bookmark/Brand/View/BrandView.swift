@@ -18,9 +18,17 @@ struct BrandView: View {
         
         ZStack {
             VStack {
-                Text("searchable 추가")
-
                 ScrollView{
+                    
+                    
+                    HStack {
+                        Text("총") + Text(" \(model.brandDatas.count)").foregroundColor(Color("brandColor")) + Text("개의 브랜드")
+                        Spacer()
+                        Button("가나다순") {
+                            print("test")
+                        }
+                    }.padding(16)
+                    
                     LazyVGrid(columns: columns, spacing: 0) {
                         
                         ForEach(model.brandDatas) { data in
@@ -31,11 +39,9 @@ struct BrandView: View {
                         
                     }.font(.largeTitle)
                 }
-                
-                
             }
             
-            FloatingButton(showingSheet: $showingSheet)
+            FloatingButton(showingSheet: $showingSheet, content: BrandAddView())
         }
         
     }
@@ -47,40 +53,7 @@ struct BrandView: View {
     }
 }
 
-// button에
-struct FloatingButton: View {
-    
-    @Binding var showingSheet: Bool
-    // var content: some View 이렇게 해서 content도 받고 싶은데 잘 모르겟ㅠ
-    var body: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                
-                Button(action: {
-                    showingSheet.toggle()
-                }, label: {
-                    Text("+")
-                        .font(.system(.largeTitle))
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Color.white)
-                })
-                    .background(Color("brandColor"))
-                    .cornerRadius(300)
-                    .padding()
-                    .shadow(color: Color.black.opacity(0.25),
-                            radius: 7,
-                            x: 1,
-                            y: 3)
-                    .fullScreenCover(isPresented: $showingSheet) {
-                        BrandAddView()
-                        // content
-                    }
-            }
-        }
-    }
-}
+
 
 struct BrandView_Previews: PreviewProvider {
     static var previews: some View {
