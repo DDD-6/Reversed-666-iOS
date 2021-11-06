@@ -39,7 +39,7 @@ struct MainBrandTitleView: View {
                             .background(RoundedRectangle(cornerRadius: 0)
                                             .fill(Color.blue))
                             .padding(11)
-                        Image("icArrowRight")
+                        Image("icArrowRightFill")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
