@@ -1,5 +1,5 @@
 //
-//  ToastView.swift
+//  BringToastView.swift
 //  Bring
 //
 //  Created by devming on 2021/10/29.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-struct ToastView: View {
+struct BringToastView: View {
     @State private var isVisible: Bool = false {
         didSet {
             if isVisible {
@@ -77,7 +77,7 @@ struct ToastView: View {
 
 struct ToastView_Previews: PreviewProvider {
     static var previews: some View {
-        ToastView()
+        BringToastView()
         .previewLayout(.fixed(width: 350, height: 50))
     }
 }

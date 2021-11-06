@@ -15,7 +15,7 @@ struct MainView: View {
     
     var body: some View {
         // 토스트 생성
-        let toastView = ToastView()
+        let toastView = BringToastView()
         let brandList = viewModel.brandList ?? [Brand]()
         
         return NavigationView {
