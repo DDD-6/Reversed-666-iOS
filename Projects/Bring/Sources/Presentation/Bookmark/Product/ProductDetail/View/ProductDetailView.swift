@@ -24,7 +24,7 @@ struct ProductDetailView: View {
 //                }.font(.largeTitle)
 //            }
 //        }
-        Text("ghgh")
+        ProductDetailCardView()
     }
 }
 

@@ -18,7 +18,7 @@ struct BookmarkSegmentContentView: View {
         case .product:
             VStack {
                 Text("여기는 구현해야하는 녀석들")
-                NavigationView {
+                
                     List {
                         ForEach(modelData.brandDatas) { datas in
                             ZStack {
@@ -32,14 +32,15 @@ struct BookmarkSegmentContentView: View {
                         }
                     }
                     .navigationBarHidden(true)
-                }
                 
             }
-            .navigationBarTitle(Text("Word List"), displayMode: .inline)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .brand:
-            BrandView()
-                .environmentObject(modelData)
+            VStack {
+                BrandView()
+                    .navigationBarHidden(true)
+                    .environmentObject(modelData)
+            }
         }
     }
 }
