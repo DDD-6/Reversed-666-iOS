@@ -18,6 +18,8 @@ struct BrandAddNoticeView: View {
         
         HStack {
             Text(Image("notice")) + Text(Constant.noticeText)
+                .foregroundColor(Color("gray05"))
+                .font(BringFontStyle.textM.font)
         }
         .padding(.size1)
         .background(Color("gray01"))
