@@ -7,11 +7,18 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BrandView: View {
     @EnvironmentObject private var model: ModelData
     @State private var searchString: String = ""
     @State private var showingSheet = false
+    
+    @StateObject var textObserver = TextFieldObserver(action: { value in
+        print(value)
+    })
+    
+    private var subscriptions = Set<AnyCancellable>()
     
     var body: some View {
         let columns: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 40), spacing: 0), count: 3)
@@ -20,14 +27,11 @@ struct BrandView: View {
             VStack {
                 ScrollView{
                     
+                    Text("you entered: \(textObserver.debouncedText)")
+                    BringSearchBar(searchingText: $textObserver.searchText)
+                        .padding(16)
                     
-                    HStack {
-                        Text("총") + Text(" \(model.brandDatas.count)").foregroundColor(Color("brandColor")) + Text("개의 브랜드")
-                        Spacer()
-                        Button("가나다순") {
-                            print("test")
-                        }
-                    }.padding(16)
+                    BookmarkFilterView(valueCount: model.brandDatas.count, sortType: .ganada)
                     
                     LazyVGrid(columns: columns, spacing: 0) {
                         
@@ -52,8 +56,6 @@ struct BrandView: View {
         return gridItem
     }
 }
-
-
 
 struct BrandView_Previews: PreviewProvider {
     static var previews: some View {
