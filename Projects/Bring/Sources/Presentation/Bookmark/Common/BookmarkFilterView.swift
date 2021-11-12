@@ -11,18 +11,30 @@ import SwiftUI
 enum SortFilterType {
     case recent
     case ABC
+    case ganada 
+    
+    var type: String {
+        switch self {
+        case .recent: return "최신순"
+        case .ABC: return "ABC순"
+        case .ganada: return "가나다순"
+        }
+    }
 }
 
 struct BookmarkFilterView: View {
     
     var valueCount = 0
+    var sortType: SortFilterType = .recent
     
     var body: some View {
         HStack {
-            Text("")
+            Text("총") + Text(" \(valueCount)").foregroundColor(Color("brandColor")) + Text("개의 브랜드")
             Spacer()
-            Text("haha")
-        }
+            Button(sortType.type) {
+                print("test")
+            }
+        }.padding(16)
     }
 }
 
