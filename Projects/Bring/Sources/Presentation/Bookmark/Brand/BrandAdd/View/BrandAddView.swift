@@ -30,6 +30,7 @@ struct BrandAddView: View {
             BrandAddTextFieldView(title: Constant.Title.brandName, placeholder: Constant.Placeholder.brandPlaceHolder)
             BrandAddTextFieldView(title: Constant.Title.address, placeholder: Constant.Placeholder.addressPlaceHolder)
             BrandAddLogoImageView(title: Constant.Title.logoImage, subTitle: Constant.Title.option)
+            BrandAddNoticeView()
             Spacer()
         }
     }
