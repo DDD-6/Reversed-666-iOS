@@ -1,5 +1,5 @@
 //
-//  MainAPI.swift
+//  BrandService.swift
 //  Bring
 //
 //  Created by devming on 2021/09/22.
@@ -11,14 +11,12 @@ import Moya
 import Alamofire
 import Combine
 
-/// 샘플 코드 입니다.
-
-public enum MainAPI {
+public enum BrandService {
     case searchUser(query: String)
     case fetchBrands(name: String)
 }
 
-extension MainAPI: BaseTargetType {
+extension BrandService: BaseTargetType {
     public var path: String {
         var resultPath = baseURL.absoluteString
         switch self {

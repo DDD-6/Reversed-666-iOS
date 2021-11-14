@@ -11,6 +11,6 @@ import Combine
 import Moya
 import CombineMoya
 
-public class ProductRepository: NSObject, ProductRepositoryProtocol {
+public class ProductServiceManager: NSObject {
 
 }
