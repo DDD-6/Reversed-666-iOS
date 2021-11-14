@@ -26,7 +26,7 @@ class MainViewModel: ObservableObject {
         if let repository = repository {
             mainRepository = repository
         } else {
-            mainRepository = MainRepository(isStub: isStub)
+            mainRepository = MainRepository(isStub: isStub) as! MainRepositoryProtocol
         }
         cancellables = Set<AnyCancellable>()
     }

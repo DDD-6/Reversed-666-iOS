@@ -23,7 +23,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
     
     init() { }
     
-    var id: Int = 0
+    var id: Int = -1
     var name: String = ""
     var subTitle: String = ""
     var brandLink: String = ""
