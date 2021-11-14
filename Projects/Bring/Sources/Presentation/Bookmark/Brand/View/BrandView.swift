@@ -7,20 +7,32 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BrandView: View {
     @EnvironmentObject private var model: ModelData
     @State private var searchString: String = ""
     @State private var showingSheet = false
     
+    @StateObject var textObserver = TextFieldObserver(action: { value in
+        print(value)
+    })
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
     var body: some View {
         let columns: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 40), spacing: 0), count: 3)
         
         ZStack {
             VStack {
-                Text("searchable 추가")
-
                 ScrollView{
+                    
+                    Text("you entered: \(textObserver.debouncedText)")
+                    BringSearchBar(searchingText: $textObserver.searchText)
+                        .padding(16)
+                    
+                    BookmarkFilterView(valueCount: model.brandDatas.count, sortType: .ganada)
+                    
                     LazyVGrid(columns: columns, spacing: 0) {
                         
                         ForEach(model.brandDatas) { data in
@@ -31,11 +43,9 @@ struct BrandView: View {
                         
                     }.font(.largeTitle)
                 }
-                
-                
             }
             
-            FloatingButton(showingSheet: $showingSheet)
+            FloatingButton(showingSheet: $showingSheet, content: BrandAddView())
         }
         
     }
@@ -44,41 +54,6 @@ struct BrandView: View {
         var gridItem = GridItem(.adaptive(minimum: width))
         gridItem.spacing = 0
         return gridItem
-    }
-}
-
-// button에
-struct FloatingButton: View {
-    
-    @Binding var showingSheet: Bool
-    // var content: some View 이렇게 해서 content도 받고 싶은데 잘 모르겟ㅠ
-    var body: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                
-                Button(action: {
-                    showingSheet.toggle()
-                }, label: {
-                    Text("+")
-                        .font(.system(.largeTitle))
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Color.white)
-                })
-                    .background(Color("brandColor"))
-                    .cornerRadius(300)
-                    .padding()
-                    .shadow(color: Color.black.opacity(0.25),
-                            radius: 7,
-                            x: 1,
-                            y: 3)
-                    .fullScreenCover(isPresented: $showingSheet) {
-                        BrandAddView()
-                        // content
-                    }
-            }
-        }
     }
 }
 
