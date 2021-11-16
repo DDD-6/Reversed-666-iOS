@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Repository
+import Network
 
 struct BookmarkFolder: DomainModel, Hashable, Identifiable {
     typealias DTOType = BookmarkFolderDTO

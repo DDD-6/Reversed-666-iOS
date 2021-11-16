@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-import Repository
+import Network
 
 // 임시로 만든 모델
 enum ProductCategory: String, CaseIterable {

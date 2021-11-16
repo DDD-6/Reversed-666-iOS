@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Repository
+import Network
 
 struct MainBrandCardView: View {
     var brand: Brand

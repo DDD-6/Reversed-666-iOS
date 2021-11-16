@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Repository
+import Network
 
 //struct Product: DomainModel, Hashable, Identifiable {
 //    typealias DTOType = ProductDTO

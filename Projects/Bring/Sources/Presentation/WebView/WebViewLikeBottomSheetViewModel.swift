@@ -8,7 +8,7 @@
 
 import Foundation
 import Combine
-import Repository
+import Network
 
 class WebViewLikeBottomSheetViewModel: ObservableObject {
     @Published var folders: [BookmarkFolder]?

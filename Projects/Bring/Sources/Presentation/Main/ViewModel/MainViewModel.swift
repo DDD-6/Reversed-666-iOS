@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import Moya
 import CombineMoya
-import Repository
+import Network
 
 class MainViewModel: ObservableObject {
     @Published var mainBrand: Brand?
