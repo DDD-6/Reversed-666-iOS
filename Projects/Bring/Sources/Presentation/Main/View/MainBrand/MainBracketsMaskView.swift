@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Repository
+import Network
 
 struct MainBracketsMaskView: View {
     var brands: [Brand]?

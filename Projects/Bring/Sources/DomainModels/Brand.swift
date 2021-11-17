@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-import Repository
+import Network
 
 // 임시로 만든 모델
 enum ProductCategory: String, CaseIterable {
@@ -23,7 +23,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
     
     init() { }
     
-    var id: Int = 0
+    var id: Int = -1
     var name: String = ""
     var subTitle: String = ""
     var brandLink: String = ""

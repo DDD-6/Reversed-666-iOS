@@ -7,7 +7,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let projectName = "Repository"
+let projectName = "Network"
 let organizationName = "com.666"
 let bundleID = "\(organizationName).\(projectName)"
 

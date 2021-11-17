@@ -5,7 +5,7 @@ let workspace = Workspace(
   name: "Bring",
   projects: [
     "Projects/Bring",
-    "Projects/Repository"
+    "Projects/Network"
   ],
   fileHeaderTemplate: nil,
   additionalFiles: []

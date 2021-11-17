@@ -1,5 +1,5 @@
 //
-//  MainRepository.swift
+//  BrandServiceManager.swift
 //  Repository
 //
 //  Created by devming on 2021/09/30.
@@ -11,8 +11,8 @@ import Combine
 import Moya
 import CombineMoya
 
-public class MainRepository: NSObject, MainRepositoryProtocol {
-    public typealias TargetAPI = MainAPI
+public class BrandServiceManager: NSObject {
+    public typealias TargetAPI = BrandService
     
     public var provider: MoyaProvider<TargetAPI>
     public var isStub: Bool = false
@@ -26,7 +26,7 @@ public class MainRepository: NSObject, MainRepositoryProtocol {
         self.isStub = isStub
         self.sampleStatusCode = sampleStatusCode
         
-        self.provider = MainRepository.makeProvider(isStub,
+        self.provider = BrandServiceManager.makeProvider(isStub,
                                      sampleStatusCode,
                                      customEndpointClosure)
         
@@ -35,7 +35,7 @@ public class MainRepository: NSObject, MainRepositoryProtocol {
 }
 
 /// Brand 가져오는 API
-extension MainRepository: ProviderProtocol {
+extension BrandServiceManager: ProviderProtocol {
     public func fetchBrand(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
         if isStub {
             return mockBrandData(name: name)
@@ -57,7 +57,7 @@ extension MainRepository: ProviderProtocol {
 }
 
 /// 모든 Brand 가져오는 API
-extension MainRepository {
+extension BrandServiceManager {
     public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         if isStub {
             return mockBrandDatas()

@@ -8,13 +8,19 @@
 
 import SwiftUI
 import WebKit
+import BottomSheet
 
 struct BringWebView: View {
+    enum WebViewLikeBottomSheetPosition: CGFloat, CaseIterable {
+        case position = 0.4, hidden = 0
+    }
+    
+    @State var bottomSheetPosition: BottomSheetPosition = .hidden //1
     
     @State var url: String
     @State private var webView: WebView
-    @State var canGoBack: Bool = false
-    @State var canGoForward: Bool = false
+    @State private var canGoBack: Bool = false
+    @State private var canGoForward: Bool = false
     
     init(url: String) {
         self.url = url
@@ -51,7 +57,7 @@ struct BringWebView: View {
                     }
                     Spacer()
                     Button {
-                        print("Like")
+                        bottomSheetPosition = bottomSheetPosition != .hidden ? .hidden : .middle
                     } label: {
                         Image("icHeartLine")
                     }
@@ -67,7 +73,16 @@ struct BringWebView: View {
                                     bottom: .size2,
                                     trailing: .size8))
             }
-//            toastView
+            
+            Rectangle()
+                .overlay(.black)
+                .opacity(bottomSheetPosition == .hidden ? 0 : 0.5)
+        }
+        .bottomSheet(bottomSheetPosition: $bottomSheetPosition,
+                     options: [.tapToDissmiss, .appleScrollBehavior, .noDragIndicator, .notResizeable, .showCloseButton(action: {
+            
+        })]) {
+            WebViewLikeBottomSheet()
         }
     }
 }
