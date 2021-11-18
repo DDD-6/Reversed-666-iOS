@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct BringToastView: View {
-    @State private var isVisible: Bool = false {
+    @State private(set) var isVisible: Bool = false {
         didSet {
             if isVisible {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

@@ -14,8 +14,6 @@ struct MainView: View {
     @ObservedObject var viewModel = MainViewModel(isStub: true)
     
     var body: some View {
-        // 토스트 생성
-        let toastView = BringToastView()
         let brandList = viewModel.brandList ?? [Brand]()
         
         return NavigationView {
@@ -25,7 +23,7 @@ struct MainView: View {
                         .clipped()
                     PopularBrandRow(brands: brandList)
                     
-//                    MainViewDistributor(brands: brandList)
+                    //                    MainViewDistributor(brands: brandList)
                 }
                 .listStyle(InsetListStyle())
                 .toolbar {
@@ -35,10 +33,7 @@ struct MainView: View {
                             
                             Spacer()
                             Button {
-                                
-                                toastView.showToast(message: "TEST", rightBtn: "버튼ㅋ") {
-                                    print("qjxms snfma")
-                                }
+                                // Search
                             } label: {
                                 Image("Search")
                             }
@@ -51,9 +46,6 @@ struct MainView: View {
                     viewModel.fetchBrandDataAll()
                 }
                 .navigationBarTitleDisplayMode(.inline)
-
-                // 토스트 배치
-                toastView
             }
         }
         

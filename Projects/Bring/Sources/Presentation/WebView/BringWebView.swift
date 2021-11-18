@@ -21,15 +21,56 @@ struct BringWebView: View {
     @State private var webView: WebView
     @State private var canGoBack: Bool = false
     @State private var canGoForward: Bool = false
+    @State var isLiked: Bool = false
+    @Binding var presentedAsModal: Bool
+    @State var presentedAsMoreActionSheet: Bool = false
     
-    init(url: String) {
+    let toastView = BringToastView()
+    
+    init(url: String, presentedAsModal: Binding<Bool>) {
         self.url = url
         webView = WebView(url: url)
+        self._presentedAsModal = presentedAsModal
     }
     
     var body: some View {
-        ZStack {
+        
+        return ZStack {
             VStack {
+                HStack {
+                    Button {
+                        presentedAsModal = false
+                    } label: {
+                        Image("Close")
+                    }
+                    Spacer()
+                    Text("아디다스")
+                    Spacer()
+                    Button {
+                        presentedAsMoreActionSheet = true
+                    } label: {
+                        Image("icMoreHorizontal")
+                    }
+                    .actionSheet(isPresented: $presentedAsMoreActionSheet) {
+                        ActionSheet(
+                            title: Text("더보기"), message: nil,
+                            buttons: [
+                                .default(Text("브라우저에서 열기"), action: {
+                                    print("브라우저에서 열기")
+                                    if let url = URL(string: url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }),
+                                .default(Text("링크 복사"), action: {
+                                    UIPasteboard.general.string = url
+                                }),
+                                .cancel(Text("취소")),
+                            ]
+                        )
+                    }
+                }
+                .padding(.size3)
+                
                 webView
                     .border(.gray, width: 0.3)
                 
@@ -57,9 +98,14 @@ struct BringWebView: View {
                     }
                     Spacer()
                     Button {
-                        bottomSheetPosition = bottomSheetPosition != .hidden ? .hidden : .middle
+                        isLiked.toggle()
+                        if isLiked {
+                            toastView.showToast(message: "기본폴더에 브링 되었습니다.", rightBtn: "폴더 변경") {
+                                bottomSheetPosition = bottomSheetPosition != .hidden ? .hidden : .middle
+                            }
+                        } 
                     } label: {
-                        Image("icHeartLine")
+                        Image(isLiked ? "icHeartFill" : "icHeartLine")
                     }
                     Spacer()
                     Button {
@@ -77,6 +123,9 @@ struct BringWebView: View {
             Rectangle()
                 .overlay(.black)
                 .opacity(bottomSheetPosition == .hidden ? 0 : 0.5)
+            
+            toastView
+                .opacity(isLiked ? 1 : 0)
         }
         .bottomSheet(bottomSheetPosition: $bottomSheetPosition,
                      options: [.tapToDissmiss, .appleScrollBehavior, .noDragIndicator, .notResizeable, .showCloseButton(action: {
@@ -90,6 +139,6 @@ struct BringWebView: View {
 struct BringWebView_Previews: PreviewProvider {
     static var previews: some View {
         let url = "https://www.naver.com"
-        return BringWebView(url: url)
+        return BringWebView(url: url, presentedAsModal: .constant(true))
     }
 }

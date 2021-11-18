@@ -17,14 +17,22 @@ struct WebViewLikeBottomSheet: View {
     
     var body: some View {
         ZStack {
-//            viewModel
-//                .$folders
-//                .eraseToAnyPublisher()
+            VStack {
+                HStack {
+                    Text("폴더 선택")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .background(.red)
+                }
+            }
             
-            Text("#RRFWGRWGERGER")
-                .font(.title)
-                .foregroundColor(.white)
-                .background(.red)
         }
     }
 }
+
+struct WebViewLikeBottomSheet_Previews: PreviewProvider {
+    static var previews: some View {
+        return WebViewLikeBottomSheet()
+    }
+}
+

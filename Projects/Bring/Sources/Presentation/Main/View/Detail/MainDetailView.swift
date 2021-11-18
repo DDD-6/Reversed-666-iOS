@@ -11,6 +11,7 @@ import SwiftUI
 struct MainDetailView: View {
     
     var url: String
+    var presentedAsModal: Binding<Bool>
     
     enum Tab {
         case main
@@ -18,13 +19,14 @@ struct MainDetailView: View {
         case my
     }
     
-    init(url: String) {
+    init(url: String, presentedAsModal: Binding<Bool>) {
         self.url = url
+        self.presentedAsModal = presentedAsModal
     }
     
     var body: some View {
         VStack {
-            BringWebView(url: url)
+            BringWebView(url: url, presentedAsModal: presentedAsModal)
 //            HStack {
 //
 //                Button(action: {
@@ -42,6 +44,6 @@ struct MainDetailView: View {
 
 struct MainDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MainDetailView(url: "https://www.naver.com")
+        MainDetailView(url: "https://www.naver.com", presentedAsModal: .constant(true))
     }
 }

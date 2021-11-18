@@ -11,21 +11,33 @@ import Network
 
 struct MainBracketsMaskView: View {
     var brands: [Brand]?
+    @State var presentedAsModal: Bool = false
     
     var body: some View {
         let width = UIScreen.main.bounds.width
         let height = width * 0.9
         ForEach(brands!) { brand in
-            NavigationLink {
-                MainDetailView(url: brand.brandLink)
+//            NavigationLink {
+//                MainDetailView(url: brand.brandLink)
+//            } label: {
+//                Button { } label: {
+//                    MainBrandCardView(brand: brand)
+//                        .frame(width: width,
+//                               height: height + .size5 * 8,
+//                               alignment: .center)
+//                }
+//            }
+            Button {
+                presentedAsModal = true
             } label: {
-                Button { } label: {
-                    MainBrandCardView(brand: brand)
-                        .frame(width: width,
-                               height: height + .size5 * 8,
-                               alignment: .center)
-                }
+                MainBrandCardView(brand: brand)
+                    .frame(width: width,
+                           height: height + .size5 * 8,
+                           alignment: .center)
+            }.sheet(isPresented: $presentedAsModal) {
+                MainDetailView(url: brand.brandLink, presentedAsModal: $presentedAsModal)
             }
+
         }
         .listRowSeparator(.hidden)
         
