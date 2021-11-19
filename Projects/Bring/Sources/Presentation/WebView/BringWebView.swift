@@ -14,18 +14,18 @@ struct BringWebView: View {
     enum WebViewLikeBottomSheetPosition: CGFloat, CaseIterable {
         case position = 0.4, hidden = 0
     }
-    
-    @State var bottomSheetPosition: BottomSheetPosition = .hidden //1
-    
-    @State var url: String
     @State private var webView: WebView
+    @State private var url: String
     @State private var canGoBack: Bool = false
     @State private var canGoForward: Bool = false
-    @State var isLiked: Bool = false
-    @Binding var presentedAsModal: Bool
-    @State var presentedAsMoreActionSheet: Bool = false
+    @State private var presentedAsMoreActionSheet: Bool = false
+    @State private var isLiked: Bool = false
+    @State private var bottomSheetPosition: BottomSheetPosition = .hidden //1
     
-    let toastView = BringToastView()
+    @Binding private var presentedAsModal: Bool
+    
+    
+    private let toastView = BringToastView()
     
     init(url: String, presentedAsModal: Binding<Bool>) {
         self.url = url
@@ -34,8 +34,7 @@ struct BringWebView: View {
     }
     
     var body: some View {
-        
-        return ZStack {
+        ZStack {
             VStack {
                 HStack {
                     Button {
@@ -53,7 +52,7 @@ struct BringWebView: View {
                     }
                     .actionSheet(isPresented: $presentedAsMoreActionSheet) {
                         ActionSheet(
-                            title: Text("더보기"), message: nil,
+                            title: Text("메뉴"), message: nil,
                             buttons: [
                                 .default(Text("브라우저에서 열기"), action: {
                                     print("브라우저에서 열기")
@@ -127,12 +126,13 @@ struct BringWebView: View {
             toastView
                 .opacity(isLiked ? 1 : 0)
         }
-        .bottomSheet(bottomSheetPosition: $bottomSheetPosition,
-                     options: [.tapToDissmiss, .appleScrollBehavior, .noDragIndicator, .notResizeable, .showCloseButton(action: {
-            
-        })]) {
-            WebViewLikeBottomSheet()
-        }
+        .bottomSheet(
+            bottomSheetPosition: $bottomSheetPosition,
+            options: [.notResizeable, .noDragIndicator]) {
+                WebViewLikeBottomSheet(
+                    bottomSheetPosition: $bottomSheetPosition
+                )
+            }
     }
 }
 

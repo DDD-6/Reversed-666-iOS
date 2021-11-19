@@ -21,4 +21,14 @@ class WebViewLikeBottomSheetViewModel: ObservableObject {
 //            self.repository = repository
 //        }
 //    }
+    @Published var bookmarkList: [ProductCategoryModel] = [
+        ProductCategoryModel(name: "montreal"),
+        ProductCategoryModel(name: "toronto"),
+        ProductCategoryModel(name: "vancouver"),
+        ProductCategoryModel(name: "cityGuide")
+    ]
+    
+    func add() {
+        bookmarkList.append(ProductCategoryModel(name: "icHeartFill"))
+    }
 }

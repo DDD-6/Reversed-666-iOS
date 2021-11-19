@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-// TODO: 여기서 사용한 Toast는 사용방법 안내를 위한 임시코드라서 지워야함
 struct MainView: View {
     
     @ObservedObject var viewModel = MainViewModel(isStub: true)

@@ -27,18 +27,7 @@ struct MainDetailView: View {
     var body: some View {
         VStack {
             BringWebView(url: url, presentedAsModal: presentedAsModal)
-//            HStack {
-//
-//                Button(action: {
-//                    self.viewModel.foo.send(true)
-//                }) {
-//                    Text("보내기")
-//                }
-//            }
         }
-//        .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
-////            self.bar = value
-//        }
     }
 }
 
