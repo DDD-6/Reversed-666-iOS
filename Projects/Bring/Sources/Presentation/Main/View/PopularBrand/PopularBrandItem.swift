@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Network
 
 struct PopularBrandItem: View {
     var brand: Brand?
@@ -29,7 +30,7 @@ struct PopularBrandItem: View {
 
 struct PopularBrandItem_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel(isStub: true)
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandData()
         
         return PopularBrandItem(brand: viewModel.mainBrand)

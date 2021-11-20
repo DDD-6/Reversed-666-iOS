@@ -16,7 +16,7 @@ public enum BrandService {
     case fetchBrands(name: String)
 }
 
-extension BrandService: BaseTargetType {
+extension BrandService: TargetType {
     public var path: String {
         var resultPath = baseURL.absoluteString
         switch self {

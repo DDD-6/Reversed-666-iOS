@@ -1,5 +1,5 @@
 //
-//  BaseTargetType.swift
+//  TargetTypeExtension.swift
 //  Repository
 //
 //  Created by devming on 2021/09/23.
@@ -10,9 +10,7 @@ import Foundation
 import Moya
 import CombineMoya
 
-public protocol BaseTargetType: TargetType { }
-
-extension BaseTargetType {
+extension TargetType {
     public var baseURL: URL {
         guard let url = URL(string: "http://SERVER_URL/api/\(version)") else {
             fatalError("Wrong URL!!")

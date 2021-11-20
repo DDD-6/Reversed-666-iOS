@@ -36,7 +36,7 @@ struct MainBracketsMaskView: View {
 
 struct MainBracketsMaskView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel(isStub: true)
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandDataAll()
         return MainBracketsMaskView(brands: viewModel.brandList)
             .frame(width: 300, height: 450, alignment: .center)

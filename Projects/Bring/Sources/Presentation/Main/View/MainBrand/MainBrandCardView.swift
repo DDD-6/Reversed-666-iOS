@@ -63,7 +63,7 @@ struct MainBrandCardView: View {
 
 struct MainBrandCardView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel(isStub: true)
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandData()
         
         return MainBrandCardView(brand: viewModel.mainBrand!)

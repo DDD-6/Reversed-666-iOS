@@ -7,10 +7,11 @@
 //
 
 import SwiftUI
+import Network
 
 struct MainView: View {
     
-    @ObservedObject var viewModel = MainViewModel(isStub: true)
+    @ObservedObject var viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
     
     var body: some View {
         let brandList = viewModel.brandList ?? [Brand]()

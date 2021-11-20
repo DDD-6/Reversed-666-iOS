@@ -15,7 +15,7 @@ public enum ProductService {
     case fetchProduct
 }
 
-extension ProductService: BaseTargetType {
+extension ProductService: TargetType {
     public var path: String {
         var resultPath = baseURL.absoluteString
         switch self {

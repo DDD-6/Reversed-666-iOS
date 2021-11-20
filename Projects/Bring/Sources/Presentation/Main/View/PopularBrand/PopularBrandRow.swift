@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Network
 
 struct PopularBrandRow: View {
     
@@ -37,7 +38,7 @@ struct PopularBrandRow: View {
 
 struct PopularBrandRow_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel()
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandDataAll()
         
         return PopularBrandRow(brands: viewModel.brandList ?? [Brand]()
