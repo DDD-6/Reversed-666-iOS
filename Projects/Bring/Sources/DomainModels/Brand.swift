@@ -21,8 +21,6 @@ enum ProductCategory: String, CaseIterable {
 struct Brand: DomainModel, Hashable, Identifiable {
     typealias DTOType = BrandModelDTO
     
-    init() { }
-    
     var id: Int = -1
     var name: String = ""
     var subTitle: String = ""
@@ -30,13 +28,10 @@ struct Brand: DomainModel, Hashable, Identifiable {
     
     var imageName: String = ""
     var logoImage: String = ""
-//    var image: Image {
-//        Image(imageName)
-//    }
-    
     var category: ProductCategory? = nil
     
-    static func from(dtoModel: DTOType) -> Self {
+    init() { }
+    init(from dtoModel: DTOType) {
         func convert(from category: BrandModelDTO.Category) -> ProductCategory {
             switch category {
                 case .shoes:
@@ -48,51 +43,14 @@ struct Brand: DomainModel, Hashable, Identifiable {
             }
         }
         
-        var brand = Brand()
-        brand.id = dtoModel.id ?? -1
-        brand.name = dtoModel.title ?? ""
-        brand.subTitle = dtoModel.subTitle ?? ""
-        brand.brandLink = dtoModel.brandLink ?? ""
-        brand.imageName = dtoModel.imageName ?? ""
-        brand.logoImage = dtoModel.logoImage ?? ""
+        self.id = dtoModel.id ?? -1
+        self.name = dtoModel.title ?? ""
+        self.subTitle = dtoModel.subTitle ?? ""
+        self.brandLink = dtoModel.brandLink ?? ""
+        self.imageName = dtoModel.imageName ?? ""
+        self.logoImage = dtoModel.logoImage ?? ""
         if let category = dtoModel.category {
-            brand.category = convert(from: category)
+            self.category = convert(from: category)
         }
-        return brand
     }
-    
-//    static var `default` = BrandModel(
-//        id: 1,
-//        title: "default Title",
-//        subTitle: "default SubTitle",
-//        brandLink: "www.naver.com",
-//        imageName: "cityGuide",
-//        category: .shoes)
-//
-//    static var mockDatas = [
-//        BrandModel(
-//            id: 1,
-//            title: "Title1",
-//            subTitle: "Subtitle1",
-//            brandLink: "www.naver.com",
-//            imageName: "cityGuide",
-//            category: .shoes
-//        ),
-//        BrandModel(
-//            id: 2,
-//            title: "Title2",
-//            subTitle: "Subtitle2",
-//            brandLink: "www.google.com",
-//            imageName: "montreal",
-//            category: .accesary
-//        ),
-//        BrandModel(
-//            id: 3,
-//            title: "Title3",
-//            subTitle: "Subtitle3",
-//            brandLink: "www.yahoo.com",
-//            imageName: "toronto",
-//            category: .clothes
-//        )
-//    ]
 }

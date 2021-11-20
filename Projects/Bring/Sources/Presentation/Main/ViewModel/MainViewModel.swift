@@ -27,9 +27,8 @@ class MainViewModel: ObservableObject {
     func fetchBrandData(name: String = "") {
         serviceManager
             .fetchBrand(name: name)
-            .map { Brand.from(dtoModel: $0) }
-            .sink { _ in }
-                receiveValue: { [weak self] value in
+            .map { Brand(from: $0) }
+            .sink { [weak self] value in
                 self?.mainBrand = value
             }
             .store(in: &cancellables)
@@ -39,12 +38,10 @@ class MainViewModel: ObservableObject {
         serviceManager
             .fetchAllBrands()
             .map { brandDtoList in
-                brandDtoList.map {
-                    Brand.from(dtoModel: $0)
-                }
+                brandDtoList
+                    .map { Brand(from: $0) }
             }
-            .sink { _ in }
-                receiveValue: { [weak self] values in
+            .sink { [weak self] values in
                 self?.brandList = values
             }
             .store(in: &cancellables)

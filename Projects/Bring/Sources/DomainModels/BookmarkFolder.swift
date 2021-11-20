@@ -10,20 +10,17 @@ import Foundation
 import Network
 
 struct BookmarkFolder: DomainModel, Hashable, Identifiable {
-    typealias DTOType = BookmarkFolderDTO
     
-    init() { }
+    typealias DTOType = BookmarkFolderDTO
     
     var id: Int = -1
     var folderName: String = ""
     var folderImageUrl: String = ""
     
-    static func from(dtoModel: BookmarkFolderDTO) -> BookmarkFolder {
-        var model = BookmarkFolder()
-        model.id = dtoModel.id ?? -1
-        model.folderName = dtoModel.name ?? ""
-        model.folderImageUrl = dtoModel.thumbnailUrl ?? ""
-        return model
+    init() { }
+    init(from dtoModel: BookmarkFolderDTO) {
+        self.id = dtoModel.id ?? -1
+        self.folderName = dtoModel.name ?? ""
+        self.folderImageUrl = dtoModel.thumbnailUrl ?? ""
     }
-    
 }

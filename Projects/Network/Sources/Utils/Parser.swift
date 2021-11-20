@@ -31,5 +31,5 @@ public protocol DomainModel {
     associatedtype DTOType
     
     // DTO와 Domain Model을 맵핑
-    static func from(dtoModel: DTOType) -> Self
+    init(from dtoModel: DTOType)
 }
