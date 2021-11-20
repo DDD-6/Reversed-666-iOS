@@ -12,7 +12,7 @@ import Alamofire
 import Combine
 
 public enum ProductService {
-    case fetchProduct
+    case fetchProduct(name: String)
 }
 
 extension ProductService: TargetType {
