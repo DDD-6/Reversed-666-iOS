@@ -9,22 +9,124 @@
 import SwiftUI
 
 struct ProductDetailView: View {
+    
+    @EnvironmentObject private var model: ModelData
+    
+    @Environment(\.presentationMode) var presentationMode
+    @State var offset: CGFloat = 0
+    @State var startOffset: CGFloat = 0
+    @State var titleOffset: CGFloat = 0
+    @State var titleBarHeight: CGFloat = 0
+    
     var body: some View {
         
-//        let columns: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 40), spacing: 0), count: 3)
+        let columns: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 40), spacing: 0), count: 2)
+        
+        VStack {
+            VStack {
+                
+                HStack {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image("back")
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                    })
+                    
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Image(systemName: "Scissor")
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                    }
+                    Button(action: {}) {
+                        Image(systemName: "settings")
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                    }
+                }.padding()
+                
+                HStack {
+                    
+                    HStack {
+                        VStack {
+                            Text("길동이 선물")
+                                .font(BringFontStyle.heading0.font)
+                            
+                            Text("길동이 선물 description")
+                                .font(BringFontStyle.textM.font)
+                                .foregroundColor(Color("gray03"))
+                        }
+                    }
+                    
+//                        .overlay({
+//                            GeometryReader { reader -> Color in
+//                                let width = reader.frame(in: .global).maxX
 //
-//        VStack {
-//            ScrollView {
-//                LazyVGrid(columns: columns) {
-//                    ForEach(model.brandDatas) { data in
-//                        BrandCardView(brandData: data)
-//                            .aspectRatio(112/144,
-//                                         contentMode: .fill)
-//                    }
-//                }.font(.largeTitle)
-//            }
-//        }
-        ProductDetailCardView()
+//                                DispatchQueue.main.async {
+//                                    if titleOffset == 0 {
+//                                        titleOffset = width
+//                                    }
+//                                }
+//
+//                                return Color.clear
+//                            }
+//                        })
+//                        .frame(width: 0, height: 0 )
+                        .padding()
+                        .scaleEffect(getScale())
+                        .offset(getOffset())
+                    
+                    Spacer()
+                }
+                
+            }.background(.orange)
+            
+            BookmarkFilterView()
+            ZStack {
+                if model.brandDatas.isEmpty {
+                    FolderDetailDefaultView()
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 0) {
+                            ForEach(model.brandDatas) { data in
+                                ProductDetailCardView()
+                            }
+                        }.font(.largeTitle)
+                    }
+                }
+            }
+            
+        }
+        .navigationBarTitle("")
+        .navigationTitle("우후후")
+        
+    }
+    
+    func getOffset() -> CGSize {
+        var size: CGSize = .zero
+        
+        let screenWidth = UIScreen.main.bounds.width / 2
+        
+        size.width = offset > 0 ? (offset * 1.5 <= (screenWidth - titleOffset) ? offset * 1.5 : (screenWidth - titleOffset)) : 0
+        size.height = offset > 0 ? (offset <= 75 ? -offset : -75) : 0
+        
+        return size
+    }
+    
+    func getScale() -> CGFloat {
+        
+        if offset > 0 {
+            let screenWi9dth = UIScreen.main.bounds.width
+            let progress = 1 - (getOffset().width / screenWi9dth)
+            
+            return progress >= 0.9 ? progress : 0.9
+        } else {
+            return 1
+        }
+        
     }
 }
 
