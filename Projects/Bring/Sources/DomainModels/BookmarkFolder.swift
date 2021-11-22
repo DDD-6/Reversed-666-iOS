@@ -11,16 +11,16 @@ import Network
 
 struct BookmarkFolder: DomainModel, Hashable, Identifiable {
     
-    typealias DTOType = BookmarkFolderDTO
+    typealias ResponseType = BookmarkFolderResponse
     
     var id: Int = -1
     var folderName: String = ""
     var folderImageUrl: String = ""
     
     init() { }
-    init(from dtoModel: BookmarkFolderDTO) {
-        self.id = dtoModel.id ?? -1
-        self.folderName = dtoModel.name ?? ""
-        self.folderImageUrl = dtoModel.thumbnailUrl ?? ""
+    init(from response: BookmarkFolderResponse) {
+        self.id = response.id ?? -1
+        self.folderName = response.name ?? ""
+        self.folderImageUrl = response.thumbnailUrl ?? ""
     }
 }

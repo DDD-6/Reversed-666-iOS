@@ -8,6 +8,7 @@
 
 import SwiftUI
 import BottomSheet
+import Network
 
 struct ProductCategoryModel: Identifiable {
     var id: UUID = UUID()
@@ -17,9 +18,9 @@ struct ProductCategoryModel: Identifiable {
 struct WebViewLikeBottomSheet: View {
     
     @ObservedObject
-    var viewModel = WebViewLikeBottomSheetViewModel()
-//    var bookmarkList: [ProductCategory]
-    
+    var viewModel = WebViewLikeBottomSheetViewModel(
+        serviceManager: FolderServiceManagerMock()
+    )
     @Binding var bottomSheetPosition: BottomSheetPosition
     
     var body: some View {
@@ -37,7 +38,10 @@ struct WebViewLikeBottomSheet: View {
                     Text("폴더 선택")
                     Spacer()
                     Button {
-                        viewModel.add()
+                        viewModel.createFolder(
+                            name: "기본 구조",
+                            description: ""
+                        )
                     } label: {
                         Image("folder-plus")
                     }
@@ -45,14 +49,13 @@ struct WebViewLikeBottomSheet: View {
                 .padding(.size3)
                 
                 List {
-                    ForEach(viewModel.bookmarkList, id: \.id) { item in
+                    ForEach(viewModel.folders) { item in
                         LazyHStack {
-                            Image(item.name)
-                                .resizable()
+                            AsyncImage(url: URL(string: item.folderImageUrl))
                                 .frame(width: 50, height: 50)
                                 .scaledToFit()
                                 .padding()
-                            Text(item.name)
+                            Text(item.folderName)
                             Spacer()
                         }
                     }

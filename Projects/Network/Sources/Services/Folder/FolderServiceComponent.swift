@@ -1,5 +1,5 @@
 //
-//  BrandServiceComponent.swift
+//  FolderServiceComponent.swift
 //  Network
 //
 //  Created by devming on 2021/11/20.
@@ -11,15 +11,15 @@ import Moya
 import Combine
 import CombineMoya
 
-public protocol BrandServiceComponent {
-    typealias Service = BrandService
+public protocol FolderServiceComponent {
+    typealias Service = FolderService
     
-    func fetchBrand(name: String) -> AnyPublisher<BrandModelDTO, MoyaError>
-    func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
-
+    func fetchFolder(id: String) -> AnyPublisher<BookmarkFolderResponse, MoyaError>
+    func fetchFoldersAll() -> AnyPublisher<[BookmarkFolderResponse], MoyaError>
+    func createFolder(name: String, description: String) -> AnyPublisher<BookmarkFolderResponse, MoyaError>
 }
 
-extension BrandServiceComponent {
+extension FolderServiceComponent {
     
     var provider: MoyaProvider<Service> {
         return MoyaProvider<Service>()

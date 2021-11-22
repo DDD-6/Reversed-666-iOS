@@ -14,7 +14,6 @@ import CombineMoya
 public class BrandServiceManagerMock: NSObject, BrandServiceComponent {
     
     required public override init() {
-        
         super.init()
     }
 }

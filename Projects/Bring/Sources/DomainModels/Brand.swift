@@ -19,7 +19,7 @@ enum ProductCategory: String, CaseIterable {
 }
 
 struct Brand: DomainModel, Hashable, Identifiable {
-    typealias DTOType = BrandModelDTO
+    typealias ResponseType = BrandModelDTO
     
     var id: Int = -1
     var name: String = ""
@@ -31,7 +31,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
     var category: ProductCategory? = nil
     
     init() { }
-    init(from dtoModel: DTOType) {
+    init(from response: ResponseType) {
         func convert(from category: BrandModelDTO.Category) -> ProductCategory {
             switch category {
                 case .shoes:
@@ -43,13 +43,13 @@ struct Brand: DomainModel, Hashable, Identifiable {
             }
         }
         
-        self.id = dtoModel.id ?? -1
-        self.name = dtoModel.title ?? ""
-        self.subTitle = dtoModel.subTitle ?? ""
-        self.brandLink = dtoModel.brandLink ?? ""
-        self.imageName = dtoModel.imageName ?? ""
-        self.logoImage = dtoModel.logoImage ?? ""
-        if let category = dtoModel.category {
+        self.id = response.id ?? -1
+        self.name = response.title ?? ""
+        self.subTitle = response.subTitle ?? ""
+        self.brandLink = response.brandLink ?? ""
+        self.imageName = response.imageName ?? ""
+        self.logoImage = response.logoImage ?? ""
+        if let category = response.category {
             self.category = convert(from: category)
         }
     }

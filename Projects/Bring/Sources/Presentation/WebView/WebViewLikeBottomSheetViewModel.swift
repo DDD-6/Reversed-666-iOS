@@ -9,26 +9,46 @@
 import Foundation
 import Combine
 import Network
+import Moya
 
 class WebViewLikeBottomSheetViewModel: ObservableObject {
-    @Published var folders: [BookmarkFolder]?
-    // viewmodel에 연결되는건 repository보다는 service여야함.
-//    var repository: MainRepositoryProtocol
-//    var cancellables: Set<AnyCancellable>
-//
-//    init(repository: MainRepositoryProtocol? = nil, isStub: Bool = false) {
-//        if let repository = repository {
-//            self.repository = repository
-//        }
-//    }
-    @Published var bookmarkList: [ProductCategoryModel] = [
-        ProductCategoryModel(name: "montreal"),
-        ProductCategoryModel(name: "toronto"),
-        ProductCategoryModel(name: "vancouver"),
-        ProductCategoryModel(name: "cityGuide")
-    ]
+    @Published var folders: [BookmarkFolder]
     
-    func add() {
-        bookmarkList.append(ProductCategoryModel(name: "icHeartFill"))
+    let serviceManager: FolderServiceComponent
+    var cancellables: Set<AnyCancellable>
+    
+    init(serviceManager: FolderServiceComponent) {
+        self.folders = [BookmarkFolder]()
+        self.serviceManager = serviceManager
+        self.cancellables = Set<AnyCancellable>()
+    }
+    
+    func fetchFoldersAll() {
+        serviceManager.fetchFoldersAll()
+            .map { $0.map { BookmarkFolder(from: $0) } }
+            .sink { [weak self] value in
+                self?.folders = value
+            }
+            .store(in: &cancellables)
+    }
+    
+    func createFolder(name: String, description: String) {
+        serviceManager
+            .createFolder(
+                name: name,
+                description: description
+            )
+            .map { BookmarkFolder(from: $0) }
+            .sink(receiveCompletion: { result in
+                switch result {
+                    case let .failure(error):
+                        print("error: \(error)")
+                    case .finished:
+                        print("Complete")
+                }
+            }, receiveValue: { [weak self] newFolder in
+                self?.folders.append(newFolder)
+            })
+            .store(in: &cancellables)
     }
 }
