@@ -11,6 +11,8 @@ import SwiftUI
 struct BrandCardView: View {
     
     var brandData: BrandModel
+    @State private var isPresented = false
+    
     enum Constant {
         enum Layout {
             static let imageRadius: CGFloat = 10
@@ -31,7 +33,13 @@ struct BrandCardView: View {
             }
             .background(Constant.gray)
             .border(.black, width: 0.5)
+            .onTapGesture {
+                isPresented.toggle()
+            }
+        }.fullScreenCover(isPresented: $isPresented) {
+            MainDetailView(url: brandData.brandLink, presentedAsModal: $isPresented)
         }
+        
     }
 }
 
