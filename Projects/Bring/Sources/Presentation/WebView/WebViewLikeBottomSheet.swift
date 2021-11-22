@@ -19,7 +19,7 @@ struct WebViewLikeBottomSheet: View {
     
     @ObservedObject
     var viewModel = WebViewLikeBottomSheetViewModel(
-        serviceManager: FolderServiceManagerMock()
+        serviceManager: FolderServiceManagerImpl()
     )
     @Binding var bottomSheetPosition: BottomSheetPosition
     
@@ -50,17 +50,22 @@ struct WebViewLikeBottomSheet: View {
                 
                 List {
                     ForEach(viewModel.folders) { item in
-                        LazyHStack {
-                            AsyncImage(url: URL(string: item.folderImageUrl))
-                                .frame(width: 50, height: 50)
-                                .scaledToFit()
-                                .padding()
-                            Text(item.folderName)
-                            Spacer()
+                        Button {
+                            bottomSheetPosition = .hidden
+                        } label: {
+                            LazyHStack {
+                                AsyncImage(url: URL(string: item.folderImageUrl))
+                                    .frame(width: 50, height: 50)
+                                    .scaledToFit()
+                                    .padding()
+                                Text(item.folderName)
+                                Spacer()
+                            }
                         }
+
                     }
                 }
-                .listStyle(GroupedListStyle())
+                .listStyle(PlainListStyle())
                 
                 Spacer()
             }

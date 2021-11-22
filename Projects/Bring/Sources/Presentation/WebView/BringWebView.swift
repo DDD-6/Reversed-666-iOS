@@ -125,6 +125,7 @@ struct BringWebView: View {
             
             toastView
                 .opacity(isLiked ? 1 : 0)
+                .opacity(bottomSheetPosition == .hidden ? 1 : 0)
         }
         .bottomSheet(
             bottomSheetPosition: $bottomSheetPosition,

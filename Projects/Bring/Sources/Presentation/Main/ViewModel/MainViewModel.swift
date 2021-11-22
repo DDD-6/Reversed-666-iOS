@@ -13,36 +13,58 @@ import CombineMoya
 import Network
 
 class MainViewModel: ObservableObject {
-    @Published var mainBrand: Brand?
-    @Published var brandList: [Brand]?
+    @Published var bringBrands: [Brand]
+    @Published var popularBrands: [Brand]
+    @Published var mainBrands: [Brand]
     
     var serviceManager: BrandServiceComponent
     var cancellables: Set<AnyCancellable>
     
     init(serviceManager: BrandServiceComponent) {
+        self.bringBrands = [Brand]()
+        self.mainBrands = [Brand]()
+        self.popularBrands = [Brand]()
+        
         self.serviceManager = serviceManager
         self.cancellables = Set<AnyCancellable>()
     }
     
     func fetchBrandData(name: String = "") {
+//        serviceManager
+//            .fetchBrand(name: name)
+//            .map { Brand(from: $0) }
+//            .sink { [weak self] value in
+//                self?.bringedBrands = value
+//            }
+//            .store(in: &cancellables)
+    }
+    
+    func fetchBringBrands() {
         serviceManager
-            .fetchBrand(name: name)
-            .map { Brand(from: $0) }
-            .sink { [weak self] value in
-                self?.mainBrand = value
+            .fetchBookmarkBrands()
+            .map { $0.map { Brand(from: $0) } }
+            .sink { [weak self] values in
+                self?.bringBrands = values
             }
             .store(in: &cancellables)
     }
     
-    func fetchBrandDataAll() {
+    func fetchPopularBrands() {
+        serviceManager
+            .fetchPopularBrands()
+            .map { $0.map { Brand(from: $0) } }
+            .sink { [weak self] values in
+                self?.popularBrands = values
+            }
+            .store(in: &cancellables)
+    }
+    
+    func fetchMainBrands() {
         serviceManager
             .fetchAllBrands()
-            .map { brandDtoList in
-                brandDtoList
-                    .map { Brand(from: $0) }
-            }
+            .map { $0.map { Brand(from: $0) } }
             .sink { [weak self] values in
-                self?.brandList = values
+                self?.mainBrands = values
             }
             .store(in: &cancellables)
     }

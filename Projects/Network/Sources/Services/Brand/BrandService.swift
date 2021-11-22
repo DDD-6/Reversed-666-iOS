@@ -12,31 +12,32 @@ import Alamofire
 import Combine
 
 public enum BrandService {
-    case searchUser(query: String)
-    case fetchBrands(name: String)
+    case fetchBrand(id: String)
+    case fetchBrandAll
+    case fetchPopularBrands
+    case fetchBookmarkBrands
 }
 
 extension BrandService: TargetType {
     public var path: String {
         var resultPath = baseURL.absoluteString
         switch self {
-//            case .searchUser:
-//                resultPath += "/searchUser"
-            case let .fetchBrands(name):
-                resultPath += "/brands/\(name)"
-            default:
-                break
+            case let .fetchBrand(id):
+                resultPath += "/brand/\(id)"
+            case .fetchBrandAll:
+                resultPath += "/brands/main"
+            case .fetchPopularBrands:
+                resultPath += "/brands/popular"
+            case .fetchBookmarkBrands:
+                resultPath += "/brands/bookmark"
+                
         }
         return resultPath
     }
 
     public var method: Moya.Method {
         switch self {
-//            case .searchUser:
-//                return .get
-            case .fetchBrands:
-                return .get
-            default:
+            case .fetchBrand, .fetchBrandAll, .fetchPopularBrands, .fetchBookmarkBrands:
                 return .get
         }
     }
@@ -45,52 +46,23 @@ extension BrandService: TargetType {
         return .successCodes
     }
     
-    var parameters: [String: Any]? {
-        let defaultParameters: [String: Any] = [:]
-        var parameters: [String: Any] = defaultParameters
-        
-        switch self {
-//            case .searchUser(let user):
-//                parameters["sampleParamName"] = user
-//                return parameters
-            default:
-                return nil
-        }
-    }
-    
     public var task: Task {
-//        guard let parameters = parameters else {
-//            return .requestPlain
-//        }
-//        var body: [String: Any] = [:]
-        
         switch self {
-//            case .searchUser(let param):
-//                body["sampleBodyParamName"] = param
-//                return .requestParameters(parameters: parameters,
-//                                          encoding: parameterEncoding)
             default:
                 return .requestPlain
-//                return .requestCompositeParameters(bodyParameters: body,
-//                                                   bodyEncoding: parameterEncoding,
-//                                                   urlParameters: parameters)
         }
     }
     
     var parameterEncoding: ParameterEncoding {
         switch self {
-            case .searchUser:
-                return JSONEncoding.default
             default:
-                return URLEncoding.queryString
+                return URLEncoding.default
         }
     }
     
     public func getSample<D: Decodable>() -> D? {
         switch self {
-//            case .searchUser:
-//                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
-            case .fetchBrands:
+            case .fetchBrand:
                 return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
             default:
                 return nil
@@ -99,15 +71,132 @@ extension BrandService: TargetType {
     
     public func getSamples<D: Decodable>() -> [D]? {
         switch self {
-            case .fetchBrands:
+            case .fetchBrand:
                 return try? JSONDecoder().decode([BrandModelDTO].self, from: sampleData) as? [D]
             default:
                 return nil
         }
     }
-    
+}
+
+extension BrandService {
     public var sampleData: Data {
+        switch self {
+            case .fetchBrand:
+                return mockBrand
+            case .fetchBrandAll:
+                return mainAllBrands
+            case .fetchBookmarkBrands:
+                return bookmarkBrands
+            case .fetchPopularBrands:
+                return popularBrands
+        }
+    }
+    
+    private var mockBrand: Data {
+        let mockDatas = BrandModelDTO(
+                id: 1,
+                title: "의류",
+                subTitle: "NAAAAike",
+                brandLink: "https://www.nike.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .shoes
+            )
         
+        guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var mainAllBrands: Data {
+        let mockDatas = [
+            BrandModelDTO(
+                id: 1,
+                title: "의류",
+                subTitle: "Nike",
+                brandLink: "https://www.nike.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .shoes
+            ),
+            BrandModelDTO(
+                id: 2,
+                title: "전자기기",
+                subTitle: "Apple",
+                brandLink: "https://www.apple.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .accesary
+            ),
+            BrandModelDTO(
+                id: 3,
+                title: "가구",
+                subTitle: "이케아",
+                brandLink: "https://www.ikea.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .clothes
+            ),
+            BrandModelDTO(
+                id: 3,
+                title: "슬리퍼",
+                subTitle: "아디다스",
+                brandLink: "https://www.adidas.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .clothes
+            )
+        ]
+        
+        guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var bookmarkBrands: Data {
+        let mockDatas = [
+            BrandModelDTO(
+                id: 1,
+                title: "의류임",
+                subTitle: "나이끼",
+                brandLink: "https://www.nike.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .shoes
+            ),
+            BrandModelDTO(
+                id: 2,
+                title: "애플애플",
+                subTitle: "Apple",
+                brandLink: "https://www.apple.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .accesary
+            ),
+            BrandModelDTO(
+                id: 3,
+                title: "스웨덴",
+                subTitle: "이끼아",
+                brandLink: "https://www.ikea.com",
+                imageName: "cityGuide",
+                logoImage: "toronto",
+                category: .clothes
+            )
+        ]
+        
+        guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var popularBrands: Data {
         let mockDatas = [
             BrandModelDTO(
                 id: 1,

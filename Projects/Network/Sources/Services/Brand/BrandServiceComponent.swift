@@ -14,9 +14,10 @@ import CombineMoya
 public protocol BrandServiceComponent {
     typealias Service = BrandService
     
-    func fetchBrand(name: String) -> AnyPublisher<BrandModelDTO, MoyaError>
+    func fetchBrand(id: String) -> AnyPublisher<BrandModelDTO, MoyaError>
     func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
-
+    func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
+    func fetchPopularBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
 }
 
 extension BrandServiceComponent {

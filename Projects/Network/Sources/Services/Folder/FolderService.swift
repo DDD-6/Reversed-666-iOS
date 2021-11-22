@@ -141,7 +141,7 @@ extension FolderService {
     
     private var mockCreated: Data {
         let mockDatas = BookmarkFolderResponse(
-            id: 1,
+            id: Int(Date().timeIntervalSince1970),
             name: "기본 폴더",
             thumbnailUrl: ""
         )

@@ -39,9 +39,8 @@ struct PopularBrandRow: View {
 struct PopularBrandRow_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
-        viewModel.fetchBrandDataAll()
+        viewModel.fetchMainBrands()
         
-        return PopularBrandRow(brands: viewModel.brandList ?? [Brand]()
-        )
+        return PopularBrandRow(brands: viewModel.mainBrands)
     }
 }

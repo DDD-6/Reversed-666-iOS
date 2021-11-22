@@ -11,25 +11,28 @@ import Network
 
 struct MainView: View {
     
-    @ObservedObject var viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
+    @ObservedObject
+    var viewModel = MainViewModel(
+        serviceManager: BrandServiceManagerMock()
+    )
     
     var body: some View {
-        let brandList = viewModel.brandList ?? [Brand]()
-        
         return NavigationView {
             ZStack {
                 List {
-                    MainBracketsMaskView(brands: brandList)
+                    BringBrandView()
+                    PopularBrandRow(brands: viewModel.popularBrands)
+                    MainBracketsMaskView(brands: viewModel.mainBrands)
                         .clipped()
-                    PopularBrandRow(brands: brandList)
                     
                     //                    MainViewDistributor(brands: brandList)
                 }
-                .listStyle(InsetListStyle())
+                .listStyle(PlainListStyle())
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         HStack {
-                            Image("icMainTitleLogo")
+                            Image("icBringLogo")
+                            Text("bring")
                             
                             Spacer()
                             Button {
@@ -43,7 +46,7 @@ struct MainView: View {
                 }
                 .onAppear {
                     viewModel.fetchBrandData()
-                    viewModel.fetchBrandDataAll()
+                    viewModel.fetchMainBrands()
                 }
                 .navigationBarTitleDisplayMode(.inline)
             }

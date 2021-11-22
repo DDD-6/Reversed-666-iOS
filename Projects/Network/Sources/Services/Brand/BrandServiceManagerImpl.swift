@@ -20,14 +20,24 @@ public class BrandServiceManagerImpl: NSObject, BrandServiceComponent {
 
 extension BrandServiceManagerImpl {
     /// Brand 가져오는 API
-    public func fetchBrand(name: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
+    public func fetchBrand(id: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
         return request(type: BrandModelDTO.self,
-                       target: .fetchBrands(name: name))
+                       target: .fetchBrand(id: id))
     }
     
     /// 모든 Brand 가져오는 API
     public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         return request(type: [BrandModelDTO].self,
-                       target: .fetchBrands(name: ""))
+                       target: .fetchBrand(id: ""))
+    }
+    
+    public func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
+        return request(type: [BrandModelDTO].self,
+                       target: .fetchBookmarkBrands)
+    }
+    
+    public func fetchPopularBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
+        return request(type: [BrandModelDTO].self,
+                       target: .fetchPopularBrands)
     }
 }

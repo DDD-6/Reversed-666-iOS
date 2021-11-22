@@ -66,6 +66,6 @@ struct MainBrandCardView_Previews: PreviewProvider {
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandData()
         
-        return MainBrandCardView(brand: viewModel.mainBrand!)
+        return MainBrandCardView(brand: viewModel.mainBrands.first!)
     }
 }
