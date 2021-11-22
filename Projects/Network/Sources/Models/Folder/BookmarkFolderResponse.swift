@@ -1,5 +1,5 @@
 //
-//  BookmarkFolderDTO.swift
+//  BookmarkFolderResponse.swift
 //  Repository
 //
 //  Created by devming on 2021/11/06.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BookmarkFolderDTO: Codable {
+public struct BookmarkFolderResponse: Codable {
     public var id: Int?
     public var name: String?
     public var thumbnailUrl: String?

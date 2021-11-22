@@ -11,21 +11,23 @@ import Network
 
 struct MainBracketsMaskView: View {
     var brands: [Brand]?
+    @State var presentedAsModal: Bool = false
     
     var body: some View {
         let width = UIScreen.main.bounds.width
         let height = width * 0.9
         ForEach(brands!) { brand in
-            NavigationLink {
-                MainDetailView(url: brand.brandLink)
+            Button {
+                presentedAsModal = true
             } label: {
-                Button { } label: {
-                    MainBrandCardView(brand: brand)
-                        .frame(width: width,
-                               height: height + .size5 * 8,
-                               alignment: .center)
-                }
+                MainBrandCardView(brand: brand)
+                    .frame(width: width,
+                           height: height + .size5 * 8,
+                           alignment: .center)
+            }.fullScreenCover(isPresented: $presentedAsModal) {
+                MainDetailView(url: brand.brandLink, presentedAsModal: $presentedAsModal)
             }
+
         }
         .listRowSeparator(.hidden)
         
@@ -34,7 +36,7 @@ struct MainBracketsMaskView: View {
 
 struct MainBracketsMaskView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel(isStub: true)
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandDataAll()
         return MainBracketsMaskView(brands: viewModel.brandList)
             .frame(width: 300, height: 450, alignment: .center)

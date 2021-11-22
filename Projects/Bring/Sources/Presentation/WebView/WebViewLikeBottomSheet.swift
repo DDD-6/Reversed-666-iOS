@@ -8,23 +8,72 @@
 
 import SwiftUI
 import BottomSheet
+import Network
+
+struct ProductCategoryModel: Identifiable {
+    var id: UUID = UUID()
+    var name: String
+}
 
 struct WebViewLikeBottomSheet: View {
     
     @ObservedObject
-    var viewModel = WebViewLikeBottomSheetViewModel()
-//    var bookmarkList: [ProductCategory]
+    var viewModel = WebViewLikeBottomSheetViewModel(
+        serviceManager: FolderServiceManagerMock()
+    )
+    @Binding var bottomSheetPosition: BottomSheetPosition
     
     var body: some View {
-        ZStack {
-//            viewModel
-//                .$folders
-//                .eraseToAnyPublisher()
-            
-            Text("#RRFWGRWGERGER")
-                .font(.title)
-                .foregroundColor(.white)
-                .background(.red)
+        return ZStack {
+            VStack {
+                // 상단 툴바
+                HStack {
+                    Button {
+                        bottomSheetPosition = .hidden
+                        
+                    } label: {
+                        Image("Close")
+                    }
+                    Spacer()
+                    Text("폴더 선택")
+                    Spacer()
+                    Button {
+                        viewModel.createFolder(
+                            name: "기본 구조",
+                            description: ""
+                        )
+                    } label: {
+                        Image("folder-plus")
+                    }
+                }
+                .padding(.size3)
+                
+                List {
+                    ForEach(viewModel.folders) { item in
+                        LazyHStack {
+                            AsyncImage(url: URL(string: item.folderImageUrl))
+                                .frame(width: 50, height: 50)
+                                .scaledToFit()
+                                .padding()
+                            Text(item.folderName)
+                            Spacer()
+                        }
+                    }
+                }
+                .listStyle(GroupedListStyle())
+                
+                Spacer()
+            }
         }
+        .background(.white)
     }
 }
+
+struct WebViewLikeBottomSheet_Previews: PreviewProvider {
+    static var previews: some View {
+        return WebViewLikeBottomSheet(
+            bottomSheetPosition: .constant(.hidden)
+        )
+    }
+}
+

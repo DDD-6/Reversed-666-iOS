@@ -12,10 +12,10 @@ import Alamofire
 import Combine
 
 public enum ProductService {
-    case fetchProduct
+    case fetchProduct(name: String)
 }
 
-extension ProductService: BaseTargetType {
+extension ProductService: TargetType {
     public var path: String {
         var resultPath = baseURL.absoluteString
         switch self {

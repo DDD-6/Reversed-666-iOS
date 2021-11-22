@@ -28,8 +28,8 @@ public func decode<T: Decodable>(_ data: Data) -> AnyPublisher<T, MoyaError> {
 
 public protocol DomainModel {
     // Domain에 맞는 DTO타입을 정의
-    associatedtype DTOType
+    associatedtype ResponseType
     
     // DTO와 Domain Model을 맵핑
-    static func from(dtoModel: DTOType) -> Self
+    init(from response: ResponseType)
 }

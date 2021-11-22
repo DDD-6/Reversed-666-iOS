@@ -16,24 +16,19 @@ class MainViewModel: ObservableObject {
     @Published var mainBrand: Brand?
     @Published var brandList: [Brand]?
     
-    var serviceManager: BrandServiceManager
+    var serviceManager: BrandServiceComponent
     var cancellables: Set<AnyCancellable>
     
-    /// # Params
-    /// - isStub: 테스트용 MockData를 사용하려면 true, 실서버 이용하면 false
-    /// - repository: 구현된 Repository외에 별도의 Repository(다른 네트워크를 이용하는 경우?)를 이용하는 경우를 위해 의존성 분리
-    init(isStub: Bool = false) {
-        serviceManager = BrandServiceManager(isStub: isStub)
-        
-        cancellables = Set<AnyCancellable>()
+    init(serviceManager: BrandServiceComponent) {
+        self.serviceManager = serviceManager
+        self.cancellables = Set<AnyCancellable>()
     }
     
     func fetchBrandData(name: String = "") {
         serviceManager
             .fetchBrand(name: name)
-            .map { Brand.from(dtoModel: $0) }
-            .sink { _ in }
-                receiveValue: { [weak self] value in
+            .map { Brand(from: $0) }
+            .sink { [weak self] value in
                 self?.mainBrand = value
             }
             .store(in: &cancellables)
@@ -43,12 +38,10 @@ class MainViewModel: ObservableObject {
         serviceManager
             .fetchAllBrands()
             .map { brandDtoList in
-                brandDtoList.map {
-                    Brand.from(dtoModel: $0)
-                }
+                brandDtoList
+                    .map { Brand(from: $0) }
             }
-            .sink { _ in }
-                receiveValue: { [weak self] values in
+            .sink { [weak self] values in
                 self?.brandList = values
             }
             .store(in: &cancellables)
