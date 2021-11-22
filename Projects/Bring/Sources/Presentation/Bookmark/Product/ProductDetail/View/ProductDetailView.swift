@@ -37,12 +37,12 @@ struct ProductDetailView: View {
                     Spacer()
                     
                     Button(action: {}) {
-                        Image(systemName: "Scissor")
+                        Image("Scissor")
                             .font(.title2)
                             .foregroundColor(.primary)
                     }
                     Button(action: {}) {
-                        Image(systemName: "settings")
+                        Image("settings")
                             .font(.title2)
                             .foregroundColor(.primary)
                     }
@@ -50,54 +50,63 @@ struct ProductDetailView: View {
                 
                 HStack {
                     
-                    HStack {
-                        VStack {
-                            Text("길동이 선물")
-                                .font(BringFontStyle.heading0.font)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("길동이 선물")
+                            .font(BringFontStyle.heading0.font)
                             
-                            Text("길동이 선물 description")
-                                .font(BringFontStyle.textM.font)
-                                .foregroundColor(Color("gray03"))
-                        }
+                        Text("길동이 선물 description")
+                            .font(BringFontStyle.textM.font)
+                            .foregroundColor(Color("gray06"))
                     }
+                    .overlay(
+                        GeometryReader { reader -> Color in
+                            let width = reader.frame(in: .global).maxX
+                            
+                            DispatchQueue.main.async {
+                                if titleOffset == 0 {
+                                    titleOffset = width
+                                }
+                            }
+                            
+                            return Color.clear
+                        }
+                    )
                     
-//                        .overlay({
-//                            GeometryReader { reader -> Color in
-//                                let width = reader.frame(in: .global).maxX
-//
-//                                DispatchQueue.main.async {
-//                                    if titleOffset == 0 {
-//                                        titleOffset = width
-//                                    }
-//                                }
-//
-//                                return Color.clear
-//                            }
-//                        })
-//                        .frame(width: 0, height: 0 )
-                        .padding()
-                        .scaleEffect(getScale())
-                        .offset(getOffset())
+                    .padding()
+                    .scaleEffect(getScale())
+                    .offset(getOffset())
                     
                     Spacer()
                 }
                 
             }.background(.orange)
-            
+                .zIndex(1)
+                .padding(.bottom, getOffset().height)
             BookmarkFilterView()
-            ZStack {
-                if model.brandDatas.isEmpty {
-                    FolderDetailDefaultView()
-                } else {
-                    ScrollView {
-                        LazyVGrid(columns: columns, spacing: 0) {
-                            ForEach(model.brandDatas) { data in
-                                ProductDetailCardView()
+            
+            if model.brandDatas.isEmpty {
+                FolderDetailDefaultView()
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 0) {
+                        ForEach(model.brandDatas) { data in
+                            ProductDetailCardView()
+                        }
+                    }.font(.largeTitle)
+                }.overlay(GeometryReader{ proxy -> Color in
+                        let minY = proxy.frame(in: .global).minY
+
+                        DispatchQueue.main.async {
+                            if startOffset == 0 {
+                                startOffset = minY
                             }
-                        }.font(.largeTitle)
+                            offset = startOffset - minY
+                        }
+                        return Color.clear
                     }
-                }
+                )
             }
+            
             
         }
         .navigationBarTitle("")
