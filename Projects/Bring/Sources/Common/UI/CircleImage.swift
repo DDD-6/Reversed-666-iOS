@@ -18,6 +18,14 @@ struct CircleImage: View {
     }
 }
 
+struct CircleImageModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.black, lineWidth: 0.7))
+    }
+}
+
 struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         CircleImage(image: Image("cityGuide"))

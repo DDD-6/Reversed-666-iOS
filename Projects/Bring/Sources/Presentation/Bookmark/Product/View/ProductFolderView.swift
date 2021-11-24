@@ -9,13 +9,38 @@
 import SwiftUI
 
 struct ProductFolderView: View {
+    
+    @EnvironmentObject private var model: ModelData
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        VStack {
+            BookmarkFilterView(valueCount: model.brandDatas.count, sortType: .ganada)
+            
+            List {
+                ForEach(model.brandDatas) { datas in
+                    ZStack {
+                        NavigationLink(destination: ProductDetailView().environmentObject(model).navigationBarHidden(true) ) {  }
+                        .opacity(0.0)
+                        .buttonStyle(PlainButtonStyle())
+                        ProductFolderCardView(folderData: datas)
+                            .aspectRatio(3/2, contentMode: .fill)
+                    }
+                    
+                }
+            }
+            .listStyle(PlainListStyle())
+            
+        }
+
+        
+        
     }
 }
 
 struct ProductFolderView_Previews: PreviewProvider {
     static var previews: some View {
         ProductFolderView()
+            .environmentObject(ModelData())
     }
 }

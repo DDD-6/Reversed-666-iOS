@@ -27,7 +27,6 @@ struct BrandView: View {
             VStack {
                 ScrollView{
                     
-                    Text("you entered: \(textObserver.debouncedText)")
                     BringSearchBar(searchingText: $textObserver.searchText)
                         .padding(16)
                     

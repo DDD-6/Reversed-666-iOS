@@ -13,7 +13,7 @@ struct ProductFolderCardView: View {
     var folderData: BrandModel
     
     enum Constant {
-        static let lineSpacing: CGFloat = 2.0
+        static let lineSpacing: CGFloat = 1.0
         static let radius: CGFloat = 20
         static let spacing: CGFloat = 5.0
         enum Title {
@@ -30,35 +30,59 @@ struct ProductFolderCardView: View {
         VStack(alignment: .leading) {
             
             GeometryReader { geometry in
+                
+                
                 HStack(spacing: Constant.lineSpacing) {
                     folderData.image
                         .resizable()
-                        .frame(width: geometry.size.width / 2, height: geometry.size.height)
+                        .frame(width: geometry.size.width / 336 * 196, height: geometry.size.height)
                     
                     VStack(spacing: Constant.lineSpacing) {
                         folderData.image
                             .resizable()
-                            .frame(width: geometry.size.width / 2, height: geometry.size.height / 2)
+                            .frame(width: geometry.size.width / 336 * 140, height: geometry.size.height / 2)
                         folderData.image
                             .resizable()
-                            .frame(width: geometry.size.width / 2, height: geometry.size.height / 2)
+                            .frame(width: geometry.size.width / 336 * 140, height: geometry.size.height / 2)
                     }
                 }
             }
+            .background(.black)
             
-            Spacer(minLength: Constant.spacing)
+            Spacer(minLength: 1)
             
-            VStack(alignment: .leading ,spacing: Constant.spacing) {
-                Text(folderData.title)
-                    .font(.title3)
-                Text(folderData.subTitle)
-            }.padding([.leading, .bottom], Constant.Title.padding)
+            HStack {
+                
+                VStack(alignment: .leading ,spacing: Constant.lineSpacing) {
+                    HStack {
+                        Text(folderData.title)
+                            .font(.title3)
+                            .padding([.leading], 8)
+                            .padding([.top, .bottom], 6)
+                        Spacer()
+                    }.background(.white)
+                    
+                    HStack {
+                        Text(folderData.subTitle)
+                            .foregroundColor(Color("gray03"))
+                            .padding([.leading], 8)
+                            .padding([.top, .bottom], 6)
+                        Spacer()
+                    }.background(.white)
+                }
+                .background(.black)
+                .border(.black, width: 1.0)
+                
+                Image("icArrowRightFill")
+                    .frame(width: 36, height: 36, alignment: .center)
+                    .padding()
+                
+            }.border(.black, width: 1)
             
         }
         .clipped()
         .background(.white)
-        .cornerRadius(Constant.radius)
-        .shadow(color: .gray, radius: Constant.Shadow.radius, x: Constant.Shadow.size, y: Constant.Shadow.size)
+        .border(.black, width: 1.0)
     }
     
     // 임시로 계산한 메인 사진 크기.. 서브 사진은 각각 2로 나눠줌

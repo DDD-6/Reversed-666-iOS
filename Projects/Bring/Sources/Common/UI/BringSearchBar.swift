@@ -30,7 +30,7 @@ struct BringSearchBar: View {
                     Button {
                         print("testing")
                     } label: {
-                        Image("search")
+                        Image("search_orange")
                     }
                     .padding()
                     .border(width: 1, edges: [ .leading], color: .black)
@@ -38,11 +38,10 @@ struct BringSearchBar: View {
                 }
             )
             .onChange(of: searchingText) {
-                print($0 + "으흐흑")
+                print($0)
             }
 //            .onReceive(textObserver.$debouncedText, perform: { value in
 //                searchingText = value
-//                print("호롤렝?")
 //            })
             .frame(height: 40, alignment: .center)
     }
