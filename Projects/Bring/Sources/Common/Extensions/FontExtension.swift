@@ -14,9 +14,14 @@ enum BringFontStyle {
     case brandL
     /// [Popp - SemiBold 18] 브랜드 영문 medium
     case brandM
+    
+    /// [Pret - Bold 24] 타이틀
+    case heading0
     /// [Pret - Bold 18] 타이틀
     case heading1
     
+    /// [Pret - Regular 16]
+    case textXL
     /// [Pret - Regular 14]
     case textL
     /// [Pret - Regular 12]
@@ -29,20 +34,24 @@ enum BringFontStyle {
     // 폰트 Style Guide 정의
     var font: Font {
         switch self {
-            case .brandL:
-                return Font.bringFont(.poppins, size: 50, weight: .semibold)
-            case .brandM:
-                return Font.bringFont(.poppins, size: 18, weight: .semibold)
-            case .heading1:
-                return Font.bringFont(.pretendard, size: 18, weight: .bold)
-            case .textL:
-                return Font.bringFont(.pretendard, size: 14, weight: .regular)
-            case .textM:
-                return Font.bringFont(.pretendard, size: 12, weight: .regular)
-            case .textS:
-                return Font.bringFont(.pretendard, size: 11, weight: .regular)
-            case .textXS:
-                return Font.bringFont(.pretendard, size: 10, weight: .regular)
+        case .brandL:
+            return Font.bringFont(.poppins, size: 50, weight: .semibold)
+        case .brandM:
+            return Font.bringFont(.poppins, size: 18, weight: .semibold)
+        case .heading0:
+            return Font.bringFont(.pretendard, size: 24, weight: .bold)
+        case .heading1:
+            return Font.bringFont(.pretendard, size: 18, weight: .bold)
+        case .textXL:
+            return Font.bringFont(.pretendard, size: 16, weight: .bold)
+        case .textL:
+            return Font.bringFont(.pretendard, size: 14, weight: .regular)
+        case .textM:
+            return Font.bringFont(.pretendard, size: 12, weight: .regular)
+        case .textS:
+            return Font.bringFont(.pretendard, size: 11, weight: .regular)
+        case .textXS:
+            return Font.bringFont(.pretendard, size: 10, weight: .regular)
         }
     }
 }
@@ -55,36 +64,36 @@ enum FontFamily {
 extension Font.Weight {
     fileprivate func fontName(family: FontFamily) -> String {
         switch family {
-            case .poppins:
-                switch self {
-                    case .black:
-                        return "Poppins-Black"
-                    case .bold:
-                        return "Poppins-Bold"
-                    case .semibold:
-                        return "Poppins-SemiBold"
-                    case .regular:
-                        return "Poppins-Regular"
-                    case .light:
-                        return "Poppins-Light"
-                    default:
-                        return "Poppins-Regular"
-                }
-            case .pretendard:
-                switch self {
-                    case .black:
-                        return "Pretendard-Black"
-                    case .bold:
-                        return "Pretendard-Bold"
-                    case .semibold:
-                        return "Pretendard-SemiBold"
-                    case .regular:
-                        return "Pretendard-Regular"
-                    case .light:
-                        return "Pretendard-Light"
-                    default:
-                        return "Pretendard-Regular"
-                }
+        case .poppins:
+            switch self {
+            case .black:
+                return "Poppins-Black"
+            case .bold:
+                return "Poppins-Bold"
+            case .semibold:
+                return "Poppins-SemiBold"
+            case .regular:
+                return "Poppins-Regular"
+            case .light:
+                return "Poppins-Light"
+            default:
+                return "Poppins-Regular"
+            }
+        case .pretendard:
+            switch self {
+            case .black:
+                return "Pretendard-Black"
+            case .bold:
+                return "Pretendard-Bold"
+            case .semibold:
+                return "Pretendard-SemiBold"
+            case .regular:
+                return "Pretendard-Regular"
+            case .light:
+                return "Pretendard-Light"
+            default:
+                return "Pretendard-Regular"
+            }
         }
     }
 }

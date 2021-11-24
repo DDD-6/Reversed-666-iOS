@@ -16,25 +16,9 @@ struct BookmarkSegmentContentView: View {
     var body: some View {
         switch state {
         case .product:
-            VStack {
-                Text("여기는 구현해야하는 녀석들")
-                
-                    List {
-                        ForEach(modelData.brandDatas) { datas in
-                            ZStack {
-                                NavigationLink(destination: Text("haha") ) { EmptyView() }
-                                .opacity(0.0)
-                                .buttonStyle(PlainButtonStyle())
-                                ProductFolderCardView(folderData: datas)
-                                    .aspectRatio(3/2, contentMode: .fill)
-                            }
-                            
-                        }
-                    }
-                    .navigationBarHidden(true)
-                
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            ProductFolderView()
+                .navigationBarHidden(true)
+                .environmentObject(modelData)
         case .brand:
             VStack {
                 BrandView()
