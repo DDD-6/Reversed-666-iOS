@@ -14,6 +14,8 @@ import CombineMoya
 public protocol BrandServiceComponent {
     typealias Service = BrandService
     
+    var provider: MoyaProvider<Service> { get }
+    
     func fetchBrand(id: String) -> AnyPublisher<BrandModelDTO, MoyaError>
     func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
     func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
@@ -21,10 +23,6 @@ public protocol BrandServiceComponent {
 }
 
 extension BrandServiceComponent {
-    
-    var provider: MoyaProvider<Service> {
-        return MoyaProvider<Service>()
-    }
     
     func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: Service) -> AnyPublisher<D, MoyaError> {
         return provider

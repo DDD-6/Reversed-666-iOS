@@ -14,16 +14,14 @@ import CombineMoya
 public protocol FolderServiceComponent {
     typealias Service = FolderService
     
+    var provider: MoyaProvider<Service> { get }
+    
     func fetchFolder(id: String) -> AnyPublisher<BookmarkFolderResponse, MoyaError>
     func fetchFoldersAll() -> AnyPublisher<[BookmarkFolderResponse], MoyaError>
     func createFolder(name: String, description: String) -> AnyPublisher<BookmarkFolderResponse, MoyaError>
 }
 
 extension FolderServiceComponent {
-    
-    var provider: MoyaProvider<Service> {
-        return MoyaProvider<Service>()
-    }
     
     func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: Service) -> AnyPublisher<D, MoyaError> {
         return provider

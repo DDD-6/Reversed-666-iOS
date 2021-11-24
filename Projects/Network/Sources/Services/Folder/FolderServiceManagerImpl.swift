@@ -12,8 +12,10 @@ import Moya
 import CombineMoya
 
 public class FolderServiceManagerImpl: NSObject, FolderServiceComponent {
+    public var provider: MoyaProvider<Service>
     
     required public override init() {
+        provider = MoyaProvider<Service>()
         super.init()
     }
 }

@@ -12,7 +12,10 @@ import Moya
 import CombineMoya
 
 public class BrandServiceManagerMock: NSObject, BrandServiceComponent {
+    public var provider: MoyaProvider<Service>
+    
     required public override init() {
+        provider = MoyaProvider<Service>()
         super.init()
     }
 }
