@@ -13,14 +13,14 @@ struct MainView: View {
     
     @ObservedObject
     var viewModel = MainViewModel(
-        serviceManager: BrandServiceManagerImpl()
+        serviceManager: BrandServiceManagerMock()
     )
     
     var body: some View {
         return NavigationView {
             ZStack {
                 List {
-                    BringBrandView()
+                    BringBrandView(brands: viewModel.bringBrands)
                     PopularBrandRow(brands: viewModel.popularBrands)
                     MainBracketsMaskView(brands: viewModel.mainBrands)
                         .clipped()
@@ -45,8 +45,9 @@ struct MainView: View {
                     
                 }
                 .onAppear {
-                    viewModel.fetchBrandData()
                     viewModel.fetchMainBrands()
+                    viewModel.fetchBringBrands()
+                    viewModel.fetchPopularBrands()
                 }
                 .navigationBarTitleDisplayMode(.inline)
             }

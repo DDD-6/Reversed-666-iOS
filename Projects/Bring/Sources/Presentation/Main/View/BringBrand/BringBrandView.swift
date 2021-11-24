@@ -7,15 +7,39 @@
 //
 
 import SwiftUI
+import Network
 
 struct BringBrandView: View {
+    var brands: [Brand]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text("브링한 브랜드")
+                .font(.headline)
+                .padding(.leading, 15)
+                .padding(.top, 5)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 0) {
+                    // self.items가 identifiable이 되있지 않으면 ForEach에서 init을 해주어야 한다.
+                    ForEach(brands) { brand in
+                        NavigationLink(
+                            destination: Text("not implemented")) {
+                                PopularBrandItem(brand: brand)
+                            }
+                    }
+                }
+            }
+            .frame(height: 185)
+        }
     }
 }
 
 struct BringBrandView_Previews: PreviewProvider {
     static var previews: some View {
-        BringBrandView()
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
+        viewModel.fetchBringBrands()
+        
+        return BringBrandView(brands: viewModel.bringBrands)
     }
 }
