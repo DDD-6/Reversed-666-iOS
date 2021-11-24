@@ -60,6 +60,14 @@ extension BrandService: TargetType {
         }
     }
     
+    public var headers: [String: String]? {
+        var headers = ["Content-Type": "application/json"]
+        if let anonymousId: String = BringUserDefaults.anonymousId.value() {
+            headers["Authorization"] = anonymousId
+        }
+        return headers
+    }
+    
     public func getSample<D: Decodable>() -> D? {
         switch self {
             case .fetchBrand:

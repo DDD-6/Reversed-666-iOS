@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  BringTabView.swift
 //  Bring
 //
 //  Created by cado.avo on 2021/09/13.
@@ -7,9 +7,15 @@
 //
 
 import SwiftUI
+import Network
 
-struct ContentView: View {
+struct BringTabView: View {
     @State private var selection: Tab = .main
+    let viewModel: TabViewModel
+    
+    init() {
+        viewModel = TabViewModel(component: UserServiceManagerImpl())
+    }
     
     enum Tab {
         case main
@@ -46,7 +52,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        BringTabView()
     }
 }
 

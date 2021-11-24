@@ -13,7 +13,7 @@ struct MainView: View {
     
     @ObservedObject
     var viewModel = MainViewModel(
-        serviceManager: BrandServiceManagerMock()
+        serviceManager: BrandServiceManagerImpl()
     )
     
     var body: some View {
