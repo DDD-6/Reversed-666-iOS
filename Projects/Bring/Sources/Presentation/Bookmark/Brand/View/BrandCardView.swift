@@ -37,7 +37,9 @@ struct BrandCardView: View {
                 isPresented.toggle()
             }
         }.fullScreenCover(isPresented: $isPresented) {
-            MainDetailView(url: brandData.brandLink, presentedAsModal: $isPresented)
+            MainDetailView(url: brandData.brandLink,
+                           title: brandData.subTitle,
+                           presentedAsModal: $isPresented)
         }
         
     }

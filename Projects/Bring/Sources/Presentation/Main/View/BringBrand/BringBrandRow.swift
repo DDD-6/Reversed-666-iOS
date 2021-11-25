@@ -31,6 +31,7 @@ struct BringBrandRow: View {
                                     .fullScreenCover(isPresented: $presentedAsModal) {
                                         MainDetailView(
                                             url: brand.brandLink,
+                                            title: brand.name,
                                             presentedAsModal: $presentedAsModal
                                         )
                                     }

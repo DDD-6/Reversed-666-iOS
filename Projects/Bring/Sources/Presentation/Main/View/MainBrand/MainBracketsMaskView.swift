@@ -28,10 +28,12 @@ struct MainBracketsMaskView: View {
                     .fullScreenCover(isPresented: $presentedAsModal) {
                         MainDetailView(
                             url: brand.brandLink,
+                            title: brand.name,
                             presentedAsModal: $presentedAsModal
                         )
                     }
             }
+            .buttonStyle(PlainButtonStyle())
         }
         .listRowSeparator(.hidden)
         

@@ -18,7 +18,7 @@ struct BringBrandItemView: View {
     
     var body: some View {
         LazyVStack(alignment: .center) {
-            AsyncImage(url: URL(string: brand.imageName)){ phase in
+            AsyncImage(url: URL(string: brand.logoImage)){ phase in
                 switch phase {
                     case .empty:
                         ProgressView()
@@ -42,8 +42,7 @@ struct BringBrandItemView: View {
                                    height: Constant.size.rawValue)
                 }
             }
-            .clipped()
-            .cornerRadius(Constant.size.rawValue / 2)
+            .roundBorder(radiusSize: Constant.size.rawValue / 2)
             
             Text(brand.name)
                 .foregroundColor(Color("black00"))

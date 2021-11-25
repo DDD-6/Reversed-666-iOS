@@ -15,6 +15,17 @@ protocol MainEventDelegate {
 
 struct MainView: View {
     
+    enum Constant {
+        case popularBrandsPosition
+        
+        var value: Int {
+            switch self {
+                case .popularBrandsPosition:
+                    return 2
+            }
+        }
+    }
+    
     @ObservedObject
     var viewModel = MainViewModel(
         serviceManager: BrandServiceManagerImpl()
@@ -23,25 +34,59 @@ struct MainView: View {
     var body: some View {
         return NavigationView {
             ZStack {
+                
                 List {
                     if !viewModel.bringBrands.isEmpty {
                         BringBrandRow(brands: viewModel.bringBrands)
                     }
-                    if !viewModel.popularBrands.isEmpty {
-                        PopularBrandRow(
-                            delegate: self,
-                            brands: viewModel.popularBrands
-                        )
-                    }
                     if !viewModel.mainBrands.isEmpty {
-                        MainBracketsMaskView(
-                            delegate: self,
-                            brands: viewModel.mainBrands
-                        )
-                            .clipped()
+                        
+                        if viewModel.mainBrands.count > Constant.popularBrandsPosition.value {
+                            MainBracketsMaskView(
+                                delegate: self,
+                                brands: viewModel.mainBrands
+                                    .prefix(
+                                        upTo: Constant.popularBrandsPosition.value
+                                    )
+                                    .shuffled()
+                            ).clipped()
+                            
+                            if !viewModel.popularBrands.isEmpty {
+                                PopularBrandRow(
+                                    delegate: self,
+                                    brands: viewModel.popularBrands
+                                )
+                            }
+                            
+                            MainBracketsMaskView(
+                                delegate: self,
+                                brands: viewModel.mainBrands
+                                    .suffix(
+                                        from: Constant.popularBrandsPosition.value
+                                    )
+                                    .shuffled()
+                            ).clipped()
+                        } else {
+                            if !viewModel.popularBrands.isEmpty {
+                                PopularBrandRow(
+                                    delegate: self,
+                                    brands: viewModel.popularBrands
+                                )
+                            }
+                        }
+                    } else {
+                        if !viewModel.popularBrands.isEmpty {
+                            PopularBrandRow(
+                                delegate: self,
+                                brands: viewModel.popularBrands
+                            )
+                        }
                     }
-                    
-                    //                    MainViewDistributor(brands: brandList)
+                }
+                .refreshable {
+                    viewModel.fetchMainBrands()
+                    viewModel.fetchBringBrands()
+                    viewModel.fetchPopularBrands()
                 }
                 .listStyle(PlainListStyle())
                 .toolbar {
@@ -49,7 +94,7 @@ struct MainView: View {
                         HStack {
                             Image("icBringLogo")
                             Text("bring")
-                            
+
                             Spacer()
                             Button {
                                 // Search
@@ -58,7 +103,7 @@ struct MainView: View {
                             }
                         }
                     }
-                    
+
                 }
                 .onAppear {
                     viewModel.fetchMainBrands()
@@ -66,6 +111,48 @@ struct MainView: View {
                     viewModel.fetchPopularBrands()
                 }
                 .navigationBarTitleDisplayMode(.inline)
+                
+//                List {
+//                    if !viewModel.bringBrands.isEmpty {
+//                        BringBrandRow(brands: viewModel.bringBrands)
+//                    }
+//                    if !viewModel.popularBrands.isEmpty {
+//                        PopularBrandRow(
+//                            delegate: self,
+//                            brands: viewModel.popularBrands
+//                        )
+//                    }
+//                    if !viewModel.mainBrands.isEmpty {
+//                        MainBracketsMaskView(
+//                            delegate: self,
+//                            brands: viewModel.mainBrands
+//                        )
+//                            .clipped()
+//                    }
+//                }
+//                .listStyle(PlainListStyle())
+//                .toolbar {
+//                    ToolbarItem(placement: .principal) {
+//                        HStack {
+//                            Image("icBringLogo")
+//                            Text("bring")
+//
+//                            Spacer()
+//                            Button {
+//                                // Search
+//                            } label: {
+//                                Image("Search")
+//                            }
+//                        }
+//                    }
+//
+//                }
+//                .onAppear {
+//                    viewModel.fetchMainBrands()
+//                    viewModel.fetchBringBrands()
+//                    viewModel.fetchPopularBrands()
+//                }
+//                .navigationBarTitleDisplayMode(.inline)
             }
         }
         
