@@ -42,17 +42,12 @@ struct MainBrandTitleView: View {
                             .padding(10)
                     }
                     ZStack {
-                        Rectangle()
-                            .frame(width: 30, height: 30, alignment: .center)
-                            .background(RoundedRectangle(cornerRadius: 0)
-                                            .fill(Color.blue))
-                            .padding(11)
                         Image("icArrowRightFill")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
                             .padding(10)
-                            .background(.white)
+                            .background(.clear)
                     }
                 }
                 Spacer()

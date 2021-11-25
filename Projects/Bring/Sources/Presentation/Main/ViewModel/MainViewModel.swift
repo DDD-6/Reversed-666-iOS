@@ -94,12 +94,12 @@ class MainViewModel: ObservableObject {
     func postLike(id: Int, completion: (() -> Void)? = nil) {
         serviceManager
             .postBrand(id: id)
-            .sink { result in
+            .sink { [weak self] result in
                 switch result {
                     case let .failure(error):
                         print("\(#function) Error: \(error.response?.statusCode)")
                     case .finished:
-                        break
+                        self?.fetchBringBrands()
                 }
             } receiveValue: { _ in
                 // TODO: 원래 성공시에만 toggle되도록 해야됨
