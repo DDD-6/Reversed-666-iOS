@@ -27,7 +27,7 @@ struct PopularBrandRow: View {
                             presentedAsModal = true
                         } label: {
                             ZStack {
-                                PopularBrandItem(brand: brand)
+                                PopularBrandItemView(brand: brand)
                                     .fullScreenCover(isPresented: $presentedAsModal) {
                                         MainDetailView(
                                             url: brand.brandLink,
@@ -45,10 +45,6 @@ struct PopularBrandRow: View {
                                                 .bold()
                                                 .foregroundColor(Color("black00"))
                                                 .lineLimit(1)
-                                            //                                            Text("st")
-                                            //                                                .font(BringFontStyle.brandM.font)
-                                            //                                                .foregroundColor(Color("gray00"))
-                                            //                                                .lineLimit(1)
                                             Spacer()
                                         }
                                         .frame(width: 40, height: 30)

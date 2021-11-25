@@ -28,9 +28,12 @@ class TabViewModel {
                             print("Complete")
                     }
                 }, receiveValue: { anonymousId in
+                    print("anonymousid: \(anonymousId)")
                     BringUserDefaults.anonymousId.set(value: anonymousId)
                 })
                 .store(in: &cancellables)
+        } else {
+            print("anonymousid: \(id)")
         }
     }
 }

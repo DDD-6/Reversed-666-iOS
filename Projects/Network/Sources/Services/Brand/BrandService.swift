@@ -89,6 +89,8 @@ extension BrandService: TargetType {
         switch self {
             case .fetchBrand:
                 return try? JSONDecoder().decode([BrandModelDTO].self, from: sampleData) as? [D]
+            case .fetchLikedBrands:
+                return try? JSONDecoder().decode([BrandLikeListResponse].self, from: sampleData) as? [D]
             default:
                 return nil
         }
@@ -177,37 +179,20 @@ extension BrandService {
     }
     
     private var bookmarkBrands: Data {
-        let mockDatas = [
-            BrandModelDTO(
-                id: 1,
-                title: "의류임",
-                subTitle: "나이끼",
-                brandLink: "https://www.nike.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
-                category: .shoes
-            ),
-            BrandModelDTO(
-                id: 2,
-                title: "애플애플",
-                subTitle: "Apple",
-                brandLink: "https://www.apple.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
-                category: .accesary
-            ),
-            BrandModelDTO(
-                id: 3,
-                title: "스웨덴",
-                subTitle: "이끼아",
-                brandLink: "https://www.ikea.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
-                category: .clothes
-            )
-        ]
+        let basicBrand = BrandModelDTO(
+            id: 3,
+            title: "스웨덴",
+            subTitle: "이끼아",
+            brandLink: "https://www.ikea.com",
+            imageName: "cityGuide",
+            logoImage: "toronto",
+            category: .clothes
+        )
+        let mock = [BrandLikeListResponse(id: 0,
+                              isAdded: true,
+                              bringBasicBrand: basicBrand)]
         
-        guard let data = try? JSONEncoder().encode(mockDatas) else {
+        guard let data = try? JSONEncoder().encode(mock) else {
             return Data()
         }
         
@@ -253,7 +238,7 @@ extension BrandService {
     }
     
     private var postLike: Data {
-        let mock = BrandLikeResponse(status: "Success")
+        let mock = BrandLikeActionResponse(status: "Success")
         
         guard let data = try? JSONEncoder().encode(mock) else {
             return Data()

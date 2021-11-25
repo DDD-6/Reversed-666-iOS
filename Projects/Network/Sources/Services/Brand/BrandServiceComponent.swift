@@ -18,9 +18,9 @@ public protocol BrandServiceComponent {
     
     func fetchBrand(id: String) -> AnyPublisher<BrandModelDTO, MoyaError>
     func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
-    func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
+    func fetchLikeBrands() -> AnyPublisher<[BrandLikeListResponse], MoyaError>
     func fetchPopularBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
-    func postBrand(id: Int) -> AnyPublisher<BrandLikeResponse, MoyaError>
+    func postBrand(id: Int) -> AnyPublisher<BrandLikeActionResponse, MoyaError>
 }
 
 extension BrandServiceComponent {

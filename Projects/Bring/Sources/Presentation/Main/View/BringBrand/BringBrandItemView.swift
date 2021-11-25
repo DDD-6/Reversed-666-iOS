@@ -1,22 +1,21 @@
 //
-//  PopularBrandItem.swift
+//  BringBrandItemView.swift
 //  Bring
 //
-//  Created by cado.avo on 2021/09/23.
+//  Created by devming on 2021/11/25.
 //  Copyright © 2021 com.666. All rights reserved.
 //
 
 import SwiftUI
 import Network
 
-struct PopularBrandItem: View {
-    
+struct BringBrandItemView: View {
     enum Constant: CGFloat {
-        case size = 150
+        case size = 60
     }
     
-    @State var brand: Brand
-
+    @State var brand: BrandLiked
+    
     var body: some View {
         LazyVStack(alignment: .center) {
             AsyncImage(url: URL(string: brand.imageName)){ phase in
@@ -44,48 +43,24 @@ struct PopularBrandItem: View {
                 }
             }
             .clipped()
-            .cornerRadius(75)
+            .cornerRadius(Constant.size.rawValue / 2)
             
-            HStack {
-                Text(brand.engName)
-                    .foregroundColor(Color("black00"))
-                    .font(BringFontStyle.brandM.font)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: false)
-                    .lineLimit(2)
-                Text(brand.name)
-                    .foregroundColor(Color("black00"))
-                    .font(BringFontStyle.textM.font)
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: false)
-                    .lineLimit(2)
-                
-                Button {
-                    brand.isLiked.toggle()
-                } label: {
-                    Image(brand.isLiked
-                          ? "icHeartFill"
-                          : "icHeartLine")
-                        .resizable()
-                        .frame(width: 20, height: 20, alignment: .center)
-                        .scaledToFit()
-                        .clipped()
-                        .padding()
-                }
-
-            }
-            .frame(width: Constant.size.rawValue, height: 40)
+            Text(brand.name)
+                .foregroundColor(Color("black00"))
+                .font(BringFontStyle.brandM.font)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: false)
+                .lineLimit(2)
+                .frame(width: Constant.size.rawValue, height: 16)
         }
         .padding(5)
     }
 }
 
-
-struct PopularBrandItem_Previews: PreviewProvider {
+struct BringBrandItemView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
-        viewModel.fetchPopularBrands()
-        
-        return PopularBrandItem(brand: viewModel.popularBrands.first!)
+        viewModel.fetchBringBrands()
+        return BringBrandItemView(brand: viewModel.bringBrands.first!)
     }
 }

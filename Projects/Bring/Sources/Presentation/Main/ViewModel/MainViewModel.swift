@@ -13,7 +13,7 @@ import CombineMoya
 import Network
 
 class MainViewModel: ObservableObject {
-    @Published var bringBrands: [Brand]
+    @Published var bringBrands: [BrandLiked]
     @Published var popularBrands: [Brand]
     @Published var mainBrands: [Brand]
     
@@ -21,7 +21,7 @@ class MainViewModel: ObservableObject {
     var cancellables: Set<AnyCancellable>
     
     init(serviceManager: BrandServiceComponent) {
-        self.bringBrands = [Brand]()
+        self.bringBrands = [BrandLiked]()
         self.mainBrands = [Brand]()
         self.popularBrands = [Brand]()
         
@@ -41,8 +41,9 @@ class MainViewModel: ObservableObject {
     
     func fetchBringBrands() {
         serviceManager
-            .fetchBookmarkBrands()
-            .map { $0.map { Brand(from: $0) } }
+            .fetchLikeBrands()
+            .map { $0.map { BrandLiked(from: $0) } }
+//            .map { $0.map { Brand(from: $0) } }
             .sink(receiveCompletion: { result in
                 switch result {
                     case let .failure(error):

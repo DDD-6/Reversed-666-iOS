@@ -10,13 +10,21 @@ import Foundation
 import Moya
 import Alamofire
 
+// TODO: 이름 BrandListResponse로 변경 예정
 public struct BrandModelDTO: Codable {
     public var id: Int?
+    // TODO: 여기 이름 바꾸기
+    /// 영어명...
     public var title: String?
+    /// 한국어 명 ...
     public var subTitle: String?
+    /// 웹뷰 이동 링크
     public var brandLink: String?
+    /// thumbnail
     public var imageName: String?
+    /// 브랜드 로고 이미지
     public var logoImage: String?
+    /// 지금 안씀
     public var category: Category?
     public var isLiked: Bool?
     

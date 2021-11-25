@@ -21,7 +21,7 @@ struct MainView: View {
             ZStack {
                 List {
                     if !viewModel.bringBrands.isEmpty {
-                        BringBrandView(brands: viewModel.bringBrands)
+                        BringBrandRow(brands: viewModel.bringBrands)
                     }
                     if !viewModel.popularBrands.isEmpty {
                         PopularBrandRow(brands: viewModel.popularBrands)

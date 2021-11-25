@@ -1,5 +1,5 @@
 //
-//  BrandLikeResponse.swift
+//  BrandLikeActionResponse.swift
 //  Network
 //
 //  Created by devming on 2021/11/25.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public struct BrandLikeResponse: Codable {
+public struct BrandLikeActionResponse: Codable {
     var status: String?
 }

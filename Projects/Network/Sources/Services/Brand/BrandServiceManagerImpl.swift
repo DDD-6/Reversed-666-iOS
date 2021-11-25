@@ -33,8 +33,8 @@ extension BrandServiceManagerImpl {
                        target: .fetchBrandAll)
     }
     
-    public func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
-        return request(type: [BrandModelDTO].self,
+    public func fetchLikeBrands() -> AnyPublisher<[BrandLikeListResponse], MoyaError> {
+        return request(type: [BrandLikeListResponse].self,
                        target: .fetchLikedBrands)
     }
     
@@ -43,9 +43,9 @@ extension BrandServiceManagerImpl {
                        target: .fetchPopularBrands)
     }
     
-    public func postBrand(id: Int) -> AnyPublisher<BrandLikeResponse, MoyaError> {
+    public func postBrand(id: Int) -> AnyPublisher<BrandLikeActionResponse, MoyaError> {
         let requestParam = BrandLikeRequest(id: id)
-        return request(type: BrandLikeResponse.self,
+        return request(type: BrandLikeActionResponse.self,
                        target: .postBrandLike(id: requestParam))
     }
 }

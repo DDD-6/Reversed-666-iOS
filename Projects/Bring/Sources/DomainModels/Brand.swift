@@ -57,3 +57,28 @@ struct Brand: DomainModel, Hashable, Identifiable {
         self.isLiked = response.isLiked ?? false
     }
 }
+
+struct BrandLiked: DomainModel, Hashable, Identifiable {
+    typealias ResponseType = BrandLikeListResponse
+    
+    var id: Int = -1
+    var name: String = ""
+    var engName: String = ""
+    var brandLink: String = ""
+    
+    var imageName: String = ""
+    var logoImage: String = ""
+    
+    var isLiked: Bool = false
+    
+    init(from response: ResponseType) {
+        
+        id = response.bringBasicBrand?.id ?? -1
+        name = response.bringBasicBrand?.subTitle ?? ""
+        engName = response.bringBasicBrand?.title ?? ""
+        brandLink = response.bringBasicBrand?.brandLink ?? ""
+        imageName = response.bringBasicBrand?.imageName ?? ""
+        logoImage = response.bringBasicBrand?.logoImage ?? ""
+        isLiked = response.isAdded ?? false
+    }
+}
