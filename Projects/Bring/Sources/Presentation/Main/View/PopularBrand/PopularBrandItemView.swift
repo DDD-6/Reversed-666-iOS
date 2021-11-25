@@ -20,7 +20,7 @@ struct PopularBrandItemView: View {
 
     var body: some View {
         LazyVStack(alignment: .center) {
-            AsyncImage(url: URL(string: brand.imageName)){ phase in
+            AsyncImage(url: URL(string: brand.thumbnailUrl)){ phase in
                 switch phase {
                     case .empty:
                         ProgressView()

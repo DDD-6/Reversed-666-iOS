@@ -24,7 +24,7 @@ struct MainBrandCardView: View {
                                    height: height)
                     
                     ZStack {
-                        AsyncImage(url: URL(string: brand.imageName)) { phase in
+                        AsyncImage(url: URL(string: brand.thumbnailUrl)) { phase in
                             switch phase {
                                 case .empty:
                                     ProgressView()
@@ -49,7 +49,7 @@ struct MainBrandCardView: View {
                                 Spacer()
                                 Circle()
                                     .strokeBorder(.white, lineWidth: 1)
-                                    .background(AsyncCircularImageView(imageUrl: brand.logoImage, size: .size13))
+                                    .background(AsyncCircularImageView(imageUrl: brand.logoImageUrl, size: .size13))
                                     .clipShape(Circle())
                                     .frame(width: .size13, height: .size13, alignment: .center)
                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: .size4, trailing: .size4))
@@ -60,8 +60,6 @@ struct MainBrandCardView: View {
                            height: height - CGFloat.size5,
                            alignment: .center)
                 }
-                
-                Spacer()
                 
                 MainBrandTitleView(delegate: delegate, brand: brand)
                     .frame(width: width * 0.9,

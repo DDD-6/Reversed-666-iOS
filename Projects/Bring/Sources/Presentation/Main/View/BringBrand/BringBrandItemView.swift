@@ -18,7 +18,7 @@ struct BringBrandItemView: View {
     
     var body: some View {
         LazyVStack(alignment: .center) {
-            AsyncImage(url: URL(string: brand.logoImage)){ phase in
+            AsyncImage(url: URL(string: brand.logoImageUrl)){ phase in
                 switch phase {
                     case .empty:
                         ProgressView()

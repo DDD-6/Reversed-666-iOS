@@ -11,7 +11,7 @@ import Foundation
 public struct BrandLikeListResponse: Codable {
     public var id: Int?
     public var isAdded: Bool?
-    public var bringBasicBrand: BrandModelDTO?
+    public var bringBasicBrand: BrandListResponse?
 //    public var userAddedBrand: BrandModelDTO?
     
     enum CodingKeys: String, CodingKey, Decodable {

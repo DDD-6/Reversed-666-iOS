@@ -21,15 +21,22 @@ public class BrandServiceManagerImpl: NSObject, BrandServiceComponent {
 }
 
 extension BrandServiceManagerImpl {
+    /// 내 브랜드 추가 API
+    public func addMyBrand(engName: String, korName: String, siteUrl: String) -> AnyPublisher<StatusMessageResponse, MoyaError> {
+        let param = MyBrandRequest(engName: engName, korName: korName, siteUrl: siteUrl)
+        return request(type: StatusMessageResponse.self,
+                       target: .addMyBrand(request: param))
+    }
+    
     /// Brand 가져오는 API
-    public func fetchBrand(id: String = "") -> AnyPublisher<BrandModelDTO, MoyaError> {
-        return request(type: BrandModelDTO.self,
+    public func fetchBrand(id: String = "") -> AnyPublisher<BrandListResponse, MoyaError> {
+        return request(type: BrandListResponse.self,
                        target: .fetchBrand(id: id))
     }
     
     /// 모든 Brand 가져오는 API
-    public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
-        return request(type: [BrandModelDTO].self,
+    public func fetchAllBrands() -> AnyPublisher<[BrandListResponse], MoyaError> {
+        return request(type: [BrandListResponse].self,
                        target: .fetchBrandAll)
     }
     
@@ -38,14 +45,22 @@ extension BrandServiceManagerImpl {
                        target: .fetchLikedBrands)
     }
     
-    public func fetchPopularBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
-        return request(type: [BrandModelDTO].self,
+    public func fetchPopularBrands() -> AnyPublisher<[BrandListResponse], MoyaError> {
+        return request(type: [BrandListResponse].self,
                        target: .fetchPopularBrands)
     }
     
-    public func postBrand(id: Int) -> AnyPublisher<BrandLikeActionResponse, MoyaError> {
+    public func fetchSearchedBrands(keyword: String) -> AnyPublisher<[BrandListResponse], MoyaError> {
+        
+        return request(type: [BrandListResponse].self,
+                       target: .fetchSearchedBrands(keyword: keyword))
+            .debounce(for: 0.5, scheduler: RunLoop.current)
+            .eraseToAnyPublisher()
+    }
+    
+    public func postBrand(id: Int) -> AnyPublisher<StatusMessageResponse, MoyaError> {
         let requestParam = BrandLikeRequest(id: id)
-        return request(type: BrandLikeActionResponse.self,
+        return request(type: StatusMessageResponse.self,
                        target: .postBrandLike(id: requestParam))
     }
 }

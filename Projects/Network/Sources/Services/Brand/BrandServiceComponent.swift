@@ -16,11 +16,13 @@ public protocol BrandServiceComponent {
     
     var provider: MoyaProvider<Service> { get }
     
-    func fetchBrand(id: String) -> AnyPublisher<BrandModelDTO, MoyaError>
-    func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
+    func addMyBrand(engName: String, korName: String, siteUrl: String) -> AnyPublisher<StatusMessageResponse, MoyaError>
+    func fetchBrand(id: String) -> AnyPublisher<BrandListResponse, MoyaError>
+    func fetchAllBrands() -> AnyPublisher<[BrandListResponse], MoyaError>
     func fetchLikeBrands() -> AnyPublisher<[BrandLikeListResponse], MoyaError>
-    func fetchPopularBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
-    func postBrand(id: Int) -> AnyPublisher<BrandLikeActionResponse, MoyaError>
+    func fetchPopularBrands() -> AnyPublisher<[BrandListResponse], MoyaError>
+    func fetchSearchedBrands(keyword: String) -> AnyPublisher<[BrandListResponse], MoyaError>
+    func postBrand(id: Int) -> AnyPublisher<StatusMessageResponse, MoyaError>
 }
 
 extension BrandServiceComponent {

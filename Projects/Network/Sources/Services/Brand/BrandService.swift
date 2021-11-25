@@ -12,11 +12,14 @@ import Alamofire
 import Combine
 
 public enum BrandService {
+    // 브랜드 API
+    case addMyBrand(request: MyBrandRequest)
     case fetchBrand(id: String)
     case fetchBrandAll
     case fetchPopularBrands
+    case fetchSearchedBrands(keyword: String)
     
-    // like
+    // 좋아요한 브랜드 API
     case fetchLikedBrands
     case postBrandLike(id: BrandLikeRequest)
 }
@@ -24,12 +27,16 @@ public enum BrandService {
 extension BrandService: TargetType {
     public var path: String {
         switch self {
+            case .addMyBrand:
+                return "/brand"
             case let .fetchBrand(id):
                 return "/brand/\(id)"
             case .fetchBrandAll:
                 return "/brands/main/"
             case .fetchPopularBrands:
                 return "/brands/popular"
+            case .fetchSearchedBrands:
+                return "/brands/search"
             case .fetchLikedBrands:
                 return "/brands/liked"
             case .postBrandLike:
@@ -39,9 +46,14 @@ extension BrandService: TargetType {
 
     public var method: Moya.Method {
         switch self {
-            case .fetchBrand, .fetchBrandAll, .fetchPopularBrands, .fetchLikedBrands:
+            case .fetchBrand,
+                    .fetchBrandAll,
+                    .fetchPopularBrands,
+                    .fetchSearchedBrands,
+                    .fetchLikedBrands:
                 return .get
-            case .postBrandLike:
+            case .addMyBrand,
+                    .postBrandLike:
                 return .post
         }
     }
@@ -54,6 +66,8 @@ extension BrandService: TargetType {
         switch self {
             case .postBrandLike(let id):
                 return .requestJSONEncodable(id)
+            case .addMyBrand(let request):
+                return .requestJSONEncodable(request)
             default:
                 return .requestPlain
         }
@@ -61,7 +75,7 @@ extension BrandService: TargetType {
     
     var parameterEncoding: ParameterEncoding {
         switch self {
-            case .postBrandLike:
+            case .addMyBrand, .postBrandLike:
                 return JSONEncoding.default
             default:
                 return URLEncoding.default
@@ -79,7 +93,7 @@ extension BrandService: TargetType {
     public func getSample<D: Decodable>() -> D? {
         switch self {
             case .fetchBrand:
-                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
+                return try? JSONDecoder().decode(BrandListResponse.self, from: sampleData) as? D
             default:
                 return nil
         }
@@ -87,8 +101,8 @@ extension BrandService: TargetType {
     
     public func getSamples<D: Decodable>() -> [D]? {
         switch self {
-            case .fetchBrand:
-                return try? JSONDecoder().decode([BrandModelDTO].self, from: sampleData) as? [D]
+            case .fetchBrandAll, .fetchPopularBrands, .fetchSearchedBrands:
+                return try? JSONDecoder().decode([BrandListResponse].self, from: sampleData) as? [D]
             case .fetchLikedBrands:
                 return try? JSONDecoder().decode([BrandLikeListResponse].self, from: sampleData) as? [D]
             default:
@@ -100,27 +114,31 @@ extension BrandService: TargetType {
 extension BrandService {
     public var sampleData: Data {
         switch self {
+            case .addMyBrand:
+                return Data()
             case .fetchBrand:
                 return mockBrand
             case .fetchBrandAll:
                 return mainAllBrands
-            case .fetchLikedBrands:
-                return bookmarkBrands
             case .fetchPopularBrands:
                 return popularBrands
+            case .fetchSearchedBrands:
+                return mainAllBrands
+            case .fetchLikedBrands:
+                return bookmarkBrands
             case .postBrandLike:
                 return Data()
         }
     }
     
     private var mockBrand: Data {
-        let mockDatas = BrandModelDTO(
+        let mockDatas = BrandListResponse(
                 id: 1,
-                title: "의류",
-                subTitle: "NAAAAike",
+                engName: "의류",
+                korName: "NAAAAike",
                 brandLink: "https://www.nike.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .shoes
             )
         
@@ -133,40 +151,40 @@ extension BrandService {
     
     private var mainAllBrands: Data {
         let mockDatas = [
-            BrandModelDTO(
+            BrandListResponse(
                 id: 1,
-                title: "의류",
-                subTitle: "Nike",
+                engName: "의류",
+                korName: "Nike",
                 brandLink: "https://www.nike.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .shoes
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 2,
-                title: "전자기기",
-                subTitle: "Apple",
+                engName: "전자기기",
+                korName: "Apple",
                 brandLink: "https://www.apple.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .accesary
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 3,
-                title: "가구",
-                subTitle: "이케아",
+                engName: "가구",
+                korName: "이케아",
                 brandLink: "https://www.ikea.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .clothes
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 3,
-                title: "슬리퍼",
-                subTitle: "아디다스",
+                engName: "슬리퍼",
+                korName: "아디다스",
                 brandLink: "https://www.adidas.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .clothes
             )
         ]
@@ -179,13 +197,13 @@ extension BrandService {
     }
     
     private var bookmarkBrands: Data {
-        let basicBrand = BrandModelDTO(
+        let basicBrand = BrandListResponse(
             id: 3,
-            title: "스웨덴",
-            subTitle: "이끼아",
+            engName: "스웨덴",
+            korName: "이끼아",
             brandLink: "https://www.ikea.com",
-            imageName: "cityGuide",
-            logoImage: "toronto",
+            thumbnailUrl: "cityGuide",
+            logoImageUrl: "toronto",
             category: .clothes
         )
         let mock = [BrandLikeListResponse(id: 0,
@@ -201,31 +219,31 @@ extension BrandService {
     
     private var popularBrands: Data {
         let mockDatas = [
-            BrandModelDTO(
+            BrandListResponse(
                 id: 1,
-                title: "의류",
-                subTitle: "Nike",
+                engName: "의류",
+                korName: "Nike",
                 brandLink: "https://www.nike.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .shoes
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 2,
-                title: "전자기기",
-                subTitle: "Apple",
+                engName: "전자기기",
+                korName: "Apple",
                 brandLink: "https://www.apple.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .accesary
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 3,
-                title: "가구",
-                subTitle: "이케아",
+                engName: "가구",
+                korName: "이케아",
                 brandLink: "https://www.ikea.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .clothes
             )
         ]
@@ -238,7 +256,7 @@ extension BrandService {
     }
     
     private var postLike: Data {
-        let mock = BrandLikeActionResponse(status: "Success")
+        let mock = StatusMessageResponse(status: "Success")
         
         guard let data = try? JSONEncoder().encode(mock) else {
             return Data()

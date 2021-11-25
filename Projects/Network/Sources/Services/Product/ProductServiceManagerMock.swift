@@ -21,10 +21,19 @@ public class ProductServiceManagerMock: NSObject, ProductServiceComponent {
 }
 
 extension ProductServiceManagerMock {
-    /// Brand 가져오는 API
-    public func fetchProduct(name: String = "") -> AnyPublisher<ProductModelDTO, MoyaError> {
-        return requestMock(type: ProductModelDTO.self,
-                           target: .fetchProduct(name: name))
+    /// Product 추가하는 API
+    public func addLikeProudct(folderId: Int, siteUrl: String) -> AnyPublisher<StatusMessageResponse, MoyaError> {
+        let likeParam = ProductLikeRequest(folderId: folderId, siteUrl: siteUrl)
+        return requestMock(type: StatusMessageResponse.self,
+                           target: .addLikeProduct(request: likeParam))
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
+    }
+    
+    /// Product list 가져오는 API
+    public func fetchProduct(folderId: Int) -> AnyPublisher<[ProductListResponse], MoyaError> {
+        return requestMock(type: [ProductListResponse].self,
+                           target: .fetchProduct(id: folderId))
             .compactMap { $0 }
             .eraseToAnyPublisher()
     }
