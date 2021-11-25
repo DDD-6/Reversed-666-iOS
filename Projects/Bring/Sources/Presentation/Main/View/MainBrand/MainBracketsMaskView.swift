@@ -10,6 +10,7 @@ import SwiftUI
 import Network
 
 struct MainBracketsMaskView: View {
+    var delegate: MainBrandTitleViewDelegate?
     var brands: [Brand]
     @State var presentedAsModal: Bool = false
     
@@ -20,7 +21,7 @@ struct MainBracketsMaskView: View {
             Button {
                 presentedAsModal = true
             } label: {
-                MainBrandCardView(brand: brand)
+                MainBrandCardView(delegate: delegate, brand: brand)
                     .frame(width: width,
                            height: height + .size5 * 8,
                            alignment: .center)

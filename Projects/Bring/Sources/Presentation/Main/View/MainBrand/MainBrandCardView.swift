@@ -10,6 +10,7 @@ import SwiftUI
 import Network
 
 struct MainBrandCardView: View {
+    var delegate: MainBrandTitleViewDelegate?
     var brand: Brand
     
     var body: some View {
@@ -63,7 +64,7 @@ struct MainBrandCardView: View {
                 
                 Spacer()
                 
-                MainBrandTitleView(brand: brand)
+                MainBrandTitleView(delegate: delegate, brand: brand)
                     .frame(width: width * 0.9,
                            height: width * 0.2)
             }

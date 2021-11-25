@@ -10,6 +10,11 @@ import SwiftUI
 import Network
 
 struct PopularBrandItem: View {
+    
+    enum Constant: CGFloat {
+        case size = 150
+    }
+    
     @State var brand: Brand
 
     var body: some View {
@@ -19,23 +24,23 @@ struct PopularBrandItem: View {
                     case .empty:
                         ProgressView()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 150,
-                                   height: 150)
+                            .frame(width: Constant.size.rawValue,
+                                   height: Constant.size.rawValue)
                     case .success(let image):
                         image.resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 150,
-                                   height: 150)
+                            .frame(width: Constant.size.rawValue,
+                                   height: Constant.size.rawValue)
                     case .failure:
                         Image(systemName: "photo")
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 150,
-                                   height: 150)
+                            .frame(width: Constant.size.rawValue,
+                                   height: Constant.size.rawValue)
                     @unknown default:
                         Image(systemName: "photo")
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 150,
-                                   height: 150)
+                            .frame(width: Constant.size.rawValue,
+                                   height: Constant.size.rawValue)
                 }
             }
             .clipped()
@@ -69,7 +74,7 @@ struct PopularBrandItem: View {
                 }
 
             }
-            .frame(width: 150, height: 40)
+            .frame(width: Constant.size.rawValue, height: 40)
         }
         .padding(5)
     }

@@ -9,7 +9,12 @@
 import SwiftUI
 import Network
 
+protocol MainBrandTitleViewDelegate {
+    func callLike(id: Int)
+}
+
 struct MainBrandTitleView: View {
+    var delegate: MainBrandTitleViewDelegate?
     @State var brand: Brand
     var body: some View {
         HStack(alignment: .center) {
@@ -31,6 +36,7 @@ struct MainBrandTitleView: View {
                     Button {
                         brand.isLiked.toggle()
                         // TODO: call like API
+                        delegate?.callLike(id: brand.id)
                     } label: {
                         Image(brand.isLiked ? "icHeartFill" : "icHeartLine")
                             .resizable()

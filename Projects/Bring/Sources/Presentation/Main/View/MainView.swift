@@ -27,7 +27,10 @@ struct MainView: View {
                         PopularBrandRow(brands: viewModel.popularBrands)
                     }
                     if !viewModel.mainBrands.isEmpty {
-                        MainBracketsMaskView(brands: viewModel.mainBrands)
+                        MainBracketsMaskView(
+                            delegate: self,
+                            brands: viewModel.mainBrands
+                        )
                             .clipped()
                     }
                     
@@ -59,6 +62,12 @@ struct MainView: View {
             }
         }
         
+    }
+}
+
+extension MainView: MainBrandTitleViewDelegate {
+    func callLike(id: Int) {
+        viewModel.postLike(id: id)
     }
 }
 

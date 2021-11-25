@@ -46,9 +46,9 @@ class MainViewModel: ObservableObject {
             .sink(receiveCompletion: { result in
                 switch result {
                     case let .failure(error):
-                        print("!!@@!!!: \(error.response?.statusCode)")
+                        print("\(#function) Error: \(error.response?.statusCode)")
                     case .finished:
-                        print("AAAAComplete")
+                        break
                 }
             }, receiveValue:  { [weak self] values in
                 self?.bringBrands = values
@@ -63,9 +63,9 @@ class MainViewModel: ObservableObject {
             .sink(receiveCompletion: { result in
                 switch result {
                     case let .failure(error):
-                        print("error!####!: \(error.response?.statusCode)")
+                        print("\(#function) Error: \(error.response?.statusCode)")
                     case .finished:
-                        print("BBBComplete")
+                        break
                 }
             }, receiveValue: { [weak self] values in
                 self?.popularBrands = values
@@ -80,13 +80,30 @@ class MainViewModel: ObservableObject {
             .sink(receiveCompletion: { result in
                 switch result {
                     case let .failure(error):
-                        print("error!!!: \(error.response?.statusCode)")
+                        print("\(#function) Error: \(error.response?.statusCode)")
                     case .finished:
-                        print("CCCComplete")
+                        break
                 }
             }, receiveValue: { [weak self] values in
                 self?.mainBrands = values
             })
             .store(in: &cancellables)
+    }
+    
+    func postLike(id: Int) {
+        serviceManager
+            .postBrand(id: id)
+            .sink { result in
+                switch result {
+                    case let .failure(error):
+                        print("\(#function) Error: \(error.response?.statusCode)")
+                    case .finished:
+                        break
+                }
+            } receiveValue: { _ in
+                // TODO: 원래 성공시에만 toggle되도록 해야됨
+            }
+            .store(in: &cancellables)
+
     }
 }

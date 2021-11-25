@@ -35,11 +35,17 @@ extension BrandServiceManagerMock {
     
     public func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         return requestMock(type: [BrandModelDTO].self,
-                           target: .fetchBookmarkBrands)
+                           target: .fetchLikedBrands)
     }
     
     public func fetchPopularBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         return requestMock(type: [BrandModelDTO].self,
                            target: .fetchPopularBrands)
+    }
+    
+    public func postBrand(id: Int) -> AnyPublisher<BrandLikeResponse, MoyaError> {
+        let requestParam = BrandLikeRequest(id: id)
+        return requestMock(type: BrandLikeResponse.self,
+                           target: .postBrandLike(id: requestParam))
     }
 }

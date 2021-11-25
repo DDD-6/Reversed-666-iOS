@@ -15,7 +15,10 @@ public enum BrandService {
     case fetchBrand(id: String)
     case fetchBrandAll
     case fetchPopularBrands
-    case fetchBookmarkBrands
+    
+    // like
+    case fetchLikedBrands
+    case postBrandLike(id: BrandLikeRequest)
 }
 
 extension BrandService: TargetType {
@@ -27,15 +30,19 @@ extension BrandService: TargetType {
                 return "/brands/main/"
             case .fetchPopularBrands:
                 return "/brands/popular"
-            case .fetchBookmarkBrands:
+            case .fetchLikedBrands:
                 return "/brands/liked"
+            case .postBrandLike:
+                return "/brand/like"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-            case .fetchBrand, .fetchBrandAll, .fetchPopularBrands, .fetchBookmarkBrands:
+            case .fetchBrand, .fetchBrandAll, .fetchPopularBrands, .fetchLikedBrands:
                 return .get
+            case .postBrandLike:
+                return .post
         }
     }
 
@@ -45,6 +52,8 @@ extension BrandService: TargetType {
     
     public var task: Task {
         switch self {
+            case .postBrandLike(let id):
+                return .requestJSONEncodable(id)
             default:
                 return .requestPlain
         }
@@ -52,6 +61,8 @@ extension BrandService: TargetType {
     
     var parameterEncoding: ParameterEncoding {
         switch self {
+            case .postBrandLike:
+                return JSONEncoding.default
             default:
                 return URLEncoding.default
         }
@@ -91,10 +102,12 @@ extension BrandService {
                 return mockBrand
             case .fetchBrandAll:
                 return mainAllBrands
-            case .fetchBookmarkBrands:
+            case .fetchLikedBrands:
                 return bookmarkBrands
             case .fetchPopularBrands:
                 return popularBrands
+            case .postBrandLike:
+                return Data()
         }
     }
     
@@ -233,6 +246,16 @@ extension BrandService {
         ]
         
         guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var postLike: Data {
+        let mock = BrandLikeResponse(status: "Success")
+        
+        guard let data = try? JSONEncoder().encode(mock) else {
             return Data()
         }
         
