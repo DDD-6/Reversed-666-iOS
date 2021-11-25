@@ -10,7 +10,7 @@ import SwiftUI
 import Network
 
 struct MainBracketsMaskView: View {
-    var delegate: MainBrandTitleViewDelegate?
+    var delegate: MainEventDelegate?
     var brands: [Brand]
     @State var presentedAsModal: Bool = false
     

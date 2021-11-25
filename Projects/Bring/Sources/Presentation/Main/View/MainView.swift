@@ -9,6 +9,10 @@
 import SwiftUI
 import Network
 
+protocol MainEventDelegate {
+    func callLike(id: Int, completion: (() -> Void)?) 
+}
+
 struct MainView: View {
     
     @ObservedObject
@@ -24,7 +28,10 @@ struct MainView: View {
                         BringBrandRow(brands: viewModel.bringBrands)
                     }
                     if !viewModel.popularBrands.isEmpty {
-                        PopularBrandRow(brands: viewModel.popularBrands)
+                        PopularBrandRow(
+                            delegate: self,
+                            brands: viewModel.popularBrands
+                        )
                     }
                     if !viewModel.mainBrands.isEmpty {
                         MainBracketsMaskView(
@@ -65,10 +72,11 @@ struct MainView: View {
     }
 }
 
-extension MainView: MainBrandTitleViewDelegate {
-    func callLike(id: Int) {
-        viewModel.postLike(id: id)
+extension MainView: MainEventDelegate {
+    func callLike(id: Int, completion: (() -> Void)?) {
+        viewModel.postLike(id: id, completion: completion)
     }
+    
 }
 
 struct MainView_Previews: PreviewProvider {

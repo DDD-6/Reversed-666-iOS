@@ -15,6 +15,7 @@ struct PopularBrandItemView: View {
         case size = 150
     }
     
+    var delegate: MainEventDelegate?
     @State var brand: Brand
 
     var body: some View {
@@ -61,7 +62,9 @@ struct PopularBrandItemView: View {
                     .lineLimit(2)
                 
                 Button {
-                    brand.isLiked.toggle()
+                    delegate?.callLike(id: brand.id) {
+                        brand.isLiked.toggle()
+                    }
                 } label: {
                     Image(brand.isLiked
                           ? "icHeartFill"

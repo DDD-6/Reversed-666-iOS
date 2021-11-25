@@ -10,7 +10,7 @@ import SwiftUI
 import Network
 
 struct MainBrandCardView: View {
-    var delegate: MainBrandTitleViewDelegate?
+    var delegate: MainEventDelegate?
     var brand: Brand
     
     var body: some View {
@@ -49,8 +49,7 @@ struct MainBrandCardView: View {
                                 Spacer()
                                 Circle()
                                     .strokeBorder(.white, lineWidth: 1)
-                                    .background(AsyncImage(url: URL(string: brand.logoImage))
-                                                    .scaledToFit())
+                                    .background(AsyncCircularImageView(imageUrl: brand.logoImage, size: .size13))
                                     .clipShape(Circle())
                                     .frame(width: .size13, height: .size13, alignment: .center)
                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: .size4, trailing: .size4))

@@ -11,6 +11,7 @@ import Network
 
 struct PopularBrandRow: View {
     
+    var delegate: MainEventDelegate?
     var brands: [Brand]
     @State var presentedAsModal: Bool = false
     
@@ -27,7 +28,10 @@ struct PopularBrandRow: View {
                             presentedAsModal = true
                         } label: {
                             ZStack {
-                                PopularBrandItemView(brand: brand)
+                                PopularBrandItemView(
+                                    delegate: delegate,
+                                    brand: brand
+                                )
                                     .fullScreenCover(isPresented: $presentedAsModal) {
                                         MainDetailView(
                                             url: brand.brandLink,

@@ -47,7 +47,7 @@ struct BringBrandItemView: View {
             
             Text(brand.name)
                 .foregroundColor(Color("black00"))
-                .font(BringFontStyle.brandM.font)
+                .font(BringFontStyle.textS.font)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: false)
                 .lineLimit(2)

@@ -91,7 +91,7 @@ class MainViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func postLike(id: Int) {
+    func postLike(id: Int, completion: (() -> Void)? = nil) {
         serviceManager
             .postBrand(id: id)
             .sink { result in
@@ -103,6 +103,7 @@ class MainViewModel: ObservableObject {
                 }
             } receiveValue: { _ in
                 // TODO: 원래 성공시에만 toggle되도록 해야됨
+                completion?()
             }
             .store(in: &cancellables)
 
