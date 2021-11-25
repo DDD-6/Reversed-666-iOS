@@ -35,7 +35,7 @@ enum BringFontStyle {
     var font: Font {
         switch self {
         case .brandL:
-            return Font.bringFont(.poppins, size: 50, weight: .black)
+            return Font.bringFont(.poppins, size: 50, weight: .semibold)
         case .brandM:
             return Font.bringFont(.poppins, size: 18, weight: .semibold)
         case .heading0:

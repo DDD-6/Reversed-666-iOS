@@ -18,24 +18,47 @@ struct PopularBrandRow: View {
         LazyVStack(alignment: .leading) {
             Text("현재 인기 브랜드")
                 .font(.headline)
-                .padding(.leading, 15)
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(alignment: .top, spacing: 0) {
-                    ForEach(brands) { brand in
+                    ForEach(Array(zip(brands.indices, brands)), id: \.0) { (index, brand) in
                         Button {
                             presentedAsModal = true
                         } label: {
-                            PopularBrandItem(brand: brand)
-                                .fullScreenCover(isPresented: $presentedAsModal) {
-                                    MainDetailView(
-                                        url: brand.brandLink,
-                                        presentedAsModal: $presentedAsModal
-                                    )
+                            ZStack {
+                                PopularBrandItem(brand: brand)
+                                    .fullScreenCover(isPresented: $presentedAsModal) {
+                                        MainDetailView(
+                                            url: brand.brandLink,
+                                            presentedAsModal: $presentedAsModal
+                                        )
+                                    }
+                                
+                                VStack {
+                                    HStack {
+                                        HStack(alignment: .bottom) {
+                                            Spacer()
+                                            let rank = index + 1
+                                            Text(rank.description)
+                                                .font(BringFontStyle.heading0.font)
+                                                .bold()
+                                                .foregroundColor(Color("black00"))
+                                                .lineLimit(1)
+                                            //                                            Text("st")
+                                            //                                                .font(BringFontStyle.brandM.font)
+                                            //                                                .foregroundColor(Color("gray00"))
+                                            //                                                .lineLimit(1)
+                                            Spacer()
+                                        }
+                                        .frame(width: 40, height: 30)
+                                        .background(Color("brandColor"))
+                                        Spacer()
+                                    }
+                                    Spacer()
                                 }
+                            }
                         }
-
                     }
                 }
             }

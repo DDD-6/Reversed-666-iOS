@@ -17,8 +17,9 @@ struct MainBrandTitleView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(brand.engName)
                         .font(BringFontStyle.brandL.font)
+                        .bold()
                         .lineLimit(2)
-//                        .fixedSize(horizontal: false, vertical: false)
+                    
                     Text(brand.name)
                         .font(BringFontStyle.textL.font)
                         .lineLimit(1)
