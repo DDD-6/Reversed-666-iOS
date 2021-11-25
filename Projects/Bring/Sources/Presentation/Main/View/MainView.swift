@@ -13,17 +13,23 @@ struct MainView: View {
     
     @ObservedObject
     var viewModel = MainViewModel(
-        serviceManager: BrandServiceManagerMock()
+        serviceManager: BrandServiceManagerImpl()
     )
     
     var body: some View {
         return NavigationView {
             ZStack {
                 List {
-                    BringBrandView(brands: viewModel.bringBrands)
-                    PopularBrandRow(brands: viewModel.popularBrands)
-                    MainBracketsMaskView(brands: viewModel.mainBrands)
-                        .clipped()
+                    if !viewModel.bringBrands.isEmpty {
+                        BringBrandView(brands: viewModel.bringBrands)
+                    }
+                    if !viewModel.popularBrands.isEmpty {
+                        PopularBrandRow(brands: viewModel.popularBrands)
+                    }
+                    if !viewModel.mainBrands.isEmpty {
+                        MainBracketsMaskView(brands: viewModel.mainBrands)
+                            .clipped()
+                    }
                     
                     //                    MainViewDistributor(brands: brandList)
                 }

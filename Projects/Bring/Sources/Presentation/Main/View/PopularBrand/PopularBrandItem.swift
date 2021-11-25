@@ -14,9 +14,9 @@ struct PopularBrandItem: View {
 
     var body: some View {
         VStack(alignment: .center) {
-            Image(brand?.imageName ?? "")
-                .renderingMode(.original)
-                .resizable()
+            AsyncImage(url: URL(string: brand?.imageName ?? ""))
+//                .renderingMode(.original)
+//                .resizable()
                 .frame(width: 155, height: 155)
                 .cornerRadius(5)
             Text(brand?.name ?? "")

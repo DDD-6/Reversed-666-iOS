@@ -17,13 +17,13 @@ class TabViewModel {
     init(component: UserServiceComponent) {
         serviceManager = component
         cancellables = Set<AnyCancellable>()
-        
-        if BringUserDefaults.anonymousId.value() == nil {
+        let id: String? = BringUserDefaults.anonymousId.value()
+        if id == nil {
             serviceManager.joinUser()
                 .sink(receiveCompletion: { result in
                     switch result {
                         case let .failure(error):
-                            print("error: \(error)")
+                            print("error: \(error.response?.statusCode)")
                         case .finished:
                             print("Complete")
                     }

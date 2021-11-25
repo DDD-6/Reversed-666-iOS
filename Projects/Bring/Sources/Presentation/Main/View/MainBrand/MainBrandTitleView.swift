@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct MainBrandTitleView: View {
+    @State var isLiked: Bool
     var body: some View {
         HStack(alignment: .center) {
             HStack {
@@ -26,7 +27,7 @@ struct MainBrandTitleView: View {
                     Button {
                         print("~")
                     } label: {
-                        Image("icHeartLine")
+                        Image(isLiked ? "icHeartFill" : "icHeartLine")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
@@ -55,7 +56,7 @@ struct MainBrandTitleView: View {
 
 struct MainBrandTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        MainBrandTitleView()
+        MainBrandTitleView(isLiked: true)
             .frame(width: .infinity, height: .infinity, alignment: .center)
     }
 }

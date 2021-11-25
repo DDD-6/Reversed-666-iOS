@@ -30,7 +30,7 @@ extension BrandServiceManagerImpl {
     /// 모든 Brand 가져오는 API
     public func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {
         return request(type: [BrandModelDTO].self,
-                       target: .fetchBrand(id: ""))
+                       target: .fetchBrandAll)
     }
     
     public func fetchBookmarkBrands() -> AnyPublisher<[BrandModelDTO], MoyaError> {

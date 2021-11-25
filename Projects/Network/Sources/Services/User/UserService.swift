@@ -18,14 +18,13 @@ public enum UserService {
 
 extension UserService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
+//        var base = baseURL.absoluteString
         switch self {
             case let .getUserInfo(anonymousId):
-                resultPath += "/user/\(anonymousId)"
+                return "/user/\(anonymousId)"
             case .joinUser:
-                resultPath += "/user"
+                return "/user"
         }
-        return resultPath
     }
     
     public var method: Moya.Method {
@@ -97,13 +96,13 @@ extension UserService {
     private var mockUserInfo: Data {
         let mockDatas =
             UserInfoResponse(
-                id: 0,
-                anonymousId: "123413f2eqf2ef1q23f13",
-                appleId: "string",
-                kakaoId: "string",
-                email: "string",
-                nickname: "string",
-                profileImage: "string",
+                id: 19,
+                anonymousId: "098c1183-6265-43b5-93b4-fd1bc6a1fdc1",
+                appleId: nil,
+                kakaoId: nil,
+                email: nil,
+                nickname: nil,
+                profileImage: nil,
                 createdAt: "2021-11-24T11:50:43.572Z",
                 updatedAt: "2021-11-24T11:50:43.572Z"
             )
@@ -116,8 +115,8 @@ extension UserService {
     
     private var mockJoin: Data {
         let mockDatas = UserJoinResponse(
-            id: 0,
-            anonymousId: "ASDF2-214SDAF-4FD2"
+            id: 19,
+            anonymousId: "098c1183-6265-43b5-93b4-fd1bc6a1fdc1"
         )
         guard let data = try? JSONEncoder().encode(mockDatas) else {
             return Data()

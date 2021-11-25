@@ -14,7 +14,7 @@ struct BringTabView: View {
     let viewModel: TabViewModel
     
     init() {
-        viewModel = TabViewModel(component: UserServiceManagerImpl())
+        viewModel = TabViewModel(component: UserServiceManagerMock())
     }
     
     enum Tab {

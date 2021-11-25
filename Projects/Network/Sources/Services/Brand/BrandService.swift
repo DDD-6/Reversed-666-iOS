@@ -20,19 +20,16 @@ public enum BrandService {
 
 extension BrandService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
         switch self {
             case let .fetchBrand(id):
-                resultPath += "/brand/\(id)"
+                return "/brand/\(id)"
             case .fetchBrandAll:
-                resultPath += "/brands/main"
+                return "/brands/main/"
             case .fetchPopularBrands:
-                resultPath += "/brands/popular"
+                return "/brands/popular"
             case .fetchBookmarkBrands:
-                resultPath += "/brands/bookmark"
-                
+                return "/brands/liked"
         }
-        return resultPath
     }
 
     public var method: Moya.Method {

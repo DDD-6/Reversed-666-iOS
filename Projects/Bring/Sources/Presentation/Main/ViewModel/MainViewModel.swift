@@ -43,9 +43,16 @@ class MainViewModel: ObservableObject {
         serviceManager
             .fetchBookmarkBrands()
             .map { $0.map { Brand(from: $0) } }
-            .sink { [weak self] values in
+            .sink(receiveCompletion: { result in
+                switch result {
+                    case let .failure(error):
+                        print("!!@@!!!: \(error.response?.statusCode)")
+                    case .finished:
+                        print("AAAAComplete")
+                }
+            }, receiveValue:  { [weak self] values in
                 self?.bringBrands = values
-            }
+            })
             .store(in: &cancellables)
     }
     
@@ -53,9 +60,16 @@ class MainViewModel: ObservableObject {
         serviceManager
             .fetchPopularBrands()
             .map { $0.map { Brand(from: $0) } }
-            .sink { [weak self] values in
+            .sink(receiveCompletion: { result in
+                switch result {
+                    case let .failure(error):
+                        print("error!####!: \(error.response?.statusCode)")
+                    case .finished:
+                        print("BBBComplete")
+                }
+            }, receiveValue: { [weak self] values in
                 self?.popularBrands = values
-            }
+            })
             .store(in: &cancellables)
     }
     
@@ -63,9 +77,16 @@ class MainViewModel: ObservableObject {
         serviceManager
             .fetchAllBrands()
             .map { $0.map { Brand(from: $0) } }
-            .sink { [weak self] values in
+            .sink(receiveCompletion: { result in
+                switch result {
+                    case let .failure(error):
+                        print("error!!!: \(error.response?.statusCode)")
+                    case .finished:
+                        print("CCCComplete")
+                }
+            }, receiveValue: { [weak self] values in
                 self?.mainBrands = values
-            }
+            })
             .store(in: &cancellables)
     }
 }

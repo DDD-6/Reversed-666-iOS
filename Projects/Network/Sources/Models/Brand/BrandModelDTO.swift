@@ -18,10 +18,21 @@ public struct BrandModelDTO: Codable {
     public var imageName: String?
     public var logoImage: String?
     public var category: Category?
+    public var isLiked: Bool?
     
     public enum Category: String, CaseIterable, Codable {
         case shoes = "Shoes"
         case accesary = "Accesary"
         case clothes = "Clothes"
+    }
+    
+    enum CodingKeys: String, CodingKey, Decodable {
+        case id
+        case subTitle = "name"
+        case title = "en_name"
+        case brandLink = "site_url"
+        case logoImage = "logo_url"
+        case imageName = "Img_url"
+        case isLiked = "is_liked"
     }
 }

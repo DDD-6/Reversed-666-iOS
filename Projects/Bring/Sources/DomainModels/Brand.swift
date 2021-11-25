@@ -30,6 +30,8 @@ struct Brand: DomainModel, Hashable, Identifiable {
     var logoImage: String = ""
     var category: ProductCategory? = nil
     
+    var isLiked: Bool = false
+    
     init() { }
     init(from response: ResponseType) {
         func convert(from category: BrandModelDTO.Category) -> ProductCategory {
@@ -52,5 +54,6 @@ struct Brand: DomainModel, Hashable, Identifiable {
         if let category = response.category {
             self.category = convert(from: category)
         }
+        self.isLiked = response.isLiked ?? false
     }
 }

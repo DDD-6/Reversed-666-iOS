@@ -19,16 +19,14 @@ public enum FolderService {
 
 extension FolderService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
         switch self {
             case let .fetchFolder(folderId):
-                resultPath += "/folder/\(folderId)"
+                return "/folder/\(folderId)"
             case .fetchFolders:
-                resultPath += "/folder"
+                return "/folder"
             case .createFolder:
-                resultPath += "/folder"
+                return "/folder"
         }
-        return resultPath
     }
     
     public var method: Moya.Method {

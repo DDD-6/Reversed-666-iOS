@@ -17,12 +17,10 @@ public enum ProductService {
 
 extension ProductService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
         switch self {
             case .fetchProduct:
-                resultPath += ""
+                return ""
         }
-        return resultPath
     }
 
     public var method: Moya.Method {
