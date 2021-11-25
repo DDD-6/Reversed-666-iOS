@@ -46,11 +46,6 @@ struct PopularBrandItemView: View {
             }
             .clipped()
             .cornerRadius(75)
-            .border(
-                width: 1,
-                edges: Edge.allCases,
-                color: Color("black00")
-            )
             
             HStack {
                 Text(brand.engName)

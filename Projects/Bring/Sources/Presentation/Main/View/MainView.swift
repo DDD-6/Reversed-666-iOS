@@ -31,6 +31,9 @@ struct MainView: View {
         serviceManager: BrandServiceManagerImpl()
     )
     
+    @State
+    var presentSearchView: Bool = false
+    
     var body: some View {
         return NavigationView {
             ZStack {
@@ -96,11 +99,18 @@ struct MainView: View {
                             Text("bring")
 
                             Spacer()
-                            Button {
-                                // Search
-                            } label: {
-                                Image("Search")
-                            }
+                            
+                            Image("Search")
+                                .onTapGesture {
+                                    presentSearchView = true
+                                }
+                                .sheet(isPresented: $presentSearchView) {
+                                    MainSearchView()
+                                }
+//                                .fullScreenCover(isPresented: $presentSearchView, content: {
+//                                    MainSearchView()
+//                                })
+
                         }
                     }
 
@@ -111,48 +121,6 @@ struct MainView: View {
                     viewModel.fetchPopularBrands()
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                
-//                List {
-//                    if !viewModel.bringBrands.isEmpty {
-//                        BringBrandRow(brands: viewModel.bringBrands)
-//                    }
-//                    if !viewModel.popularBrands.isEmpty {
-//                        PopularBrandRow(
-//                            delegate: self,
-//                            brands: viewModel.popularBrands
-//                        )
-//                    }
-//                    if !viewModel.mainBrands.isEmpty {
-//                        MainBracketsMaskView(
-//                            delegate: self,
-//                            brands: viewModel.mainBrands
-//                        )
-//                            .clipped()
-//                    }
-//                }
-//                .listStyle(PlainListStyle())
-//                .toolbar {
-//                    ToolbarItem(placement: .principal) {
-//                        HStack {
-//                            Image("icBringLogo")
-//                            Text("bring")
-//
-//                            Spacer()
-//                            Button {
-//                                // Search
-//                            } label: {
-//                                Image("Search")
-//                            }
-//                        }
-//                    }
-//
-//                }
-//                .onAppear {
-//                    viewModel.fetchMainBrands()
-//                    viewModel.fetchBringBrands()
-//                    viewModel.fetchPopularBrands()
-//                }
-//                .navigationBarTitleDisplayMode(.inline)
             }
         }
         
