@@ -63,7 +63,7 @@ struct MainBrandCardView: View {
                 
                 Spacer()
                 
-                MainBrandTitleView(isLiked: brand.isLiked)
+                MainBrandTitleView(brand: brand)
                     .frame(width: width * 0.9,
                            height: width * 0.2)
             }

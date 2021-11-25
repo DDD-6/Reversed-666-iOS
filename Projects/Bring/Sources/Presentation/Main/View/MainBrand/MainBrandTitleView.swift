@@ -7,27 +7,31 @@
 //
 
 import SwiftUI
+import Network
 
 struct MainBrandTitleView: View {
-    @State var isLiked: Bool
+    @State var brand: Brand
     var body: some View {
         HStack(alignment: .center) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-//                    print("font: \()")
-                    Text("ADIDAS")
+                    Text(brand.engName)
                         .font(BringFontStyle.brandL.font)
-                    Text("아붂부스")
+                        .lineLimit(2)
+//                        .fixedSize(horizontal: false, vertical: false)
+                    Text(brand.name)
                         .font(BringFontStyle.textL.font)
+                        .lineLimit(1)
                 }
                 Spacer()
             }
             VStack {
                 HStack(alignment: .top) {
                     Button {
-                        print("~")
+                        brand.isLiked.toggle()
+                        // TODO: call like API
                     } label: {
-                        Image(isLiked ? "icHeartFill" : "icHeartLine")
+                        Image(brand.isLiked ? "icHeartFill" : "icHeartLine")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
@@ -56,7 +60,8 @@ struct MainBrandTitleView: View {
 
 struct MainBrandTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        MainBrandTitleView(isLiked: true)
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
+        MainBrandTitleView(brand: viewModel.mainBrands.first!)
             .frame(width: .infinity, height: .infinity, alignment: .center)
     }
 }

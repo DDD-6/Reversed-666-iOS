@@ -14,7 +14,7 @@ struct BringTabView: View {
     let viewModel: TabViewModel
     
     init() {
-        viewModel = TabViewModel(component: UserServiceManagerMock())
+        viewModel = TabViewModel(component: UserServiceManagerImpl())
     }
     
     enum Tab {
@@ -28,22 +28,25 @@ struct BringTabView: View {
                 content:  {
             MainView()
                 .tabItem {
-                    Label("Main",
-                          systemImage: "homepod")
+                    Image(selection == .main
+                          ? "icTabHomeFill"
+                          : "icTabHome")
                 }
                 .tag(Tab.main)
             
             BookmarkView()
                 .tabItem {
-                    Label("Bookmark",
-                          systemImage: "location.viewfinder")
+                    Image(selection == .bookmark
+                          ? "icTabHeartFill"
+                          : "icTabHeart")
                 }
                 .tag(Tab.bookmark)
             
             MypageView()
                 .tabItem {
-                    Label("MyPage",
-                          systemImage: "arrow.up.message")
+                    Image(selection == .my
+                          ? "icTabMyPageFill"
+                          : "icTabMyPage")
                 }
                 .tag(Tab.my)
         })

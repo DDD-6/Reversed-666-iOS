@@ -44,6 +44,8 @@ struct BringWebView: View {
                     }
                     Spacer()
                     Text("아디다스")
+                        .foregroundColor(Color("black00"))
+                        .font(BringFontStyle.heading1.font)
                     Spacer()
                     Button {
                         presentedAsMoreActionSheet = true

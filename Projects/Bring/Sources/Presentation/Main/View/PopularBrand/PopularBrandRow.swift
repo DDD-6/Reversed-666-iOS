@@ -12,26 +12,33 @@ import Network
 struct PopularBrandRow: View {
     
     var brands: [Brand]
+    @State var presentedAsModal: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
+        LazyVStack(alignment: .leading) {
             Text("현재 인기 브랜드")
                 .font(.headline)
                 .padding(.leading, 15)
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 0) {
-                    // self.items가 identifiable이 되있지 않으면 ForEach에서 init을 해주어야 한다.
+                LazyHStack(alignment: .top, spacing: 0) {
                     ForEach(brands) { brand in
-                        NavigationLink(
-                            destination: Text("not implemented")) {
-                                PopularBrandItem(brand: brand)
+                        Button {
+                            presentedAsModal = true
+                        } label: {
+                            PopularBrandItem(brand: brand)
+                                .fullScreenCover(isPresented: $presentedAsModal) {
+                                    MainDetailView(
+                                        url: brand.brandLink,
+                                        presentedAsModal: $presentedAsModal
+                                    )
+                                }
                         }
+
                     }
                 }
             }
-            .frame(height: 185)
         }
     }
 }

@@ -23,7 +23,7 @@ struct Brand: DomainModel, Hashable, Identifiable {
     
     var id: Int = -1
     var name: String = ""
-    var subTitle: String = ""
+    var engName: String = ""
     var brandLink: String = ""
     
     var imageName: String = ""
@@ -46,8 +46,8 @@ struct Brand: DomainModel, Hashable, Identifiable {
         }
         
         self.id = response.id ?? -1
-        self.name = response.title ?? ""
-        self.subTitle = response.subTitle ?? ""
+        self.name = response.subTitle ?? ""
+        self.engName = response.title ?? ""
         self.brandLink = response.brandLink ?? ""
         self.imageName = response.imageName ?? ""
         self.logoImage = response.logoImage ?? ""

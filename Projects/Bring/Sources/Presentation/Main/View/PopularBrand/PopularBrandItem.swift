@@ -10,18 +10,66 @@ import SwiftUI
 import Network
 
 struct PopularBrandItem: View {
-    var brand: Brand?
+    @State var brand: Brand
 
     var body: some View {
-        VStack(alignment: .center) {
-            AsyncImage(url: URL(string: brand?.imageName ?? ""))
-//                .renderingMode(.original)
-//                .resizable()
-                .frame(width: 155, height: 155)
-                .cornerRadius(5)
-            Text(brand?.name ?? "")
-                .foregroundColor(.primary)
-                .font(.caption)
+        LazyVStack(alignment: .center) {
+            AsyncImage(url: URL(string: brand.imageName)){ phase in
+                switch phase {
+                    case .empty:
+                        ProgressView()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 150,
+                                   height: 150)
+                    case .success(let image):
+                        image.resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 150,
+                                   height: 150)
+                    case .failure:
+                        Image(systemName: "photo")
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 150,
+                                   height: 150)
+                    @unknown default:
+                        Image(systemName: "photo")
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 150,
+                                   height: 150)
+                }
+            }
+            .clipped()
+            .cornerRadius(75)
+            
+            HStack {
+                Text(brand.engName)
+                    .foregroundColor(Color("black00"))
+                    .font(BringFontStyle.brandM.font)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: false)
+                    .lineLimit(2)
+                Text(brand.name)
+                    .foregroundColor(Color("black00"))
+                    .font(BringFontStyle.textM.font)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: false)
+                    .lineLimit(2)
+                
+                Button {
+                    brand.isLiked.toggle()
+                } label: {
+                    Image(brand.isLiked
+                          ? "icHeartFill"
+                          : "icHeartLine")
+                        .resizable()
+                        .frame(width: 20, height: 20, alignment: .center)
+                        .scaledToFit()
+                        .clipped()
+                        .padding()
+                }
+
+            }
+            .frame(width: 150, height: 40)
         }
         .padding(5)
     }
