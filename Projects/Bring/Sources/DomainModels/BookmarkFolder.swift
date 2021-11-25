@@ -15,12 +15,15 @@ struct BookmarkFolder: DomainModel, Hashable, Identifiable {
     
     var id: Int = -1
     var folderName: String = ""
-    var folderImageUrl: String = ""
+    var folderImageUrl: [String]
+    var numberOfProductCount: Int
+    var description: String
     
-    init() { }
     init(from response: BookmarkFolderResponse) {
         self.id = response.id ?? -1
         self.folderName = response.name ?? ""
-        self.folderImageUrl = response.thumbnailUrl ?? ""
+        self.folderImageUrl = response.thumbnailUrl ?? [String]()
+        self.numberOfProductCount = response.numberOfProductCount ?? 0
+        self.description = response.description ?? ""
     }
 }

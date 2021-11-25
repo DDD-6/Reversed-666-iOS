@@ -21,14 +21,23 @@ class WebViewLikeBottomSheetViewModel: ObservableObject {
         self.folders = [BookmarkFolder]()
         self.serviceManager = serviceManager
         self.cancellables = Set<AnyCancellable>()
+        
+        fetchFoldersAll()
     }
     
     func fetchFoldersAll() {
         serviceManager.fetchFoldersAll()
             .map { $0.map { BookmarkFolder(from: $0) } }
-            .sink { [weak self] value in
-                self?.folders = value
-            }
+            .sink(receiveCompletion: { result in
+                switch result {
+                    case let .failure(error):
+                        print("error: \(error)")
+                    case .finished:
+                        print("Complete")
+                }
+            }, receiveValue: { [weak self] folders in
+                self?.folders = folders
+            })
             .store(in: &cancellables)
     }
     

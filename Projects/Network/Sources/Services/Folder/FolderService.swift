@@ -112,17 +112,17 @@ extension FolderService {
             BookmarkFolderResponse(
                 id: 1,
                 name: "길동이 선물",
-                thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+                thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
             ),
             BookmarkFolderResponse(
                 id: 2,
                 name: "길동이 선물1",
-                thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+                thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
             ),
             BookmarkFolderResponse(
                 id: 3,
                 name: "길동이 선물2",
-                thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+                thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
             ),
         ]
         guard let data = try? JSONEncoder().encode(mockDatas) else {
@@ -136,7 +136,7 @@ extension FolderService {
         let mockDatas = BookmarkFolderResponse(
             id: 1,
             name: "길동이 선물",
-            thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+            thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
         )
         guard let data = try? JSONEncoder().encode(mockDatas) else {
             return Data()
@@ -149,7 +149,7 @@ extension FolderService {
         let mockDatas = BookmarkFolderResponse(
             id: Int(Date().timeIntervalSince1970),
             name: "기본 폴더",
-            thumbnailUrl: ""
+            thumbnailUrl: [""]
         )
         guard let data = try? JSONEncoder().encode(mockDatas) else {
             return Data()

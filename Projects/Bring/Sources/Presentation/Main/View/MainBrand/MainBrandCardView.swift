@@ -36,7 +36,7 @@ struct MainBrandCardView: View {
                                 case .failure:
                                     Image(systemName: "photo")
                                 @unknown default:
-                                    EmptyView()
+                                    Image(systemName: "photo")
                             }
                         }
                         .clipped()

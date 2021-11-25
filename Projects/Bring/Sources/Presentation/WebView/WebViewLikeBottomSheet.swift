@@ -24,7 +24,7 @@ struct WebViewLikeBottomSheet: View {
     @Binding var bottomSheetPosition: BottomSheetPosition
     
     var body: some View {
-        return ZStack {
+        ZStack {
             VStack {
                 // 상단 툴바
                 HStack {
@@ -52,12 +52,26 @@ struct WebViewLikeBottomSheet: View {
                     ForEach(viewModel.folders) { item in
                         Button {
                             bottomSheetPosition = .hidden
+                            // TODO: 북마크된 브랜드 소속 폴더 변경 API Call
                         } label: {
-                            LazyHStack {
-                                AsyncImage(url: URL(string: item.folderImageUrl))
-                                    .frame(width: 50, height: 50)
-                                    .scaledToFit()
-                                    .padding()
+                            HStack {
+                                AsyncImage(url: URL(string: item.folderImageUrl.first ?? "")) { phase in
+                                    switch phase {
+                                        case .success(let image):
+                                            image.resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 50,
+                                                       height: 50)
+                                        default:
+                                            Image(systemName: "photo")
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 50,
+                                                       height: 50)
+                                    }
+                                }
+                                .border(width: 1,
+                                        edges: Edge.allCases,
+                                        color: Color("black00"))
                                 Text(item.folderName)
                                 Spacer()
                             }
@@ -66,9 +80,10 @@ struct WebViewLikeBottomSheet: View {
                     }
                 }
                 .listStyle(PlainListStyle())
-                
-                Spacer()
             }
+        }
+        .refreshable {
+            viewModel.fetchFoldersAll()
         }
         .background(.white)
     }
