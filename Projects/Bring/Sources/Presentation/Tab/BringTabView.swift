@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  BringTabView.swift
 //  Bring
 //
 //  Created by cado.avo on 2021/09/13.
@@ -7,9 +7,15 @@
 //
 
 import SwiftUI
+import Network
 
-struct ContentView: View {
+struct BringTabView: View {
     @State private var selection: Tab = .main
+    let viewModel: TabViewModel
+    
+    init() {
+        viewModel = TabViewModel(component: UserServiceManagerImpl())
+    }
     
     enum Tab {
         case main
@@ -22,22 +28,25 @@ struct ContentView: View {
                 content:  {
             MainView()
                 .tabItem {
-                    Label("Main",
-                          systemImage: "homepod")
+                    Image(selection == .main
+                          ? "icTabHomeFill"
+                          : "icTabHome")
                 }
                 .tag(Tab.main)
             
             BookmarkView()
                 .tabItem {
-                    Label("Bookmark",
-                          systemImage: "location.viewfinder")
+                    Image(selection == .bookmark
+                          ? "icTabHeartFill"
+                          : "icTabHeart")
                 }
                 .tag(Tab.bookmark)
             
             MypageView()
                 .tabItem {
-                    Label("MyPage",
-                          systemImage: "arrow.up.message")
+                    Image(selection == .my
+                          ? "icTabMyPageFill"
+                          : "icTabMyPage")
                 }
                 .tag(Tab.my)
         })
@@ -46,7 +55,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        BringTabView()
     }
 }
 

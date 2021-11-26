@@ -19,12 +19,12 @@ struct WebViewLikeBottomSheet: View {
     
     @ObservedObject
     var viewModel = WebViewLikeBottomSheetViewModel(
-        serviceManager: FolderServiceManagerMock()
+        serviceManager: FolderServiceManagerImpl()
     )
     @Binding var bottomSheetPosition: BottomSheetPosition
     
     var body: some View {
-        return ZStack {
+        ZStack {
             VStack {
                 // 상단 툴바
                 HStack {
@@ -50,20 +50,40 @@ struct WebViewLikeBottomSheet: View {
                 
                 List {
                     ForEach(viewModel.folders) { item in
-                        LazyHStack {
-                            AsyncImage(url: URL(string: item.folderImageUrl))
-                                .frame(width: 50, height: 50)
-                                .scaledToFit()
-                                .padding()
-                            Text(item.folderName)
-                            Spacer()
+                        Button {
+                            bottomSheetPosition = .hidden
+                            // TODO: 북마크된 브랜드 소속 폴더 변경 API Call
+                        } label: {
+                            HStack {
+                                AsyncImage(url: URL(string: item.folderImageUrl.first ?? "")) { phase in
+                                    switch phase {
+                                        case .success(let image):
+                                            image.resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 50,
+                                                       height: 50)
+                                        default:
+                                            Image(systemName: "photo")
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 50,
+                                                       height: 50)
+                                    }
+                                }
+                                .border(width: 1,
+                                        edges: Edge.allCases,
+                                        color: Color("black00"))
+                                Text(item.folderName)
+                                Spacer()
+                            }
                         }
+
                     }
                 }
-                .listStyle(GroupedListStyle())
-                
-                Spacer()
+                .listStyle(PlainListStyle())
             }
+        }
+        .refreshable {
+            viewModel.fetchFoldersAll()
         }
         .background(.white)
     }

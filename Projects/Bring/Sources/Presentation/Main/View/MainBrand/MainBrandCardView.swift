@@ -10,6 +10,7 @@ import SwiftUI
 import Network
 
 struct MainBrandCardView: View {
+    var delegate: MainEventDelegate?
     var brand: Brand
     
     var body: some View {
@@ -23,21 +24,32 @@ struct MainBrandCardView: View {
                                    height: height)
                     
                     ZStack {
-                        Image(brand.imageName)
-                            .resizable()
-                            .scaledToFill()
-                            .cornerRadius(width * 0.4,
-                                          corners: [.topLeft,
-                                                    .topRight])
+                        AsyncImage(url: URL(string: brand.thumbnailUrl)) { phase in
+                            switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image.resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: width * 0.9 - .size2,
+                                               height: height - .size2)
+                                case .failure:
+                                    Image(systemName: "photo")
+                                @unknown default:
+                                    Image(systemName: "photo")
+                            }
+                        }
+                        .clipped()
+                        .cornerRadius(width * 0.5,
+                                      corners: [.topLeft,
+                                                .topRight])
                         HStack {
                             Spacer()
                             VStack {
                                 Spacer()
                                 Circle()
                                     .strokeBorder(.white, lineWidth: 1)
-                                    .background(Image(brand.logoImage)
-                                                    .resizable()
-                                                    .scaledToFill())
+                                    .background(AsyncCircularImageView(imageUrl: brand.logoImageUrl, size: .size13))
                                     .clipShape(Circle())
                                     .frame(width: .size13, height: .size13, alignment: .center)
                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: .size4, trailing: .size4))
@@ -49,9 +61,7 @@ struct MainBrandCardView: View {
                            alignment: .center)
                 }
                 
-                Spacer()
-                
-                MainBrandTitleView()
+                MainBrandTitleView(delegate: delegate, brand: brand)
                     .frame(width: width * 0.9,
                            height: width * 0.2)
             }
@@ -66,6 +76,6 @@ struct MainBrandCardView_Previews: PreviewProvider {
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBrandData()
         
-        return MainBrandCardView(brand: viewModel.mainBrand!)
+        return MainBrandCardView(brand: viewModel.mainBrands.first!)
     }
 }

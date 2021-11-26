@@ -19,6 +19,7 @@ struct BringWebView: View {
     @State private var canGoBack: Bool = false
     @State private var canGoForward: Bool = false
     @State private var presentedAsMoreActionSheet: Bool = false
+    @State private var title: String = ""
     @State private var isLiked: Bool = false
     @State private var bottomSheetPosition: BottomSheetPosition = .hidden //1
     
@@ -27,9 +28,14 @@ struct BringWebView: View {
     
     private let toastView = BringToastView()
     
-    init(url: String, presentedAsModal: Binding<Bool>) {
+    init(url: String, title: String? = nil, presentedAsModal: Binding<Bool>) {
         self.url = url
         webView = WebView(url: url)
+        if let title = title {
+            self.title = title
+        } else {
+            self.title = url
+        }
         self._presentedAsModal = presentedAsModal
     }
     
@@ -43,7 +49,9 @@ struct BringWebView: View {
                         Image("Close")
                     }
                     Spacer()
-                    Text("아디다스")
+                    Text(title)
+                        .foregroundColor(Color("black00"))
+                        .font(BringFontStyle.heading1.font)
                     Spacer()
                     Button {
                         presentedAsMoreActionSheet = true
@@ -125,6 +133,7 @@ struct BringWebView: View {
             
             toastView
                 .opacity(isLiked ? 1 : 0)
+                .opacity(bottomSheetPosition == .hidden ? 1 : 0)
         }
         .bottomSheet(
             bottomSheetPosition: $bottomSheetPosition,

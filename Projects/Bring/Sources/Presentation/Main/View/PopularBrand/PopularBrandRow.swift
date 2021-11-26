@@ -11,27 +11,58 @@ import Network
 
 struct PopularBrandRow: View {
     
+    var delegate: MainEventDelegate?
     var brands: [Brand]
+    @State var presentedAsModal: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
+        LazyVStack(alignment: .leading) {
             Text("현재 인기 브랜드")
                 .font(.headline)
-                .padding(.leading, 15)
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 0) {
-                    // self.items가 identifiable이 되있지 않으면 ForEach에서 init을 해주어야 한다.
-                    ForEach(brands) { brand in
-                        NavigationLink(
-                            destination: Text("not implemented")) {
-                                PopularBrandItem(brand: brand)
+                LazyHStack(alignment: .top, spacing: 0) {
+                    ForEach(Array(zip(brands.indices, brands)), id: \.0) { (index, brand) in
+                        Button {
+                            presentedAsModal = true
+                        } label: {
+                            ZStack {
+                                PopularBrandItemView(
+                                    delegate: delegate,
+                                    brand: brand
+                                )
+                                    .fullScreenCover(isPresented: $presentedAsModal) {
+                                        MainDetailView(
+                                            url: brand.brandLink,
+                                            title: brand.name,
+                                            presentedAsModal: $presentedAsModal
+                                        )
+                                    }
+                                
+                                VStack {
+                                    HStack {
+                                        HStack(alignment: .bottom) {
+                                            Spacer()
+                                            let rank = index + 1
+                                            Text(rank.description)
+                                                .font(BringFontStyle.heading0.font)
+                                                .bold()
+                                                .foregroundColor(Color("black00"))
+                                                .lineLimit(1)
+                                            Spacer()
+                                        }
+                                        .frame(width: 40, height: 30)
+                                        .background(Color("brandColor"))
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
+                            }
                         }
                     }
                 }
             }
-            .frame(height: 185)
         }
     }
 }
@@ -39,9 +70,8 @@ struct PopularBrandRow: View {
 struct PopularBrandRow_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
-        viewModel.fetchBrandDataAll()
+        viewModel.fetchPopularBrands()
         
-        return PopularBrandRow(brands: viewModel.brandList ?? [Brand]()
-        )
+        return PopularBrandRow(brands: viewModel.popularBrands)
     }
 }

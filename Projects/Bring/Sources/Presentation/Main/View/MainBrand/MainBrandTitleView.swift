@@ -7,26 +7,35 @@
 //
 
 import SwiftUI
+import Network
 
 struct MainBrandTitleView: View {
+    var delegate: MainEventDelegate?
+    @State var brand: Brand
     var body: some View {
         HStack(alignment: .center) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-//                    print("font: \()")
-                    Text("ADIDAS")
-                        .font(BringFontStyle.brandL.font)
-                    Text("아붂부스")
+                    Text(brand.engName)
+//                        .font(BringFontStyle.brandL.font)
+                        .font(Font.system(size: 40, weight: .bold, design: .default))
+                        .lineLimit(2)
+//                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    Text(brand.name)
                         .font(BringFontStyle.textL.font)
+                        .lineLimit(1)
                 }
                 Spacer()
             }
             VStack {
                 HStack(alignment: .top) {
                     Button {
-                        print("~")
+                        delegate?.callLike(id: brand.id) {
+                            brand.isLiked.toggle()
+                        }
                     } label: {
-                        Image("icHeartLine")
+                        Image(brand.isLiked ? "icHeartFill" : "icHeartLine")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
@@ -34,17 +43,12 @@ struct MainBrandTitleView: View {
                             .padding(10)
                     }
                     ZStack {
-                        Rectangle()
-                            .frame(width: 30, height: 30, alignment: .center)
-                            .background(RoundedRectangle(cornerRadius: 0)
-                                            .fill(Color.blue))
-                            .padding(11)
                         Image("icArrowRightFill")
                             .resizable()
                             .frame(width: 30, height: 30, alignment: .center)
                             .scaledToFit()
                             .padding(10)
-                            .background(.white)
+                            .background(.clear)
                     }
                 }
                 Spacer()
@@ -55,7 +59,8 @@ struct MainBrandTitleView: View {
 
 struct MainBrandTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        MainBrandTitleView()
+        let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
+        MainBrandTitleView(brand: viewModel.mainBrands.first!)
             .frame(width: .infinity, height: .infinity, alignment: .center)
     }
 }

@@ -6,7 +6,7 @@ struct BringApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BringTabView()
         }
     }
 }

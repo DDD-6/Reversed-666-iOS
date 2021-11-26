@@ -12,7 +12,7 @@ import CombineMoya
 
 extension TargetType {
     public var baseURL: URL {
-        guard let url = URL(string: "http://SERVER_URL/api/\(version)") else {
+        guard let url = URL(string: "http://52.79.90.204:8000") else {
             fatalError("Wrong URL!!")
         }
         return url

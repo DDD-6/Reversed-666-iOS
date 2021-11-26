@@ -9,47 +9,129 @@
 import SwiftUI
 import Network
 
+protocol MainEventDelegate {
+    func callLike(id: Int, completion: (() -> Void)?) 
+}
+
 struct MainView: View {
     
-    @ObservedObject var viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
+    enum Constant {
+        case popularBrandsPosition
+        
+        var value: Int {
+            switch self {
+                case .popularBrandsPosition:
+                    return 2
+            }
+        }
+    }
+    
+    @ObservedObject
+    var viewModel = MainViewModel(
+        serviceManager: BrandServiceManagerImpl()
+    )
+    
+    @State
+    var presentSearchView: Bool = false
     
     var body: some View {
-        let brandList = viewModel.brandList ?? [Brand]()
-        
         return NavigationView {
             ZStack {
+                
                 List {
-                    MainBracketsMaskView(brands: brandList)
-                        .clipped()
-                    PopularBrandRow(brands: brandList)
-                    
-                    //                    MainViewDistributor(brands: brandList)
+                    if !viewModel.bringBrands.isEmpty {
+                        BringBrandRow(brands: viewModel.bringBrands)
+                    }
+                    if !viewModel.mainBrands.isEmpty {
+                        
+                        if viewModel.mainBrands.count > Constant.popularBrandsPosition.value {
+                            MainBracketsMaskView(
+                                delegate: self,
+                                brands: viewModel.mainBrands
+                                    .prefix(
+                                        upTo: Constant.popularBrandsPosition.value
+                                    )
+                                    .shuffled()
+                            ).clipped()
+                            
+                            if !viewModel.popularBrands.isEmpty {
+                                PopularBrandRow(
+                                    delegate: self,
+                                    brands: viewModel.popularBrands
+                                )
+                            }
+                            
+                            MainBracketsMaskView(
+                                delegate: self,
+                                brands: viewModel.mainBrands
+                                    .suffix(
+                                        from: Constant.popularBrandsPosition.value
+                                    )
+                                    .shuffled()
+                            ).clipped()
+                        } else {
+                            if !viewModel.popularBrands.isEmpty {
+                                PopularBrandRow(
+                                    delegate: self,
+                                    brands: viewModel.popularBrands
+                                )
+                            }
+                        }
+                    } else {
+                        if !viewModel.popularBrands.isEmpty {
+                            PopularBrandRow(
+                                delegate: self,
+                                brands: viewModel.popularBrands
+                            )
+                        }
+                    }
                 }
-                .listStyle(InsetListStyle())
+                .refreshable {
+                    viewModel.fetchMainBrands()
+                    viewModel.fetchBringBrands()
+                    viewModel.fetchPopularBrands()
+                }
+                .listStyle(PlainListStyle())
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         HStack {
-                            Image("icMainTitleLogo")
-                            
+                            Image("icBringLogo")
+                            Text("bring")
+
                             Spacer()
-                            Button {
-                                // Search
-                            } label: {
-                                Image("Search")
-                            }
+                            
+                            Image("Search")
+                                .onTapGesture {
+                                    presentSearchView = true
+                                }
+                                .sheet(isPresented: $presentSearchView) {
+                                    MainSearchView()
+                                }
+//                                .fullScreenCover(isPresented: $presentSearchView, content: {
+//                                    MainSearchView()
+//                                })
+
                         }
                     }
-                    
+
                 }
                 .onAppear {
-                    viewModel.fetchBrandData()
-                    viewModel.fetchBrandDataAll()
+                    viewModel.fetchMainBrands()
+                    viewModel.fetchBringBrands()
+                    viewModel.fetchPopularBrands()
                 }
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
         
     }
+}
+
+extension MainView: MainEventDelegate {
+    func callLike(id: Int, completion: (() -> Void)?) {
+        viewModel.postLike(id: id, completion: completion)
+    }
+    
 }
 
 struct MainView_Previews: PreviewProvider {

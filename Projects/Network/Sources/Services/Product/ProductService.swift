@@ -12,23 +12,26 @@ import Alamofire
 import Combine
 
 public enum ProductService {
-    case fetchProduct(name: String)
+    case fetchProduct(id: Int)
+    case addLikeProduct(request: ProductLikeRequest)
 }
 
 extension ProductService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
         switch self {
-            case .fetchProduct:
-                resultPath += ""
+            case .fetchProduct(let id):
+                return "/product/\(id)"
+            case .addLikeProduct:
+                return "/product"
         }
-        return resultPath
     }
 
     public var method: Moya.Method {
         switch self {
             case .fetchProduct:
                 return .get
+            case .addLikeProduct:
+                return .post
         }
     }
 
@@ -36,41 +39,36 @@ extension ProductService: TargetType {
         return .successCodes
     }
     
-    var parameters: [String: Any]? {
-        let defaultParameters: [String: Any] = [:]
-        var parameters: [String: Any] = defaultParameters
-        
-        switch self {
-            default:
-                return nil
-        }
-    }
-    
     public var task: Task {
-//        guard let parameters = parameters else {
-//            return .requestPlain
-//        }
-//        var body: [String: Any] = [:]
-        
         switch self {
-            default:
+            case .fetchProduct:
                 return .requestPlain
+            case .addLikeProduct(let request):
+                return .requestJSONEncodable(request)
         }
     }
     
     var parameterEncoding: ParameterEncoding {
         switch self {
             case .fetchProduct:
+                return URLEncoding.default
+            case .addLikeProduct:
                 return JSONEncoding.default
-            default:
-                return URLEncoding.queryString
         }
+    }
+    
+    public var headers: [String: String]? {
+        var headers = ["Content-Type": "application/json"]
+        if let anonymousId: String = BringUserDefaults.anonymousId.value() {
+            headers["Authorization"] = anonymousId
+        }
+        return headers
     }
     
     public func getSample<D: Decodable>() -> D? {
         switch self {
             case .fetchProduct:
-                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
+                return try? JSONDecoder().decode(BrandListResponse.self, from: sampleData) as? D
             default:
                 return nil
         }
@@ -79,11 +77,55 @@ extension ProductService: TargetType {
     public func getSamples<D: Decodable>() -> [D]? {
         switch self {
             case .fetchProduct:
-                return try? JSONDecoder().decode([BrandModelDTO].self, from: sampleData) as? [D]
+                return try? JSONDecoder().decode([BrandListResponse].self, from: sampleData) as? [D]
             default:
                 return nil
         }
     }
     
 
+}
+
+extension ProductService {
+    public var sampleData: Data {
+        switch self {
+            case .fetchProduct:
+                return mockProducts
+            case .addLikeProduct:
+                return postLike
+        }
+    }
+    
+    private var mockProducts: Data {
+        
+        let mockDatas = [
+            ProductListResponse(
+                id: 0,
+                brand: BrandListResponse(
+                    logoImageUrl: "http://d359ir5q8zekrf.cloudfront.net/logos/adidas_logo.jpg"
+                ),
+                name: "이큅먼트 10",
+                price: "76300",
+                imageUrl: "http://d359ir5q8zekrf.cloudfront.net/product/GX8529-01-01_720X720.jpeg",
+                siteUrl: "https://shop.adidas.co.kr/PF020401.action?PROD_CD=GX8529",
+                addedBrand: nil
+            )
+        ]
+        
+        guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var postLike: Data {
+        let mock = StatusMessageResponse(status: "Success")
+        
+        guard let data = try? JSONEncoder().encode(mock) else {
+            return Data()
+        }
+        
+        return data
+    }
 }

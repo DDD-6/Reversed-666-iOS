@@ -19,20 +19,22 @@ enum ProductCategory: String, CaseIterable {
 }
 
 struct Brand: DomainModel, Hashable, Identifiable {
-    typealias ResponseType = BrandModelDTO
+    typealias ResponseType = BrandListResponse
     
     var id: Int = -1
     var name: String = ""
-    var subTitle: String = ""
+    var engName: String = ""
     var brandLink: String = ""
     
-    var imageName: String = ""
-    var logoImage: String = ""
+    var thumbnailUrl: String = ""
+    var logoImageUrl: String = ""
     var category: ProductCategory? = nil
+    
+    var isLiked: Bool = false
     
     init() { }
     init(from response: ResponseType) {
-        func convert(from category: BrandModelDTO.Category) -> ProductCategory {
+        func convert(from category: BrandListResponse.Category) -> ProductCategory {
             switch category {
                 case .shoes:
                     return .shoes
@@ -44,13 +46,39 @@ struct Brand: DomainModel, Hashable, Identifiable {
         }
         
         self.id = response.id ?? -1
-        self.name = response.title ?? ""
-        self.subTitle = response.subTitle ?? ""
+        self.name = response.korName ?? ""
+        self.engName = response.engName ?? ""
         self.brandLink = response.brandLink ?? ""
-        self.imageName = response.imageName ?? ""
-        self.logoImage = response.logoImage ?? ""
+        self.thumbnailUrl = response.thumbnailUrl ?? ""
+        self.logoImageUrl = response.logoImageUrl ?? ""
         if let category = response.category {
             self.category = convert(from: category)
         }
+        self.isLiked = response.isLiked ?? false
+    }
+}
+
+struct BrandLiked: DomainModel, Hashable, Identifiable {
+    typealias ResponseType = BrandLikeListResponse
+    
+    var id: Int = -1
+    var name: String = ""
+    var engName: String = ""
+    var brandLink: String = ""
+    
+    var thumbnailUrl: String = ""
+    var logoImageUrl: String = ""
+    
+    var isLiked: Bool = false
+    
+    init(from response: ResponseType) {
+        
+        id = response.bringBasicBrand?.id ?? -1
+        name = response.bringBasicBrand?.korName ?? ""
+        engName = response.bringBasicBrand?.engName ?? ""
+        brandLink = response.bringBasicBrand?.brandLink ?? ""
+        thumbnailUrl = response.bringBasicBrand?.thumbnailUrl ?? ""
+        logoImageUrl = response.bringBasicBrand?.logoImageUrl ?? ""
+        isLiked = response.isAdded ?? false
     }
 }

@@ -13,15 +13,14 @@ import CombineMoya
 
 public protocol ProductServiceComponent {
     typealias Service = ProductService
+    
+    var provider: MoyaProvider<Service> { get }
 
-    func fetchProduct(name: String) -> AnyPublisher<ProductModelDTO, MoyaError>
+    func addLikeProudct(folderId: Int, siteUrl: String) -> AnyPublisher<StatusMessageResponse, MoyaError>
+    func fetchProduct(folderId: Int) -> AnyPublisher<[ProductListResponse], MoyaError>
 }
 
 extension ProductServiceComponent {
-    
-    var provider: MoyaProvider<Service> {
-        return MoyaProvider<Service>()
-    }
     
     func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: Service) -> AnyPublisher<D, MoyaError> {
         return provider

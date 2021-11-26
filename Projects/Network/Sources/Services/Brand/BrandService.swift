@@ -12,32 +12,49 @@ import Alamofire
 import Combine
 
 public enum BrandService {
-    case searchUser(query: String)
-    case fetchBrands(name: String)
+    // 브랜드 API
+    case addMyBrand(request: MyBrandRequest)
+    case fetchBrand(id: String)
+    case fetchBrandAll
+    case fetchPopularBrands
+    case fetchSearchedBrands(keyword: String)
+    
+    // 좋아요한 브랜드 API
+    case fetchLikedBrands
+    case postBrandLike(id: BrandLikeRequest)
 }
 
 extension BrandService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
         switch self {
-//            case .searchUser:
-//                resultPath += "/searchUser"
-            case let .fetchBrands(name):
-                resultPath += "/brands/\(name)"
-            default:
-                break
+            case .addMyBrand:
+                return "/brand"
+            case let .fetchBrand(id):
+                return "/brand/\(id)"
+            case .fetchBrandAll:
+                return "/brands/main/"
+            case .fetchPopularBrands:
+                return "/brands/popular"
+            case .fetchSearchedBrands:
+                return "/brands/search"
+            case .fetchLikedBrands:
+                return "/brands/liked"
+            case .postBrandLike:
+                return "/brand/like"
         }
-        return resultPath
     }
 
     public var method: Moya.Method {
         switch self {
-//            case .searchUser:
-//                return .get
-            case .fetchBrands:
+            case .fetchBrand,
+                    .fetchBrandAll,
+                    .fetchPopularBrands,
+                    .fetchSearchedBrands,
+                    .fetchLikedBrands:
                 return .get
-            default:
-                return .get
+            case .addMyBrand,
+                    .postBrandLike:
+                return .post
         }
     }
 
@@ -45,53 +62,38 @@ extension BrandService: TargetType {
         return .successCodes
     }
     
-    var parameters: [String: Any]? {
-        let defaultParameters: [String: Any] = [:]
-        var parameters: [String: Any] = defaultParameters
-        
-        switch self {
-//            case .searchUser(let user):
-//                parameters["sampleParamName"] = user
-//                return parameters
-            default:
-                return nil
-        }
-    }
-    
     public var task: Task {
-//        guard let parameters = parameters else {
-//            return .requestPlain
-//        }
-//        var body: [String: Any] = [:]
-        
         switch self {
-//            case .searchUser(let param):
-//                body["sampleBodyParamName"] = param
-//                return .requestParameters(parameters: parameters,
-//                                          encoding: parameterEncoding)
+            case .postBrandLike(let id):
+                return .requestJSONEncodable(id)
+            case .addMyBrand(let request):
+                return .requestJSONEncodable(request)
             default:
                 return .requestPlain
-//                return .requestCompositeParameters(bodyParameters: body,
-//                                                   bodyEncoding: parameterEncoding,
-//                                                   urlParameters: parameters)
         }
     }
     
     var parameterEncoding: ParameterEncoding {
         switch self {
-            case .searchUser:
+            case .addMyBrand, .postBrandLike:
                 return JSONEncoding.default
             default:
-                return URLEncoding.queryString
+                return URLEncoding.default
         }
+    }
+    
+    public var headers: [String: String]? {
+        var headers = ["Content-Type": "application/json"]
+        if let anonymousId: String = BringUserDefaults.anonymousId.value() {
+            headers["Authorization"] = anonymousId
+        }
+        return headers
     }
     
     public func getSample<D: Decodable>() -> D? {
         switch self {
-//            case .searchUser:
-//                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
-            case .fetchBrands:
-                return try? JSONDecoder().decode(BrandModelDTO.self, from: sampleData) as? D
+            case .fetchBrand:
+                return try? JSONDecoder().decode(BrandListResponse.self, from: sampleData) as? D
             default:
                 return nil
         }
@@ -99,46 +101,164 @@ extension BrandService: TargetType {
     
     public func getSamples<D: Decodable>() -> [D]? {
         switch self {
-            case .fetchBrands:
-                return try? JSONDecoder().decode([BrandModelDTO].self, from: sampleData) as? [D]
+            case .fetchBrandAll, .fetchPopularBrands, .fetchSearchedBrands:
+                return try? JSONDecoder().decode([BrandListResponse].self, from: sampleData) as? [D]
+            case .fetchLikedBrands:
+                return try? JSONDecoder().decode([BrandLikeListResponse].self, from: sampleData) as? [D]
             default:
                 return nil
         }
     }
-    
+}
+
+extension BrandService {
     public var sampleData: Data {
-        
-        let mockDatas = [
-            BrandModelDTO(
+        switch self {
+            case .addMyBrand:
+                return Data()
+            case .fetchBrand:
+                return mockBrand
+            case .fetchBrandAll:
+                return mainAllBrands
+            case .fetchPopularBrands:
+                return popularBrands
+            case .fetchSearchedBrands:
+                return mainAllBrands
+            case .fetchLikedBrands:
+                return bookmarkBrands
+            case .postBrandLike:
+                return Data()
+        }
+    }
+    
+    private var mockBrand: Data {
+        let mockDatas = BrandListResponse(
                 id: 1,
-                title: "의류",
-                subTitle: "Nike",
+                engName: "의류",
+                korName: "NAAAAike",
                 brandLink: "https://www.nike.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
+                category: .shoes
+            )
+        
+        guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var mainAllBrands: Data {
+        let mockDatas = [
+            BrandListResponse(
+                id: 1,
+                engName: "의류",
+                korName: "Nike",
+                brandLink: "https://www.nike.com",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .shoes
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 2,
-                title: "전자기기",
-                subTitle: "Apple",
+                engName: "전자기기",
+                korName: "Apple",
                 brandLink: "https://www.apple.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .accesary
             ),
-            BrandModelDTO(
+            BrandListResponse(
                 id: 3,
-                title: "가구",
-                subTitle: "이케아",
+                engName: "가구",
+                korName: "이케아",
                 brandLink: "https://www.ikea.com",
-                imageName: "cityGuide",
-                logoImage: "toronto",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
+                category: .clothes
+            ),
+            BrandListResponse(
+                id: 3,
+                engName: "슬리퍼",
+                korName: "아디다스",
+                brandLink: "https://www.adidas.com",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
                 category: .clothes
             )
         ]
         
         guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var bookmarkBrands: Data {
+        let basicBrand = BrandListResponse(
+            id: 3,
+            engName: "스웨덴",
+            korName: "이끼아",
+            brandLink: "https://www.ikea.com",
+            thumbnailUrl: "cityGuide",
+            logoImageUrl: "toronto",
+            category: .clothes
+        )
+        let mock = [BrandLikeListResponse(id: 0,
+                              isAdded: true,
+                              bringBasicBrand: basicBrand)]
+        
+        guard let data = try? JSONEncoder().encode(mock) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var popularBrands: Data {
+        let mockDatas = [
+            BrandListResponse(
+                id: 1,
+                engName: "의류",
+                korName: "Nike",
+                brandLink: "https://www.nike.com",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
+                category: .shoes
+            ),
+            BrandListResponse(
+                id: 2,
+                engName: "전자기기",
+                korName: "Apple",
+                brandLink: "https://www.apple.com",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
+                category: .accesary
+            ),
+            BrandListResponse(
+                id: 3,
+                engName: "가구",
+                korName: "이케아",
+                brandLink: "https://www.ikea.com",
+                thumbnailUrl: "cityGuide",
+                logoImageUrl: "toronto",
+                category: .clothes
+            )
+        ]
+        
+        guard let data = try? JSONEncoder().encode(mockDatas) else {
+            return Data()
+        }
+        
+        return data
+    }
+    
+    private var postLike: Data {
+        let mock = StatusMessageResponse(status: "Success")
+        
+        guard let data = try? JSONEncoder().encode(mock) else {
             return Data()
         }
         

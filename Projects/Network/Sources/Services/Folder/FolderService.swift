@@ -19,16 +19,14 @@ public enum FolderService {
 
 extension FolderService: TargetType {
     public var path: String {
-        var resultPath = baseURL.absoluteString
         switch self {
             case let .fetchFolder(folderId):
-                resultPath += "/folder/\(folderId)"
+                return "/folder/\(folderId)"
             case .fetchFolders:
-                resultPath += "/folder"
+                return "/folder"
             case .createFolder:
-                resultPath += "/folder"
+                return "/folder"
         }
-        return resultPath
     }
     
     public var method: Moya.Method {
@@ -60,6 +58,14 @@ extension FolderService: TargetType {
             case .createFolder:
                 return JSONEncoding.default
         }
+    }
+    
+    public var headers: [String: String]? {
+        var headers = ["Content-Type": "application/json"]
+        if let anonymousId: String = BringUserDefaults.anonymousId.value() {
+            headers["Authorization"] = anonymousId
+        }
+        return headers
     }
     
     public func getSample<D: Decodable>() -> D? {
@@ -106,17 +112,17 @@ extension FolderService {
             BookmarkFolderResponse(
                 id: 1,
                 name: "길동이 선물",
-                thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+                thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
             ),
             BookmarkFolderResponse(
                 id: 2,
                 name: "길동이 선물1",
-                thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+                thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
             ),
             BookmarkFolderResponse(
                 id: 3,
                 name: "길동이 선물2",
-                thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+                thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
             ),
         ]
         guard let data = try? JSONEncoder().encode(mockDatas) else {
@@ -130,7 +136,7 @@ extension FolderService {
         let mockDatas = BookmarkFolderResponse(
             id: 1,
             name: "길동이 선물",
-            thumbnailUrl: "https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"
+            thumbnailUrl: ["https://devmjun.github.io/img/posts/Moya-Tutorial-12.jpg"]
         )
         guard let data = try? JSONEncoder().encode(mockDatas) else {
             return Data()
@@ -141,9 +147,9 @@ extension FolderService {
     
     private var mockCreated: Data {
         let mockDatas = BookmarkFolderResponse(
-            id: 1,
+            id: Int(Date().timeIntervalSince1970),
             name: "기본 폴더",
-            thumbnailUrl: ""
+            thumbnailUrl: [""]
         )
         guard let data = try? JSONEncoder().encode(mockDatas) else {
             return Data()

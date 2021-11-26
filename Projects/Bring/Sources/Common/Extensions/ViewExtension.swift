@@ -12,6 +12,15 @@ extension View {
     func border(width: CGFloat, edges: [Edge], color: Color) -> some View {
         overlay(EdgeBorder(width: width, edges: edges).foregroundColor(color))
     }
+    
+    func roundBorder(radiusSize: CGFloat, color: Color = Color("black00"), lineWidth: CGFloat = 1, isCornerRadius: Bool = true) -> some View {
+        cornerRadius(isCornerRadius ? radiusSize : 0)
+            .overlay(
+                RoundedRectangle(
+                    cornerRadius: radiusSize
+                ).stroke(color, lineWidth: lineWidth)
+            )
+    }
 }
 
 struct EdgeBorder: Shape {

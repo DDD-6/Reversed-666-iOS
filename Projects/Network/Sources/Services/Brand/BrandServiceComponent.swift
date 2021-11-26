@@ -14,16 +14,18 @@ import CombineMoya
 public protocol BrandServiceComponent {
     typealias Service = BrandService
     
-    func fetchBrand(name: String) -> AnyPublisher<BrandModelDTO, MoyaError>
-    func fetchAllBrands() -> AnyPublisher<[BrandModelDTO], MoyaError>
-
+    var provider: MoyaProvider<Service> { get }
+    
+    func addMyBrand(engName: String, korName: String, siteUrl: String) -> AnyPublisher<StatusMessageResponse, MoyaError>
+    func fetchBrand(id: String) -> AnyPublisher<BrandListResponse, MoyaError>
+    func fetchAllBrands() -> AnyPublisher<[BrandListResponse], MoyaError>
+    func fetchLikeBrands() -> AnyPublisher<[BrandLikeListResponse], MoyaError>
+    func fetchPopularBrands() -> AnyPublisher<[BrandListResponse], MoyaError>
+    func fetchSearchedBrands(keyword: String) -> AnyPublisher<[BrandListResponse], MoyaError>
+    func postBrand(id: Int) -> AnyPublisher<StatusMessageResponse, MoyaError>
 }
 
 extension BrandServiceComponent {
-    
-    var provider: MoyaProvider<Service> {
-        return MoyaProvider<Service>()
-    }
     
     func request<D: Decodable>(type: D.Type, atKeyPath keyPath: String? = nil, target: Service) -> AnyPublisher<D, MoyaError> {
         return provider

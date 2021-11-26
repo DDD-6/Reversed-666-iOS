@@ -11,5 +11,15 @@ import Foundation
 public struct BookmarkFolderResponse: Codable {
     public var id: Int?
     public var name: String?
-    public var thumbnailUrl: String?
+    public var thumbnailUrl: [String]?
+    public var numberOfProductCount: Int?
+    public var description: String?
+    
+    enum CodingKeys: String, CodingKey, Decodable {
+        case id
+        case name
+        case thumbnailUrl = "thumbnailurls"
+        case numberOfProductCount = "products_num"
+        case description
+    }
 }

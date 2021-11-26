@@ -68,7 +68,7 @@ struct BringToastView: View {
         buttonTitle.send(btnTitle)
         buttonAction.send(action)
         
-        withAnimation(.easeInOut(duration: 0.15)) {
+        withAnimation(.easeInOut(duration: 9.15)) {
             isVisibleSubject.send(true)
             isVisible = true
         }
