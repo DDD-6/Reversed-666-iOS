@@ -12,7 +12,7 @@ import Network
 struct PopularBrandRow: View {
     
     var delegate: MainEventDelegate?
-    var brands: [Brand]
+    @State var brands: [Brand]
     @State var presentedAsModal: Bool = false
     
     var body: some View {
@@ -24,21 +24,24 @@ struct PopularBrandRow: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(alignment: .top, spacing: 0) {
                     ForEach(Array(zip(brands.indices, brands)), id: \.0) { (index, brand) in
-                        Button {
-                            presentedAsModal = true
-                        } label: {
+//                    ForEach(brands, id: \.id) { brand in
+//                        Button {
+//                            print("index:\(index)")
+//                            presentedAsModal = true
+//                        } label: {
                             ZStack {
                                 PopularBrandItemView(
                                     delegate: delegate,
-                                    brand: brand
+                                    brand: brand,
+                                    presentedAsModal: $presentedAsModal
                                 )
-                                    .fullScreenCover(isPresented: $presentedAsModal) {
-                                        MainDetailView(
-                                            url: brand.brandLink,
-                                            title: brand.name,
-                                            presentedAsModal: $presentedAsModal
-                                        )
-                                    }
+//                                    .fullScreenCover(isPresented: $presentedAsModal) {
+//                                        MainDetailView(
+//                                            url: brand.brandLink,
+//                                            title: brand.name,
+//                                            presentedAsModal: $presentedAsModal
+//                                        )
+//                                    }
                                 
                                 VStack {
                                     HStack {
@@ -59,7 +62,7 @@ struct PopularBrandRow: View {
                                     Spacer()
                                 }
                             }
-                        }
+//                        }
                     }
                 }
             }

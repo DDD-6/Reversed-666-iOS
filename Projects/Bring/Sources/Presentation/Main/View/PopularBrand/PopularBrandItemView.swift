@@ -15,8 +15,10 @@ struct PopularBrandItemView: View {
         case size = 150
     }
     
+    @State var selectedBrand: Brand? = nil
     var delegate: MainEventDelegate?
     @State var brand: Brand
+    @Binding var presentedAsModal: Bool
 
     var body: some View {
         LazyVStack(alignment: .center) {
@@ -80,6 +82,27 @@ struct PopularBrandItemView: View {
             .frame(width: Constant.size.rawValue, height: 40)
         }
         .padding(5)
+        .onTapGesture {
+            presentedAsModal.toggle()
+            selectedBrand = brand
+            delegate?.presentFullScreen(brand: brand)
+        }
+//        .fullScreenCover(isPresented: $presentedAsModal) {
+//            MainDetailView(
+//                url: $selectedBrand?.brandLink ?? "",
+//                title: $selectedBrand?.name,
+//                presentedAsModal: $presentedAsModal
+//            )
+//        }
+//        .fullScreenCover(item: $selectedBrand, onDismiss: {
+//            selectedBrand = nil
+//        }) {
+//            MainDetailView(
+//                url: $0.brandLink,
+//                title: $0.name,
+//                presentedAsModal: $presentedAsModal
+//            )
+//        }
     }
 }
 
@@ -89,6 +112,6 @@ struct PopularBrandItem_Previews: PreviewProvider {
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchPopularBrands()
         
-        return PopularBrandItemView(brand: viewModel.popularBrands.first!)
+        return PopularBrandItemView(brand: viewModel.popularBrands.first!, presentedAsModal: .constant(false))
     }
 }

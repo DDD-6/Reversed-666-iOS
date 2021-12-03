@@ -89,8 +89,9 @@ struct ProductDetailView: View {
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(model.brandDatas) { data in
-                            ProductDetailCardView()
+//                        ForEach(model.brandDatas) { data in
+                        ForEach(0..<model.brandDatas.count) { i in
+                            ProductDetailCardView(tempIndex: i)
                         }
                     }.font(.largeTitle)
                 }.overlay(GeometryReader{ proxy -> Color in

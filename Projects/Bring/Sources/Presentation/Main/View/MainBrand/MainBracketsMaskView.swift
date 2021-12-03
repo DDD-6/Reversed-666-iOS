@@ -33,7 +33,6 @@ struct MainBracketsMaskView: View {
                         )
                     }
             }
-            .buttonStyle(DefaultButtonStyle())
         }
         .listRowSeparator(.hidden)
         
