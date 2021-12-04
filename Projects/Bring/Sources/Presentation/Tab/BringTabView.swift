@@ -11,6 +11,8 @@ import Network
 
 struct BringTabView: View {
     @State private var selection: Tab = .main
+    @State var show = false
+    
     let viewModel: TabViewModel
     
     init() {
@@ -24,32 +26,42 @@ struct BringTabView: View {
     }
     
     var body: some View {
-        TabView(selection: $selection,
-                content:  {
-            MainView()
-                .tabItem {
-                    Image(selection == .main
-                          ? "icTabHomeFill"
-                          : "icTabHome")
-                }
-                .tag(Tab.main)
+        ZStack {
+            LottieView(name: "bring_splash", show: $show)
+            // default Frame....
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
+                .background(.black)
+                .opacity(show ? 0 : 1)
             
-            BookmarkView()
-                .tabItem {
-                    Image(selection == .bookmark
-                          ? "icTabHeartFill"
-                          : "icTabHeart")
-                }
-                .tag(Tab.bookmark)
-            
-            MypageView()
-                .tabItem {
-                    Image(selection == .my
-                          ? "icTabMyPageFill"
-                          : "icTabMyPage")
-                }
-                .tag(Tab.my)
-        })
+            TabView(selection: $selection,
+                    content:  {
+                MainView()
+                    .tabItem {
+                        Image(selection == .main
+                              ? "icTabHomeFill"
+                              : "icTabHome")
+                    }
+                    .tag(Tab.main)
+                
+                BookmarkView()
+                    .tabItem {
+                        Image(selection == .bookmark
+                              ? "icTabHeartFill"
+                              : "icTabHeart")
+                    }
+                    .tag(Tab.bookmark)
+                
+                MypageView()
+                    .tabItem {
+                        Image(selection == .my
+                              ? "icTabMyPageFill"
+                              : "icTabMyPage")
+                    }
+                    .tag(Tab.my)
+            })
+                .opacity(show ? 1 : 0)
+        }
+        
     }
 }
 

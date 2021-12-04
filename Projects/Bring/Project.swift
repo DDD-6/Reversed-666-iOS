@@ -14,5 +14,6 @@ let project = Project.excutable(
     dependencies: [
         .project(target: "Network", path: "../Network"),
         .external(name: "BottomSheet"),
+        .external(name: "Lottie"),
     ]
 )
