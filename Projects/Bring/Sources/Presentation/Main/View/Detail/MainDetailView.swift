@@ -12,25 +12,19 @@ struct MainDetailView: View {
     
     var url: String
     var title: String?
-    var presentedAsModal: Binding<Bool>
-    
-    enum Tab {
-        case main
-        case bookmark
-        case my
-    }
+    @Binding var presentedAsModal: Bool
     
     init(url: String, title: String? = nil, presentedAsModal: Binding<Bool>) {
         self.url = url
         self.title = title
-        self.presentedAsModal = presentedAsModal
+        self._presentedAsModal = presentedAsModal
     }
     
     var body: some View {
         VStack {
             BringWebView(url: url,
                          title: title,
-                         presentedAsModal: presentedAsModal)
+                         presentedAsModal: $presentedAsModal)
         }
     }
 }

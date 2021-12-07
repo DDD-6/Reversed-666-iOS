@@ -10,7 +10,8 @@ import SwiftUI
 import Network
 
 protocol MainEventDelegate {
-    func callLike(id: Int, completion: (() -> Void)?) 
+    func callLike(id: Int, completion: (() -> Void)?)
+    func presentFullScreen(brand: Brand)
 }
 
 struct MainView: View {
@@ -33,6 +34,10 @@ struct MainView: View {
     
     @State
     var presentSearchView: Bool = false
+    @State
+    var presentedAsModal: Bool = false
+    @State
+    var selectedBrand: Brand? = nil
     
     var body: some View {
         return NavigationView {
@@ -107,10 +112,6 @@ struct MainView: View {
                                 .sheet(isPresented: $presentSearchView) {
                                     MainSearchView()
                                 }
-//                                .fullScreenCover(isPresented: $presentSearchView, content: {
-//                                    MainSearchView()
-//                                })
-
                         }
                     }
 
@@ -123,6 +124,13 @@ struct MainView: View {
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
+        .fullScreenCover(isPresented: $presentedAsModal) {
+            MainDetailView(
+                url: selectedBrand?.brandLink ?? "",
+                title: selectedBrand?.name,
+                presentedAsModal: $presentedAsModal
+            )
+        }
         
     }
 }
@@ -132,6 +140,10 @@ extension MainView: MainEventDelegate {
         viewModel.postLike(id: id, completion: completion)
     }
     
+    func presentFullScreen(brand: Brand) {
+        presentedAsModal.toggle()
+        selectedBrand = brand
+    }
 }
 
 struct MainView_Previews: PreviewProvider {

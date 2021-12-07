@@ -50,61 +50,84 @@ struct ProductDetailView: View {
                 
                 HStack {
                     
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("길동이 선물")
-                            .font(BringFontStyle.heading0.font)
-                            
-                        Text("길동이 선물 description")
-                            .font(BringFontStyle.textM.font)
-                            .foregroundColor(Color("gray06"))
-                    }
-                    .overlay(
-                        GeometryReader { reader -> Color in
-                            let width = reader.frame(in: .global).maxX
-                            
-                            DispatchQueue.main.async {
-                                if titleOffset == 0 {
-                                    titleOffset = width
+                    Text("길동이 선물")
+                        .font(BringFontStyle.heading0.font)
+                        .overlay(
+                            GeometryReader { reader -> Color in
+                                let width = reader.frame(in: .global).maxX
+                                
+                                DispatchQueue.main.async {
+                                    if titleOffset == 0 {
+                                        print("아휴: \(width)")
+                                        titleOffset = -width
+                                    }
                                 }
-                            }
-                            
-                            return Color.clear
-                        }
-                    )
-                    
-                    .padding()
-                    .scaleEffect(getScale())
-                    .offset(getOffset())
+                                
+                                return Color.clear
+                            }.frame(width: 0, height: 0 )
+                        )
+                        .padding()
+                        .scaleEffect(getScale())
+                        .offset(getOffset())
                     
                     Spacer()
                 }
                 
-            }.background(.orange)
-                .zIndex(1)
-                .padding(.bottom, getOffset().height)
-            BookmarkFilterView()
+                HStack {
+                    Text("길동이 선물 description")
+                        .font(BringFontStyle.textM.font)
+                        .foregroundColor(Color("gray06"))
+                    Spacer()
+                }
+                .padding()
+                .padding(.top, -16)
+                .offset(y: offset > 0 ? (offset <= 95 ? -offset : -95) : -15)
+            }
+            .zIndex(1)
+            .padding(.bottom, getOffset().height)
+            .background(
+                offset >= 20 ? Color.orange : Color.white
+            )
+            .overlay(
+                GeometryReader { reader -> Color in
+                    
+                    let height = reader.frame(in: .global).minY
+                    
+                    DispatchQueue.main.async {
+                        titleBarHeight = height - ( UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
+                    }
+                    return Color.clear
+                }
+            )
             
             if model.brandDatas.isEmpty {
                 FolderDetailDefaultView()
             } else {
                 ScrollView {
+                    BookmarkFilterView()
                     LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(model.brandDatas) { data in
-                            ProductDetailCardView()
+                        //                        ForEach(model.brandDatas) { data in
+                        ForEach(0..<11 /*model.brandDatas.count*/) { i in
+                            ProductDetailCardView(tempIndex: i)
                         }
-                    }.font(.largeTitle)
-                }.overlay(GeometryReader{ proxy -> Color in
+                    }
+                    .padding(.top, 10)
+                    .padding(.top, titleBarHeight)
+                    .overlay(GeometryReader{ proxy -> Color in
                         let minY = proxy.frame(in: .global).minY
-
+                        
                         DispatchQueue.main.async {
                             if startOffset == 0 {
                                 startOffset = minY
                             }
-                            offset = startOffset - minY
+                            offset = -(minY + startOffset - 44) > 0 ? -(minY + startOffset - 44) : 0
+                            //print("offset: \(offset), startOffset: \(startOffset), minY: \(minY)")
                         }
                         return Color.clear
-                    }
-                )
+                    }.frame(width: 0, height: 0) ,alignment: .top
+                    )
+                }
+                
             }
             
             
@@ -119,7 +142,9 @@ struct ProductDetailView: View {
         
         let screenWidth = UIScreen.main.bounds.width / 2
         
-        size.width = offset > 0 ? (offset * 1.5 <= (screenWidth - titleOffset) ? offset * 1.5 : (screenWidth - titleOffset)) : 0
+        //print("screenWidth: \(screenWidth), titleOffset: \(titleOffset), offset: \(offset)")
+        
+        size.width = offset > 0 ? (offset * 1.5 <= (screenWidth - titleOffset/2) ? offset * 1.5 : (screenWidth - titleOffset/2)) : 0
         size.height = offset > 0 ? (offset <= 75 ? -offset : -75) : 0
         
         return size
@@ -128,10 +153,10 @@ struct ProductDetailView: View {
     func getScale() -> CGFloat {
         
         if offset > 0 {
-            let screenWi9dth = UIScreen.main.bounds.width
-            let progress = 1 - (getOffset().width / screenWi9dth)
-            
-            return progress >= 0.9 ? progress : 0.9
+            let screenWidth = UIScreen.main.bounds.width
+            let progress = 1 - (getOffset().width / screenWidth)
+            print("progress: \(progress)")
+            return progress >= 0.8 ? progress : 0.8
         } else {
             return 1
         }

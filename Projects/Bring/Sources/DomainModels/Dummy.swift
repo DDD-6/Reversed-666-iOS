@@ -39,18 +39,18 @@ struct BrandModel: Hashable, Identifiable {
     static let mockDatas = [
         BrandModel(
             id: 1,
-            title: "Title1",
-            subTitle: "Subtitle1",
-            brandLink: "www.naver.com",
-            imageName: "cityGuide",
+            title: "길동이 선물주자",
+            subTitle: "길동이 선물",
+            brandLink: "https://store.musinsa.com/app/goods/1115974",
+            imageName: "https://image.msscdn.net/images/goods_img/20190812/1115974/1115974_3_big.jpg",
             category: .shoes
         ),
         BrandModel(
             id: 2,
-            title: "Title2",
-            subTitle: "Subtitle2",
-            brandLink: "www.google.com",
-            imageName: "cityGuide",
+            title: "후드티",
+            subTitle: "T-Logo Hoodie Heather Grey",
+            brandLink: "https://store.musinsa.com/app/goods/2115560",
+            imageName: "https://image.msscdn.net/images/goods_img/20210908/2115560/2115560_2_500.jpg",
             category: .accesary
         ),
         BrandModel(
