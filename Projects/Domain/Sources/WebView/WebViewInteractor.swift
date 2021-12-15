@@ -14,7 +14,7 @@ import CombineMoya
 
 public class WebViewInteractor {
     
-    private let serviceManager: FolderService
+    private let serviceManager: FolderServiceComponent
     
     public init(serviceManager: FolderServiceComponent) {
         self.serviceManager = FolderServiceManagerImpl()
