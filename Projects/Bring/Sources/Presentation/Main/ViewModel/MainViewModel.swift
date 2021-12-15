@@ -10,37 +10,27 @@ import SwiftUI
 import Combine
 import Moya
 import CombineMoya
-import Network
+import Domain
 
 class MainViewModel: ObservableObject {
     @Published var bringBrands: [BrandLiked]
     @Published var popularBrands: [Brand]
     @Published var mainBrands: [Brand]
     
-    var serviceManager: BrandServiceComponent
+    var interactor: MainInteractor
     var cancellables: Set<AnyCancellable>
     
-    init(serviceManager: BrandServiceComponent) {
+    init(interactor: MainInteractor) {
         self.bringBrands = [BrandLiked]()
         self.mainBrands = [Brand]()
         self.popularBrands = [Brand]()
         
-        self.serviceManager = serviceManager
+        self.interactor = interactor
         self.cancellables = Set<AnyCancellable>()
     }
     
-    func fetchBrandData(name: String = "") {
-//        serviceManager
-//            .fetchBrand(name: name)
-//            .map { Brand(from: $0) }
-//            .sink { [weak self] value in
-//                self?.bringedBrands = value
-//            }
-//            .store(in: &cancellables)
-    }
-    
     func fetchBringBrands() {
-        serviceManager
+        interactor
             .fetchLikeBrands()
             .map { $0.map { BrandLiked(from: $0) } }
 //            .map { $0.map { Brand(from: $0) } }
@@ -58,7 +48,7 @@ class MainViewModel: ObservableObject {
     }
     
     func fetchPopularBrands() {
-        serviceManager
+        interactor
             .fetchPopularBrands()
             .map { $0.map { Brand(from: $0) } }
             .sink(receiveCompletion: { result in
@@ -75,7 +65,7 @@ class MainViewModel: ObservableObject {
     }
     
     func fetchMainBrands() {
-        serviceManager
+        interactor
             .fetchAllBrands()
             .map { $0.map { Brand(from: $0) } }
             .sink(receiveCompletion: { result in
@@ -92,7 +82,7 @@ class MainViewModel: ObservableObject {
     }
     
     func postLike(id: Int, completion: (() -> Void)? = nil) {
-        serviceManager
+        interactor
             .postBrand(id: id)
             .sink { [weak self] result in
                 switch result {

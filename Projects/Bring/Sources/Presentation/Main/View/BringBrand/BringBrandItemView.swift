@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Network
+import Domain
 
 struct BringBrandItemView: View {
     enum Constant: CGFloat {
@@ -58,6 +59,8 @@ struct BringBrandItemView: View {
 
 struct BringBrandItemView_Previews: PreviewProvider {
     static var previews: some View {
+//        MainViewModel(useCase: MainInteractor())
+        MainViewModel(useCase: MainInteractor(serviceManager: BrandServiceManagerMock()))
         let viewModel = MainViewModel(serviceManager: BrandServiceManagerMock())
         viewModel.fetchBringBrands()
         return BringBrandItemView(brand: viewModel.bringBrands.first!)

@@ -12,7 +12,7 @@ let project = Project.excutable(
     organizationName: organizationName,
     platform: .iOS,
     dependencies: [
-        .project(target: "Network", path: "../Network"),
+        .project(target: "Domain", path: "../Domain"),
         .external(name: "BottomSheet"),
     ]
 )

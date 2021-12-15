@@ -11,29 +11,29 @@ import SwiftUI
 import Network
 
 // 임시로 만든 모델
-enum ProductCategory: String, CaseIterable {
+public enum ProductCategory: String, CaseIterable {
     case shoes = "Shoes"
     case accesary = "Accesary"
     case clothes = "Clothes"
     
 }
 
-struct Brand: DomainModel, Hashable, Identifiable {
-    typealias ResponseType = BrandListResponse
+public struct Brand: DomainModel, Hashable, Identifiable {
+    public typealias ResponseType = BrandListResponse
     
-    var id: Int = -1
-    var name: String = ""
-    var engName: String = ""
-    var brandLink: String = ""
+    public var id: Int = -1
+    public var name: String = ""
+    public var engName: String = ""
+    public var brandLink: String = ""
     
-    var thumbnailUrl: String = ""
-    var logoImageUrl: String = ""
-    var category: ProductCategory? = nil
+    public var thumbnailUrl: String = ""
+    public var logoImageUrl: String = ""
+    public var category: ProductCategory? = nil
     
-    var isLiked: Bool = false
+    public var isLiked: Bool = false
     
-    init() { }
-    init(from response: ResponseType) {
+    public init() { }
+    public init(from response: ResponseType) {
         func convert(from category: BrandListResponse.Category) -> ProductCategory {
             switch category {
                 case .shoes:
@@ -58,20 +58,20 @@ struct Brand: DomainModel, Hashable, Identifiable {
     }
 }
 
-struct BrandLiked: DomainModel, Hashable, Identifiable {
-    typealias ResponseType = BrandLikeListResponse
+public struct BrandLiked: DomainModel, Hashable, Identifiable {
+    public typealias ResponseType = BrandLikeListResponse
     
-    var id: Int = -1
-    var name: String = ""
-    var engName: String = ""
-    var brandLink: String = ""
+    public var id: Int = -1
+    public var name: String = ""
+    public var engName: String = ""
+    public var brandLink: String = ""
     
-    var thumbnailUrl: String = ""
-    var logoImageUrl: String = ""
+    public var thumbnailUrl: String = ""
+    public var logoImageUrl: String = ""
     
-    var isLiked: Bool = false
+    public var isLiked: Bool = false
     
-    init(from response: ResponseType) {
+    public init(from response: ResponseType) {
         
         id = response.bringBasicBrand?.id ?? -1
         name = response.bringBasicBrand?.korName ?? ""
